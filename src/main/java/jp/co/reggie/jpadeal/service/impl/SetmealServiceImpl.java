@@ -55,7 +55,7 @@ public class SetmealServiceImpl implements SetmealService {
 	 * 套餐與菜品關係數據接口類
 	 */
 	@Resource
-	private SetmealDishMapper setmealDishMapper;
+	private SetmealDishRepository setmealDishMapper;
 
 	/**
 	 * 新增套餐同時保存套餐和菜品的關聯關係

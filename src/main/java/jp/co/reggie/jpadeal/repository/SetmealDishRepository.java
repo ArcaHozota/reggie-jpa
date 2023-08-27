@@ -2,12 +2,12 @@ package jp.co.reggie.jpadeal.repository;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.postgresql.util.PSQLException;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import jp.co.reggie.newdeal.entity.SetmealDish;
+import jp.co.reggie.jpadeal.entity.SetmealDish;
 
 /**
  * 套餐與菜品關係數據接口
@@ -15,8 +15,7 @@ import jp.co.reggie.newdeal.entity.SetmealDish;
  * @author Administrator
  * @date 2022-11-29
  */
-@Mapper
-public interface SetmealDishMapper {
+public interface SetmealDishRepository extends JpaRepository<SetmealDish, Long> {
 
 	/**
 	 * 批量插入數據
