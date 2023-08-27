@@ -32,7 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 * 員工數據接口
 	 */
 	@Resource
-	private EmployeeMapper employeeMapper;
+	private EmployeeRepository employeeMapper;
 
 	/**
 	 * 根據所提供的用戸名進行登錄
