@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -20,6 +21,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "category")
+@NamedQuery(name = "Category.selectByType", query = "select ca.* from Category ca where ca.type =:type")
 public class Category extends BasicEntity implements Serializable {
 
 	private static final long serialVersionUID = -5583580956537498025L;
