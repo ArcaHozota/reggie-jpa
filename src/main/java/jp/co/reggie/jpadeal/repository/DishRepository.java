@@ -3,13 +3,13 @@ package jp.co.reggie.jpadeal.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.postgresql.util.PSQLException;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import jp.co.reggie.newdeal.dto.DishDto;
-import jp.co.reggie.newdeal.entity.Dish;
+import jp.co.reggie.jpadeal.dto.DishDto;
+import jp.co.reggie.jpadeal.entity.Dish;
 
 /**
  * 菜品數據接口
@@ -17,8 +17,7 @@ import jp.co.reggie.newdeal.entity.Dish;
  * @author Administrator
  * @date 2022-11-19
  */
-@Mapper
-public interface DishMapper {
+public interface DishRepository extends JpaRepository<Dish, Long> {
 
 	/**
 	 * 根據菜品ID集合批量停發售

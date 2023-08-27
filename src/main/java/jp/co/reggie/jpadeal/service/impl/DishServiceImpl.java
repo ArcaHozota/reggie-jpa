@@ -40,7 +40,7 @@ public class DishServiceImpl implements DishService {
 	 * 菜品數據接口
 	 */
 	@Resource
-	private DishMapper dishMapper;
+	private DishRepository dishMapper;
 
 	/**
 	 * 菜品口味數據接口

@@ -13,7 +13,7 @@ import jp.co.reggie.jpadeal.common.CustomException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.repository.CategoryRepository;
-import jp.co.reggie.jpadeal.repository.DishMapper;
+import jp.co.reggie.jpadeal.repository.DishRepository;
 import jp.co.reggie.jpadeal.repository.SetmealMapper;
 import jp.co.reggie.jpadeal.service.CategoryService;
 import jp.co.reggie.jpadeal.utils.BasicContextUtils;
@@ -39,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
 	 * 菜品數據接口
 	 */
 	@Resource
-	private DishMapper dishMapper;
+	private DishRepository dishMapper;
 
 	/**
 	 * 套餐數據接口
