@@ -1,7 +1,6 @@
 package jp.co.reggie.jpadeal.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +8,8 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Lists;
 
 import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
@@ -152,7 +153,7 @@ public class DishServiceImpl implements DishService {
 		final Integer offset = (pageNum - 1) * pageSize;
 		final Integer dishInfosCnt = this.dishRepository.getDishInfosCnt(keyword);
 		if (dishInfosCnt == 0) {
-			return Pagination.of(new ArrayList<>(), dishInfosCnt, pageNum, pageSize);
+			return Pagination.of(Lists.newArrayList(), dishInfosCnt, pageNum, pageSize);
 		}
 		final List<Dish> dishInfos = this.dishRepository.getDishInfos(pageSize, offset, keyword);
 		final List<DishDto> dishDtos = dishInfos.stream().map(item -> {
