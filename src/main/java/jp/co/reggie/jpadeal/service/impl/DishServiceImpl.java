@@ -52,7 +52,7 @@ public class DishServiceImpl implements DishService {
 	 * 分類管理數據接口
 	 */
 	@Resource
-	private CategoryMapper categoryMapper;
+	private CategoryRepository categoryMapper;
 
 	/**
 	 * 新增菜品，同時插入菜品所對應的口味數據

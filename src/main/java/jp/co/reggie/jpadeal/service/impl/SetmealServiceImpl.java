@@ -43,7 +43,7 @@ public class SetmealServiceImpl implements SetmealService {
 	 * 分類管理數據接口
 	 */
 	@Resource
-	private CategoryMapper categoryMapper;
+	private CategoryRepository categoryMapper;
 
 	/**
 	 * 套餐數據接口類
