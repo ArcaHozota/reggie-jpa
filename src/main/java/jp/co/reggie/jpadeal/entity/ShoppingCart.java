@@ -4,14 +4,25 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import lombok.Data;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 購物車實體類
  *
  * @author Administrator
  */
-@Data
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name = "shopping_cart")
 public class ShoppingCart implements Serializable {
 
 	private static final long serialVersionUID = 1618550099529253148L;
@@ -19,6 +30,7 @@ public class ShoppingCart implements Serializable {
 	/**
 	 * ID
 	 */
+	@Id
 	private Long id;
 
 	/**
@@ -29,6 +41,7 @@ public class ShoppingCart implements Serializable {
 	/**
 	 * 用戸ID
 	 */
+	@Column(nullable = false)
 	private Long userId;
 
 	/**
@@ -49,11 +62,13 @@ public class ShoppingCart implements Serializable {
 	/**
 	 * 數量
 	 */
+	@Column(nullable = false)
 	private Integer number;
 
 	/**
 	 * 金額
 	 */
+	@Column(nullable = false)
 	private BigDecimal amount;
 
 	/**
@@ -64,5 +79,5 @@ public class ShoppingCart implements Serializable {
 	/**
 	 * 創建時間
 	 */
-	private LocalDateTime createTime;
+	private LocalDateTime creationTime;
 }
