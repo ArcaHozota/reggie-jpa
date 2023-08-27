@@ -4,12 +4,23 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import lombok.Data;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 訂單實體類
  */
-@Data
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name = "orders")
 public class Orders implements Serializable {
 
 	private static final long serialVersionUID = -4760386733875449380L;
@@ -17,6 +28,7 @@ public class Orders implements Serializable {
 	/**
 	 * ID
 	 */
+	@Id
 	private Long id;
 
 	/**
@@ -27,36 +39,43 @@ public class Orders implements Serializable {
 	/**
 	 * 訂單狀態: 1待付款，2待派送，3已派送，4已完成，5已取消
 	 */
+	@Column(nullable = false)
 	private Integer status;
 
 	/**
 	 * 客戸ID
 	 */
+	@Column(nullable = false)
 	private Long userId;
 
 	/**
 	 * 派送地址ID
 	 */
+	@Column(nullable = false)
 	private Long addressBookId;
 
 	/**
 	 * 訂單生成時間
 	 */
+	@Column(nullable = false)
 	private LocalDateTime orderTime;
 
 	/**
 	 * 付款時間
 	 */
+	@Column(nullable = false)
 	private LocalDateTime checkoutTime;
 
 	/**
 	 * 支付方式
 	 */
+	@Column(nullable = false)
 	private String payMethod;
 
 	/**
 	 * 實收金額
 	 */
+	@Column(nullable = false)
 	private BigDecimal amount;
 
 	/**
@@ -72,6 +91,7 @@ public class Orders implements Serializable {
 	/**
 	 * 收貨人手機號
 	 */
+	@Column(name = "phone_num")
 	private String phoneNo;
 
 	/**
