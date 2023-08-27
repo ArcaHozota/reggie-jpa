@@ -4,17 +4,23 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 套餐與菜品關係實體類
  *
  * @author Administrator
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name = "setmeal_dish")
 public class SetmealDish extends BasicEntity implements Serializable {
 
 	private static final long serialVersionUID = -641135780975738908L;
