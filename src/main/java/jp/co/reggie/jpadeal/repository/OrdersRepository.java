@@ -1,11 +1,12 @@
 package jp.co.reggie.jpadeal.repository;
 
-import jp.co.reggie.newdeal.entity.Orders;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
 import java.time.LocalDateTime;
 import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
+
+import jp.co.reggie.jpadeal.entity.Orders;
 
 /**
  * 訂單數據接口
@@ -13,8 +14,7 @@ import java.util.List;
  * @author Administrator
  * @date 2023-02-18
  */
-@Mapper
-public interface OrdersMapper {
+public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
 	/**
 	 * 訂單信息分頁查詢

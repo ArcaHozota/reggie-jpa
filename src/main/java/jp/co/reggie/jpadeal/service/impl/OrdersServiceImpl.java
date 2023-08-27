@@ -28,7 +28,7 @@ public class OrdersServiceImpl implements OrdersService {
 	 * 訂單數據接口
 	 */
 	@Resource
-	private OrdersMapper ordersMapper;
+	private OrdersRepository ordersMapper;
 
 	/**
 	 * 訂單信息分頁查詢
