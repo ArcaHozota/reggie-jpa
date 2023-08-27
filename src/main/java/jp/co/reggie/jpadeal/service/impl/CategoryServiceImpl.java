@@ -1,5 +1,6 @@
 package jp.co.reggie.jpadeal.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +85,11 @@ public class CategoryServiceImpl implements CategoryService {
 	 */
 	@Override
 	public void save(final Category category) {
-		BasicContextUtils.fillWithInsert(category);
+		category.setId(BasicContextUtils.getGeneratedId());
+		category.setCreationTime(LocalDateTime.now());
+		category.setUpdatingTime(LocalDateTime.now());
+		category.setCreationUser(BasicContextUtils.getCurrentId());
+		category.setUpdatingUser(BasicContextUtils.getCurrentId());
 		category.setLogicDeleteFlg(Constants.LOGIC_FLAG);
 		this.categoryRepository.saveById(category);
 	}
@@ -96,7 +101,8 @@ public class CategoryServiceImpl implements CategoryService {
 	 */
 	@Override
 	public void update(final Category category) {
-		BasicContextUtils.fillWithUpdate(category);
+		category.setUpdatingTime(LocalDateTime.now());
+		category.setUpdatingUser(BasicContextUtils.getCurrentId());
 		this.categoryRepository.updateById(category);
 	}
 

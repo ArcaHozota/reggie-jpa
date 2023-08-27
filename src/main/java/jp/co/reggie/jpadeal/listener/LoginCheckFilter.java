@@ -27,7 +27,7 @@ import lombok.extern.log4j.Log4j2;
  */
 @Log4j2
 @WebFilter(filterName = "loginCheckFilter", urlPatterns = "/*")
-public class LoginCheckFilter implements Filter {
+public class LoginCheckFilter extends BasicContextUtils implements Filter {
 
 	/**
 	 * 路徑匹配器，支持通配符；
@@ -55,13 +55,13 @@ public class LoginCheckFilter implements Filter {
 		} else if (empId != null) {
 			log.info("用戸已登錄，用戸ID為：{}", empId);
 			// 將當前ID儲存於内存綫程中；
-			BasicContextUtils.setCurrentId(empId);
+			super.setCurrentId(empId);
 			filterChain.doFilter(request, response);
 			return;
 		} else if (userId != null) {
 			log.info("用戸已登錄，用戸ID為：{}", userId);
 			// 將當前ID儲存於内存綫程中；
-			BasicContextUtils.setCurrentId(userId);
+			super.setCurrentId(userId);
 			filterChain.doFilter(request, response);
 			return;
 		}
