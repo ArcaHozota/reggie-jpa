@@ -1,9 +1,11 @@
 package jp.co.reggie.jpadeal.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -22,9 +24,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "employee")
 @NamedQuery(name = "Employee.selectByUserName", query = "select em.* from Employee em where em.username =:username")
-public class Employee extends BasicEntity implements Serializable {
+public class Employee implements Serializable {
 
 	private static final long serialVersionUID = -6540113185665801143L;
+
+	/**
+	 * ID
+	 */
+	@Id
+	private Long id;
 
 	/**
 	 * 姓名
@@ -67,4 +75,28 @@ public class Employee extends BasicEntity implements Serializable {
 	 */
 	@Column(nullable = false)
 	private Integer status;
+
+	/**
+	 * 創建時間
+	 */
+	@Column(nullable = false)
+	private LocalDateTime creationTime;
+
+	/**
+	 * 更新時間
+	 */
+	@Column(nullable = false)
+	private LocalDateTime updatingTime;
+
+	/**
+	 * 創建人
+	 */
+	@Column(nullable = false)
+	private Long creationUser;
+
+	/**
+	 * 修改者
+	 */
+	@Column(nullable = false)
+	private Long updatingUser;
 }
