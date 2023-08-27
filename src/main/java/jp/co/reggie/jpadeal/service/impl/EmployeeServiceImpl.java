@@ -1,5 +1,6 @@
 package jp.co.reggie.jpadeal.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,8 +65,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void save(final Employee employee) {
 		// 設置初始密碼，需進行MD5加密；
 		final String password = DigestUtils.md5DigestAsHex(Constants.PRIMARY_CODE.getBytes()).toUpperCase();
+		employee.setId(BasicContextUtils.getGeneratedId());
 		employee.setPassword(password);
-		BasicContextUtils.fillWithInsert(employee);
+		employee.setCreationTime(LocalDateTime.now());
+		employee.setUpdatingTime(LocalDateTime.now());
+		employee.setCreationUser(BasicContextUtils.getCurrentId());
+		employee.setUpdatingUser(BasicContextUtils.getCurrentId());
 		this.employeeRepository.saveById(employee);
 	}
 
@@ -76,7 +81,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public void update(final Employee employee) {
-		BasicContextUtils.fillWithUpdate(employee);
+		employee.setUpdatingTime(LocalDateTime.now());
+		employee.setUpdatingUser(BasicContextUtils.getCurrentId());
 		this.employeeRepository.updateById(employee);
 	}
 
