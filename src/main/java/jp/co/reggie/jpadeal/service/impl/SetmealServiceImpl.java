@@ -49,7 +49,7 @@ public class SetmealServiceImpl implements SetmealService {
 	 * 套餐數據接口類
 	 */
 	@Resource
-	private SetmealMapper setmealMapper;
+	private SetmealRepository setmealMapper;
 
 	/**
 	 * 套餐與菜品關係數據接口類

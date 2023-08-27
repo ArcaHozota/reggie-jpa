@@ -14,7 +14,7 @@ import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.repository.CategoryRepository;
 import jp.co.reggie.jpadeal.repository.DishRepository;
-import jp.co.reggie.jpadeal.repository.SetmealMapper;
+import jp.co.reggie.jpadeal.repository.SetmealRepository;
 import jp.co.reggie.jpadeal.service.CategoryService;
 import jp.co.reggie.jpadeal.utils.BasicContextUtils;
 import jp.co.reggie.jpadeal.utils.Pagination;
@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 	 * 套餐數據接口
 	 */
 	@Resource
-	private SetmealMapper setmealMapper;
+	private SetmealRepository setmealMapper;
 
 	/**
 	 * 根據類型查詢數據
