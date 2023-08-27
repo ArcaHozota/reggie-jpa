@@ -38,19 +38,19 @@ public class DishServiceImpl implements DishService {
 	 * 菜品數據接口
 	 */
 	@Resource
-	private DishRepository dishMapper;
+	private DishRepository dishRepository;
 
 	/**
 	 * 菜品口味數據接口
 	 */
 	@Resource
-	private DishFlavorRepository dishFlavorMapper;
+	private DishFlavorRepository dishFlavorRepository;
 
 	/**
 	 * 分類管理數據接口
 	 */
 	@Resource
-	private CategoryRepository categoryMapper;
+	private CategoryRepository categoryRepository;
 
 	/**
 	 * 新增菜品，同時插入菜品所對應的口味數據
@@ -66,7 +66,7 @@ public class DishServiceImpl implements DishService {
 		dishDto.setCreationUser(BasicContextUtils.getCurrentId());
 		dishDto.setUpdatingUser(BasicContextUtils.getCurrentId());
 		dishDto.setLogicDeleteFlg(Constants.LOGIC_FLAG);
-		this.dishMapper.saveById(dishDto);
+		this.dishRepository.saveById(dishDto);
 		// 獲取菜品口味的集合並將菜品ID設置到口味集合中；
 		final List<DishFlavor> flavors = dishDto.getFlavors().stream().peek(item -> {
 			item.setId(BasicContextUtils.getGeneratedId());
@@ -78,7 +78,7 @@ public class DishServiceImpl implements DishService {
 			item.setLogicDeleteFlg(Constants.LOGIC_FLAG);
 		}).collect(Collectors.toList());
 		// 保存 菜品的口味數據到口味表；
-		this.dishFlavorMapper.batchInsert(flavors);
+		this.dishFlavorRepository.batchInsert(flavors);
 	}
 
 	/**
@@ -90,9 +90,9 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public DishDto getByIdWithFlavour(final Long id) {
 		// 查詢菜品的基本信息；
-		final Dish dish = this.dishMapper.selectById(id);
+		final Dish dish = this.dishRepository.selectById(id);
 		// 查詢當前菜品所對應的口味信息；
-		final List<DishFlavor> flavors = this.dishFlavorMapper.selectByDishId(dish.getId());
+		final List<DishFlavor> flavors = this.dishFlavorRepository.selectByDishId(dish.getId());
 		// 聲明一個菜品及口味數據傳輸類對象並拷貝屬性；
 		final DishDto dishDto = new DishDto();
 		BeanUtils.copyProperties(dish, dishDto);
@@ -111,9 +111,9 @@ public class DishServiceImpl implements DishService {
 		final LocalDateTime upTime = LocalDateTime.now();
 		final Long upUserId = BasicContextUtils.getCurrentId();
 		if (StringUtils.isEqual("0", status)) {
-			this.dishMapper.batchUpdateByIds(dishList, "1", upTime, upUserId);
+			this.dishRepository.batchUpdateByIds(dishList, "1", upTime, upUserId);
 		} else if (StringUtils.isEqual("1", status)) {
-			this.dishMapper.batchUpdateByIds(dishList, "0", upTime, upUserId);
+			this.dishRepository.batchUpdateByIds(dishList, "0", upTime, upUserId);
 		} else {
 			throw new CustomException(CustomMessages.ERP017);
 		}
@@ -129,14 +129,14 @@ public class DishServiceImpl implements DishService {
 		// 更新菜品信息；
 		dishDto.setUpdatingTime(LocalDateTime.now());
 		dishDto.setUpdatingUser(BasicContextUtils.getCurrentId());
-		this.dishMapper.updateById(dishDto);
+		this.dishRepository.updateById(dishDto);
 		// 添加當前菜品的口味數據並將菜品ID設置到口味集合中；
 		final List<DishFlavor> flavors = dishDto.getFlavors().stream().peek(item -> {
 			item.setDishId(dishDto.getId());
 			item.setUpdatingTime(LocalDateTime.now());
 			item.setUpdatingUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
-		this.dishFlavorMapper.batchUpdateByDishId(flavors);
+		this.dishFlavorRepository.batchUpdateByDishId(flavors);
 	}
 
 	/**
@@ -150,16 +150,16 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public Pagination<DishDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
 		final Integer offset = (pageNum - 1) * pageSize;
-		final Integer dishInfosCnt = this.dishMapper.getDishInfosCnt(keyword);
+		final Integer dishInfosCnt = this.dishRepository.getDishInfosCnt(keyword);
 		if (dishInfosCnt == 0) {
 			return Pagination.of(new ArrayList<>(), dishInfosCnt, pageNum, pageSize);
 		}
-		final List<Dish> dishInfos = this.dishMapper.getDishInfos(pageSize, offset, keyword);
+		final List<Dish> dishInfos = this.dishRepository.getDishInfos(pageSize, offset, keyword);
 		final List<DishDto> dishDtos = dishInfos.stream().map(item -> {
 			final DishDto dishDto = new DishDto();
 			BeanUtils.copyProperties(item, dishDto);
-			final List<DishFlavor> flavors = this.dishFlavorMapper.selectByDishId(item.getId());
-			final Category category = this.categoryMapper.selectById(item.getCategoryId());
+			final List<DishFlavor> flavors = this.dishFlavorRepository.selectByDishId(item.getId());
+			final Category category = this.categoryRepository.selectById(item.getCategoryId());
 			dishDto.setFlavors(flavors);
 			dishDto.setCategoryName(category.getName());
 			return dishDto;
@@ -175,9 +175,9 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public void remove(final List<Long> idList) {
 		// 刪除菜品口味數據；
-		this.dishFlavorMapper.batchRemoveByDishId(idList);
+		this.dishFlavorRepository.batchRemoveByDishId(idList);
 		// 刪除菜品信息；
-		this.dishMapper.batchRemoveByIds(idList);
+		this.dishRepository.batchRemoveByIds(idList);
 	}
 
 	/**
@@ -189,7 +189,7 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public List<DishDto> getListByCategoryId(final Long categoryId) {
 		// 查詢菜品信息；
-		final List<Dish> dishList = this.dishMapper.findDishesByCategoryId(categoryId);
+		final List<Dish> dishList = this.dishRepository.findDishesByCategoryId(categoryId);
 		// 獲取菜品及口味數據傳輸類；
 		return dishList.stream().map(item -> {
 			// 聲明菜品及口味數據傳輸類對象；
@@ -197,7 +197,7 @@ public class DishServiceImpl implements DishService {
 			// 拷貝除分類ID以外的屬性；
 			BeanUtils.copyProperties(item, dishDto);
 			// 獲取分類ID並根據分類ID查詢分類對象；
-			final Category category = this.categoryMapper.selectById(item.getCategoryId());
+			final Category category = this.categoryRepository.selectById(item.getCategoryId());
 			if (category != null) {
 				// 獲取分類名稱；
 				final String categoryName = category.getName();
@@ -207,7 +207,7 @@ public class DishServiceImpl implements DishService {
 			// 當前菜品的ID；
 			final Long dishId = item.getId();
 			// 檢索口味信息；
-			final List<DishFlavor> flavors = this.dishFlavorMapper.selectByDishId(dishId);
+			final List<DishFlavor> flavors = this.dishFlavorRepository.selectByDishId(dishId);
 			dishDto.setFlavors(flavors);
 			return dishDto;
 		}).collect(Collectors.toList());

@@ -1,7 +1,6 @@
 package jp.co.reggie.jpadeal.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -10,6 +9,8 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Lists;
 
 import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
@@ -41,19 +42,19 @@ public class SetmealServiceImpl implements SetmealService {
 	 * 分類管理數據接口
 	 */
 	@Resource
-	private CategoryRepository categoryMapper;
+	private CategoryRepository categoryRepository;
 
 	/**
 	 * 套餐數據接口類
 	 */
 	@Resource
-	private SetmealRepository setmealMapper;
+	private SetmealRepository setmealRepository;
 
 	/**
 	 * 套餐與菜品關係數據接口類
 	 */
 	@Resource
-	private SetmealDishRepository setmealDishMapper;
+	private SetmealDishRepository setmealDishRepository;
 
 	/**
 	 * 新增套餐同時保存套餐和菜品的關聯關係
@@ -69,7 +70,7 @@ public class SetmealServiceImpl implements SetmealService {
 		setmealDto.setCreationUser(BasicContextUtils.getCurrentId());
 		setmealDto.setUpdatingUser(BasicContextUtils.getCurrentId());
 		setmealDto.setLogicDeleteFlg(Constants.LOGIC_FLAG);
-		this.setmealMapper.saveById(setmealDto);
+		this.setmealRepository.saveById(setmealDto);
 		// 獲取套餐菜品關聯集合；
 		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().peek(item -> {
 			item.setId(BasicContextUtils.getGeneratedId());
@@ -81,7 +82,7 @@ public class SetmealServiceImpl implements SetmealService {
 			item.setLogicDeleteFlg(Constants.LOGIC_FLAG);
 		}).collect(Collectors.toList());
 		// 保存套餐和菜品的關聯關係；
-		this.setmealDishMapper.batchInsert(setmealDishes);
+		this.setmealDishRepository.batchInsert(setmealDishes);
 	}
 
 	/**
@@ -92,15 +93,15 @@ public class SetmealServiceImpl implements SetmealService {
 	@Override
 	public void removeWithDish(final List<Long> ids) {
 		// 查詢套餐狀態以確認是否可以刪除；
-		final Integer count = this.setmealMapper.getStatusByIds(ids);
+		final Integer count = this.setmealRepository.getStatusByIds(ids);
 		if (count > 0) {
 			// 如果無法刪除，則抛出異常；
 			throw new CustomException(CustomMessages.ERP012);
 		}
 		// 刪除套餐表中的數據；
-		this.setmealMapper.batchRemoveByIds(ids);
+		this.setmealRepository.batchRemoveByIds(ids);
 		// 刪除套餐口味表中的數據；
-		this.setmealDishMapper.batchRemoveBySmIds(ids);
+		this.setmealDishRepository.batchRemoveBySmIds(ids);
 	}
 
 	/**
@@ -114,16 +115,16 @@ public class SetmealServiceImpl implements SetmealService {
 	@Override
 	public Pagination<SetmealDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
 		final Integer offset = (pageNum - 1) * pageSize;
-		final Integer setmealInfosCnt = this.setmealMapper.getSetmealInfosCnt(keyword);
+		final Integer setmealInfosCnt = this.setmealRepository.getSetmealInfosCnt(keyword);
 		if (setmealInfosCnt == 0) {
-			return Pagination.of(new ArrayList<>(), setmealInfosCnt, pageNum, pageSize);
+			return Pagination.of(Lists.newArrayList(), setmealInfosCnt, pageNum, pageSize);
 		}
-		final List<Setmeal> setmealInfos = this.setmealMapper.getSetmealInfos(pageSize, offset, keyword);
+		final List<Setmeal> setmealInfos = this.setmealRepository.getSetmealInfos(pageSize, offset, keyword);
 		final List<SetmealDto> setmealDtos = setmealInfos.stream().map(item -> {
 			final SetmealDto setmealDto = new SetmealDto();
 			BeanUtils.copyProperties(item, setmealDto);
-			final Category category = this.categoryMapper.selectById(item.getCategoryId());
-			final List<SetmealDish> setmealDishes = this.setmealDishMapper.selectBySmId(item.getId());
+			final Category category = this.categoryRepository.selectById(item.getCategoryId());
+			final List<SetmealDish> setmealDishes = this.setmealDishRepository.selectBySmId(item.getId());
 			setmealDto.setSetmealDishes(setmealDishes);
 			setmealDto.setCategoryName(category.getName());
 			return setmealDto;
@@ -139,11 +140,11 @@ public class SetmealServiceImpl implements SetmealService {
 	 */
 	@Override
 	public SetmealDto getByIdWithDishInfo(final Long id) {
-		final Setmeal setmeal = this.setmealMapper.selectById(id);
+		final Setmeal setmeal = this.setmealRepository.selectById(id);
 		final SetmealDto setmealDto = new SetmealDto();
 		BeanUtils.copyProperties(setmeal, setmealDto);
-		final Category category = this.categoryMapper.selectById(setmeal.getCategoryId());
-		final List<SetmealDish> setmealDishes = this.setmealDishMapper.selectBySmId(id);
+		final Category category = this.categoryRepository.selectById(setmeal.getCategoryId());
+		final List<SetmealDish> setmealDishes = this.setmealDishRepository.selectBySmId(id);
 		setmealDto.setCategoryName(category.getName());
 		setmealDto.setSetmealDishes(setmealDishes);
 		return setmealDto;
@@ -159,7 +160,7 @@ public class SetmealServiceImpl implements SetmealService {
 		// 保存套餐的基本信息；
 		setmealDto.setUpdatingTime(LocalDateTime.now());
 		setmealDto.setUpdatingUser(BasicContextUtils.getCurrentId());
-		this.setmealMapper.updateById(setmealDto);
+		this.setmealRepository.updateById(setmealDto);
 		// 獲取套餐菜品關聯集合；
 		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().peek(item -> {
 			item.setSetmealId(setmealDto.getId());
@@ -168,7 +169,7 @@ public class SetmealServiceImpl implements SetmealService {
 			item.setUpdatingUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
 		// 保存套餐和菜品的關聯關係；
-		this.setmealDishMapper.batchUpdateBySmIds(setmealDishes);
+		this.setmealDishRepository.batchUpdateBySmIds(setmealDishes);
 	}
 
 	/**
@@ -182,9 +183,9 @@ public class SetmealServiceImpl implements SetmealService {
 		final LocalDateTime upTime = LocalDateTime.now();
 		final Long upUserId = BasicContextUtils.getCurrentId();
 		if (StringUtils.isEqual("0", status)) {
-			this.setmealMapper.batchUpdateByIds(stmlList, "1", upTime, upUserId);
+			this.setmealRepository.batchUpdateByIds(stmlList, "1", upTime, upUserId);
 		} else if (StringUtils.isEqual("1", status)) {
-			this.setmealMapper.batchUpdateByIds(stmlList, "0", upTime, upUserId);
+			this.setmealRepository.batchUpdateByIds(stmlList, "0", upTime, upUserId);
 		} else {
 			throw new CustomException(CustomMessages.ERP022);
 		}
