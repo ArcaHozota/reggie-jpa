@@ -1,4 +1,4 @@
-package jp.co.reggie.jpadeal.mapper;
+package jp.co.reggie.jpadeal.repository;
 
 import jp.co.reggie.newdeal.entity.Orders;
 import org.apache.ibatis.annotations.Mapper;

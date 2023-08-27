@@ -1,4 +1,4 @@
-package jp.co.reggie.jpadeal.mapper;
+package jp.co.reggie.jpadeal.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
