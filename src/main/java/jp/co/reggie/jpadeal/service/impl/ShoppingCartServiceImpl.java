@@ -2,7 +2,7 @@ package jp.co.reggie.jpadeal.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import jp.co.reggie.newdeal.service.ShoppingCartService;
+import jp.co.reggie.jpadeal.service.ShoppingCartService;
 
 /**
  * @author Administrator

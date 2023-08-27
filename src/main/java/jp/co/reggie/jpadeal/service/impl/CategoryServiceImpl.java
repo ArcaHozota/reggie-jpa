@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
@@ -26,7 +25,6 @@ import jp.co.reggie.jpadeal.utils.Pagination;
  * @since 2022-11-19
  */
 @Service
-@Transactional
 public class CategoryServiceImpl implements CategoryService {
 
 	/**

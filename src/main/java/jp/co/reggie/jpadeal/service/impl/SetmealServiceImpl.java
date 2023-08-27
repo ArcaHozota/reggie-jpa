@@ -10,22 +10,21 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import jp.co.reggie.newdeal.common.Constants;
-import jp.co.reggie.newdeal.common.CustomException;
-import jp.co.reggie.newdeal.common.CustomMessages;
-import jp.co.reggie.newdeal.dto.SetmealDto;
-import jp.co.reggie.newdeal.entity.Category;
-import jp.co.reggie.newdeal.entity.Setmeal;
-import jp.co.reggie.newdeal.entity.SetmealDish;
-import jp.co.reggie.newdeal.utils.BasicContextUtils;
-import jp.co.reggie.newdeal.mapper.CategoryMapper;
-import jp.co.reggie.newdeal.mapper.SetmealDishMapper;
-import jp.co.reggie.newdeal.mapper.SetmealMapper;
-import jp.co.reggie.newdeal.service.SetmealService;
-import jp.co.reggie.newdeal.utils.Pagination;
-import jp.co.reggie.newdeal.utils.StringUtils;
+import jp.co.reggie.jpadeal.common.Constants;
+import jp.co.reggie.jpadeal.common.CustomException;
+import jp.co.reggie.jpadeal.common.CustomMessages;
+import jp.co.reggie.jpadeal.dto.SetmealDto;
+import jp.co.reggie.jpadeal.entity.Category;
+import jp.co.reggie.jpadeal.entity.Setmeal;
+import jp.co.reggie.jpadeal.entity.SetmealDish;
+import jp.co.reggie.jpadeal.repository.CategoryRepository;
+import jp.co.reggie.jpadeal.repository.SetmealDishRepository;
+import jp.co.reggie.jpadeal.repository.SetmealRepository;
+import jp.co.reggie.jpadeal.service.SetmealService;
+import jp.co.reggie.jpadeal.utils.BasicContextUtils;
+import jp.co.reggie.jpadeal.utils.Pagination;
+import jp.co.reggie.jpadeal.utils.StringUtils;
 
 /**
  * 套餐管理服務實現類
@@ -34,7 +33,6 @@ import jp.co.reggie.newdeal.utils.StringUtils;
  * @since 2022-11-19
  */
 @Service
-@Transactional
 public class SetmealServiceImpl implements SetmealService {
 
 	private static final Random RANDOM = new Random();

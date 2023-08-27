@@ -7,12 +7,11 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import jp.co.reggie.newdeal.entity.Orders;
-import jp.co.reggie.newdeal.mapper.OrdersMapper;
-import jp.co.reggie.newdeal.service.OrdersService;
-import jp.co.reggie.newdeal.utils.Pagination;
+import jp.co.reggie.jpadeal.entity.Orders;
+import jp.co.reggie.jpadeal.repository.OrdersRepository;
+import jp.co.reggie.jpadeal.service.OrdersService;
+import jp.co.reggie.jpadeal.utils.Pagination;
 
 /**
  * 訂單管理服務實現類
@@ -21,7 +20,6 @@ import jp.co.reggie.newdeal.utils.Pagination;
  * @since 2022-11-29
  */
 @Service
-@Transactional
 public class OrdersServiceImpl implements OrdersService {
 
 	/**

@@ -9,22 +9,21 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import jp.co.reggie.newdeal.common.Constants;
-import jp.co.reggie.newdeal.common.CustomException;
-import jp.co.reggie.newdeal.common.CustomMessages;
-import jp.co.reggie.newdeal.dto.DishDto;
-import jp.co.reggie.newdeal.entity.Category;
-import jp.co.reggie.newdeal.entity.Dish;
-import jp.co.reggie.newdeal.entity.DishFlavor;
-import jp.co.reggie.newdeal.mapper.CategoryMapper;
-import jp.co.reggie.newdeal.mapper.DishFlavorMapper;
-import jp.co.reggie.newdeal.mapper.DishMapper;
-import jp.co.reggie.newdeal.service.DishService;
-import jp.co.reggie.newdeal.utils.BasicContextUtils;
-import jp.co.reggie.newdeal.utils.Pagination;
-import jp.co.reggie.newdeal.utils.StringUtils;
+import jp.co.reggie.jpadeal.common.Constants;
+import jp.co.reggie.jpadeal.common.CustomException;
+import jp.co.reggie.jpadeal.common.CustomMessages;
+import jp.co.reggie.jpadeal.dto.DishDto;
+import jp.co.reggie.jpadeal.entity.Category;
+import jp.co.reggie.jpadeal.entity.Dish;
+import jp.co.reggie.jpadeal.entity.DishFlavor;
+import jp.co.reggie.jpadeal.repository.CategoryRepository;
+import jp.co.reggie.jpadeal.repository.DishFlavorRepository;
+import jp.co.reggie.jpadeal.repository.DishRepository;
+import jp.co.reggie.jpadeal.service.DishService;
+import jp.co.reggie.jpadeal.utils.BasicContextUtils;
+import jp.co.reggie.jpadeal.utils.Pagination;
+import jp.co.reggie.jpadeal.utils.StringUtils;
 
 /**
  * 菜品管理服務實現類
@@ -33,7 +32,6 @@ import jp.co.reggie.newdeal.utils.StringUtils;
  * @since 2022-11-19
  */
 @Service
-@Transactional
 public class DishServiceImpl implements DishService {
 
 	/**
