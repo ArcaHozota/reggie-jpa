@@ -3,16 +3,24 @@ package jp.co.reggie.jpadeal.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 套餐實體類
  *
  * @author Administrator
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name = "setmeal")
 public class Setmeal extends BasicEntity implements Serializable {
 
 	private static final long serialVersionUID = 4020217756505140488L;
@@ -20,16 +28,19 @@ public class Setmeal extends BasicEntity implements Serializable {
 	/**
 	 * 分類ID
 	 */
+	@Column(nullable = false)
 	private Long categoryId;
 
 	/**
 	 * 套餐名稱
 	 */
+	@Column(nullable = false)
 	private String name;
 
 	/**
 	 * 套餐價格
 	 */
+	@Column(nullable = false)
 	private BigDecimal price;
 
 	/**
@@ -55,5 +66,6 @@ public class Setmeal extends BasicEntity implements Serializable {
 	/**
 	 * 邏輯刪除字段
 	 */
+	@Column(nullable = false)
 	private String logicDeleteFlg;
 }

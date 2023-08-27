@@ -3,6 +3,8 @@ package jp.co.reggie.jpadeal.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,11 +22,13 @@ public class SetmealDish extends BasicEntity implements Serializable {
 	/**
 	 * 套餐ID
 	 */
+	@Column(nullable = false)
 	private Long setmealId;
 
 	/**
 	 * 菜品ID
 	 */
+	@Column(nullable = false)
 	private Long dishId;
 
 	/**
@@ -40,6 +44,7 @@ public class SetmealDish extends BasicEntity implements Serializable {
 	/**
 	 * 份數
 	 */
+	@Column(nullable = false)
 	private Integer copies;
 
 	/**
@@ -50,5 +55,6 @@ public class SetmealDish extends BasicEntity implements Serializable {
 	/**
 	 * 邏輯刪除字段
 	 */
+	@Column(nullable = false)
 	private String logicDeleteFlg;
 }
