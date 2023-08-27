@@ -23,7 +23,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "employee")
-@NamedQuery(name = "Employee.selectByUserName", query = "select em.* from Employee em where em.username =:username")
+@NamedQuery(name = "Employee.selectByUserName", query = "select em from Employee em where em.username =:username")
 public class Employee implements Serializable {
 
 	private static final long serialVersionUID = -6540113185665801143L;
