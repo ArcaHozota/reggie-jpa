@@ -2,9 +2,11 @@ package jp.co.reggie.jpadeal.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -24,6 +26,12 @@ import lombok.Setter;
 public class SetmealDish extends BasicEntity implements Serializable {
 
 	private static final long serialVersionUID = -641135780975738908L;
+
+	/**
+	 * ID
+	 */
+	@Id
+	private Long id;
 
 	/**
 	 * 套餐ID
@@ -57,6 +65,30 @@ public class SetmealDish extends BasicEntity implements Serializable {
 	 * 排序
 	 */
 	private Integer sort;
+
+	/**
+	 * 創建時間
+	 */
+	@Column(nullable = false)
+	private LocalDateTime creationTime;
+
+	/**
+	 * 更新時間
+	 */
+	@Column(nullable = false)
+	private LocalDateTime updatingTime;
+
+	/**
+	 * 創建人
+	 */
+	@Column(nullable = false)
+	private Long creationUser;
+
+	/**
+	 * 修改者
+	 */
+	@Column(nullable = false)
+	private Long updatingUser;
 
 	/**
 	 * 邏輯刪除字段
