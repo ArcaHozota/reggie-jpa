@@ -1,9 +1,11 @@
 package jp.co.reggie.jpadeal.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -25,6 +27,12 @@ public class DishFlavor extends BasicEntity implements Serializable {
 	private static final long serialVersionUID = 6752106293794210881L;
 
 	/**
+	 * ID
+	 */
+	@Id
+	private Long id;
+
+	/**
 	 * 菜品ID
 	 */
 	@Column(nullable = false)
@@ -40,6 +48,30 @@ public class DishFlavor extends BasicEntity implements Serializable {
 	 * 口味數據list
 	 */
 	private String value;
+
+	/**
+	 * 創建時間
+	 */
+	@Column(nullable = false)
+	private LocalDateTime creationTime;
+
+	/**
+	 * 更新時間
+	 */
+	@Column(nullable = false)
+	private LocalDateTime updatingTime;
+
+	/**
+	 * 創建人
+	 */
+	@Column(nullable = false)
+	private Long creationUser;
+
+	/**
+	 * 修改者
+	 */
+	@Column(nullable = false)
+	private Long updatingUser;
 
 	/**
 	 * 邏輯刪除字段

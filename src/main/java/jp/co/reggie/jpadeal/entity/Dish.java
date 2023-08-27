@@ -2,9 +2,11 @@ package jp.co.reggie.jpadeal.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -21,9 +23,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "dish")
-public class Dish extends BasicEntity implements Serializable {
+public class Dish implements Serializable {
 
 	private static final long serialVersionUID = 6089472680388107154L;
+
+	/**
+	 * ID
+	 */
+	@Id
+	private Long id;
 
 	/**
 	 * 菜品名稱
@@ -70,6 +78,30 @@ public class Dish extends BasicEntity implements Serializable {
 	 */
 	@Column(nullable = false)
 	private Integer sort;
+
+	/**
+	 * 創建時間
+	 */
+	@Column(nullable = false)
+	private LocalDateTime creationTime;
+
+	/**
+	 * 更新時間
+	 */
+	@Column(nullable = false)
+	private LocalDateTime updatingTime;
+
+	/**
+	 * 創建人
+	 */
+	@Column(nullable = false)
+	private Long creationUser;
+
+	/**
+	 * 修改者
+	 */
+	@Column(nullable = false)
+	private Long updatingUser;
 
 	/**
 	 * 邏輯刪除字段
