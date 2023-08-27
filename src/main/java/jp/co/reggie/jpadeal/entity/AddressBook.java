@@ -1,9 +1,11 @@
 package jp.co.reggie.jpadeal.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -20,9 +22,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "address_book")
-public class AddressBook extends BasicEntity implements Serializable {
+public class AddressBook implements Serializable {
 
 	private static final long serialVersionUID = 3548464562522747007L;
+
+	/**
+	 * ID
+	 */
+	@Id
+	private Long id;
 
 	/**
 	 * 用戸ID
@@ -93,6 +101,30 @@ public class AddressBook extends BasicEntity implements Serializable {
 	 */
 	@Column(nullable = false)
 	private Integer isDefault;
+
+	/**
+	 * 創建時間
+	 */
+	@Column(nullable = false)
+	private LocalDateTime creationTime;
+
+	/**
+	 * 更新時間
+	 */
+	@Column(nullable = false)
+	private LocalDateTime updatingTime;
+
+	/**
+	 * 創建人
+	 */
+	@Column(nullable = false)
+	private Long creationUser;
+
+	/**
+	 * 修改者
+	 */
+	@Column(nullable = false)
+	private Long updatingUser;
 
 	/**
 	 * 邏輯刪除字段

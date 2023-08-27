@@ -1,9 +1,11 @@
 package jp.co.reggie.jpadeal.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -22,9 +24,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "category")
 @NamedQuery(name = "Category.selectByType", query = "select ca.* from Category ca where ca.type =:type")
-public class Category extends BasicEntity implements Serializable {
+public class Category implements Serializable {
 
 	private static final long serialVersionUID = -5583580956537498025L;
+
+	/**
+	 * ID
+	 */
+	@Id
+	private Long id;
 
 	/**
 	 * 類型：1、菜品分類；2、套餐分類；
@@ -42,6 +50,30 @@ public class Category extends BasicEntity implements Serializable {
 	 */
 	@Column(nullable = false)
 	private Integer sort;
+
+	/**
+	 * 創建時間
+	 */
+	@Column(nullable = false)
+	private LocalDateTime creationTime;
+
+	/**
+	 * 更新時間
+	 */
+	@Column(nullable = false)
+	private LocalDateTime updatingTime;
+
+	/**
+	 * 創建人
+	 */
+	@Column(nullable = false)
+	private Long creationUser;
+
+	/**
+	 * 修改者
+	 */
+	@Column(nullable = false)
+	private Long updatingUser;
 
 	/**
 	 * 邏輯刪除字段
