@@ -23,7 +23,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "setmeal_dish")
-public class SetmealDish extends BasicEntity implements Serializable {
+public class SetmealDish implements Serializable {
 
 	private static final long serialVersionUID = -641135780975738908L;
 
