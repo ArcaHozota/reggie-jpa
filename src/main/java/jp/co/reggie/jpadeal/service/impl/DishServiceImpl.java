@@ -46,7 +46,7 @@ public class DishServiceImpl implements DishService {
 	 * 菜品口味數據接口
 	 */
 	@Resource
-	private DishFlavorMapper dishFlavorMapper;
+	private DishFlavorRepository dishFlavorMapper;
 
 	/**
 	 * 分類管理數據接口

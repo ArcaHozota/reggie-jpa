@@ -2,12 +2,12 @@ package jp.co.reggie.jpadeal.repository;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.postgresql.util.PSQLException;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import jp.co.reggie.newdeal.entity.DishFlavor;
+import jp.co.reggie.jpadeal.entity.DishFlavor;
 
 /**
  * 菜品口味數據接口
@@ -15,8 +15,7 @@ import jp.co.reggie.newdeal.entity.DishFlavor;
  * @author Administrator
  * @date 2022-11-23
  */
-@Mapper
-public interface DishFlavorMapper {
+public interface DishFlavorRepository extends JpaRepository<DishFlavor, Long> {
 
 	/**
 	 * 根據菜品ID查詢口味信息
