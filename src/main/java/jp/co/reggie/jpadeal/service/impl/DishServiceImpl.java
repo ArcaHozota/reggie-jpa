@@ -60,14 +60,22 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public void saveWithFlavours(final DishDto dishDto) {
 		// 保存菜品的基本信息到菜品表；
-		BasicContextUtils.fillWithInsert(dishDto);
+		dishDto.setId(BasicContextUtils.getGeneratedId());
+		dishDto.setCreationTime(LocalDateTime.now());
+		dishDto.setUpdatingTime(LocalDateTime.now());
+		dishDto.setCreationUser(BasicContextUtils.getCurrentId());
+		dishDto.setUpdatingUser(BasicContextUtils.getCurrentId());
 		dishDto.setLogicDeleteFlg(Constants.LOGIC_FLAG);
 		this.dishMapper.saveById(dishDto);
 		// 獲取菜品口味的集合並將菜品ID設置到口味集合中；
 		final List<DishFlavor> flavors = dishDto.getFlavors().stream().peek(item -> {
+			item.setId(BasicContextUtils.getGeneratedId());
 			item.setDishId(dishDto.getId());
+			item.setCreationTime(LocalDateTime.now());
+			item.setUpdatingTime(LocalDateTime.now());
+			item.setCreationUser(BasicContextUtils.getCurrentId());
+			item.setUpdatingUser(BasicContextUtils.getCurrentId());
 			item.setLogicDeleteFlg(Constants.LOGIC_FLAG);
-			BasicContextUtils.fillWithInsert(item);
 		}).collect(Collectors.toList());
 		// 保存 菜品的口味數據到口味表；
 		this.dishFlavorMapper.batchInsert(flavors);
@@ -101,7 +109,7 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public void batchUpdateByIds(final String status, final List<Long> dishList) {
 		final LocalDateTime upTime = LocalDateTime.now();
-		final Long upUserId = BasicContextUtils.getOnceId();
+		final Long upUserId = BasicContextUtils.getCurrentId();
 		if (StringUtils.isEqual("0", status)) {
 			this.dishMapper.batchUpdateByIds(dishList, "1", upTime, upUserId);
 		} else if (StringUtils.isEqual("1", status)) {
@@ -119,12 +127,14 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public void updateWithFlavour(final DishDto dishDto) {
 		// 更新菜品信息；
-		BasicContextUtils.fillWithUpdate(dishDto);
+		dishDto.setUpdatingTime(LocalDateTime.now());
+		dishDto.setUpdatingUser(BasicContextUtils.getCurrentId());
 		this.dishMapper.updateById(dishDto);
 		// 添加當前菜品的口味數據並將菜品ID設置到口味集合中；
 		final List<DishFlavor> flavors = dishDto.getFlavors().stream().peek(item -> {
 			item.setDishId(dishDto.getId());
-			BasicContextUtils.fillWithUpdate(item);
+			item.setUpdatingTime(LocalDateTime.now());
+			item.setUpdatingUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
 		this.dishFlavorMapper.batchUpdateByDishId(flavors);
 	}
