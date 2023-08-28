@@ -92,7 +92,7 @@ public class CategoryServiceImpl implements CategoryService {
 		category.setCreationUser(BasicContextUtils.getCurrentId());
 		category.setUpdatingUser(BasicContextUtils.getCurrentId());
 		category.setLogicDeleteFlg(Constants.LOGIC_FLAG);
-		this.categoryRepository.saveById(category);
+		this.categoryRepository.save(category);
 	}
 
 	/**

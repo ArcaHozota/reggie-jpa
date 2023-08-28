@@ -34,20 +34,12 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 	Category selectById(@Param("id") Long id);
 
 	/**
-	 * 新增分類
-	 *
-	 * @param category 實體類
-	 */
-	@Transactional(rollbackFor = PSQLException.class)
-	void saveById(Category category);
-
-	/**
 	 * 修改分類
 	 *
 	 * @param category 實體類
 	 */
 	@Transactional(rollbackFor = PSQLException.class)
-	void updateById(Category category);
+	void updateById(@Param("entity") Category category);
 
 	/**
 	 * 刪除分類
