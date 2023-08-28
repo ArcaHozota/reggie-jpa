@@ -48,5 +48,5 @@ public interface CategoryService {
 	 * @param pageSize 頁面大小
 	 * @return Pagination<Category>
 	 */
-	Pagination<Category> pagination(Integer pageNum, Integer pageSize);
+	Pagination<Category> pagination(Long pageNum, Integer pageSize);
 }

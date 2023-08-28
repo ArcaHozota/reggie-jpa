@@ -44,7 +44,7 @@ public class CategoryController {
 	 * @return R.success(分頁信息)
 	 */
 	@GetMapping("/page")
-	public Reggie<Pagination<Category>> pagination(@RequestParam("pageNum") final Integer pageNum,
+	public Reggie<Pagination<Category>> pagination(@RequestParam("pageNum") final Long pageNum,
 			@RequestParam("pageSize") final Integer pageSize) {
 		// 執行查詢；
 		final Pagination<Category> pageInfo = this.categoryService.pagination(pageNum, pageSize);

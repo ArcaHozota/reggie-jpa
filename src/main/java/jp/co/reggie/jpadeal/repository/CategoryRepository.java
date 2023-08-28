@@ -26,22 +26,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 	List<Category> selectByType(@Param("type") Integer categoryType);
 
 	/**
-	 * 分類信息分頁查詢
-	 *
-	 * @param pageSize 頁面大小
-	 * @param offset   偏移量
-	 * @return List<Category>
-	 */
-	List<Category> getCategoryInfos(@Param("pageSize") Integer pageSize, @Param("offset") Integer offset);
-
-	/**
-	 * 檢索分類信息總記錄數
-	 *
-	 * @return Integer 符合條件的總記錄數
-	 */
-	Integer getCategoryInfosCnt();
-
-	/**
 	 * 檢索分類
 	 *
 	 * @param id ID

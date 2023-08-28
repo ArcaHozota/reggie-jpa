@@ -1,11 +1,12 @@
 package jp.co.reggie.jpadeal.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import jp.co.reggie.jpadeal.common.Constants;
@@ -114,13 +115,9 @@ public class CategoryServiceImpl implements CategoryService {
 	 * @return Pagination<Category>
 	 */
 	@Override
-	public Pagination<Category> pagination(final Integer pageNum, final Integer pageSize) {
-		final Integer offset = (pageNum - 1) * pageSize;
-		final Integer categoryInfosCnt = this.categoryRepository.getCategoryInfosCnt();
-		if (categoryInfosCnt == 0) {
-			return Pagination.of(new ArrayList<>(), categoryInfosCnt, pageNum, pageSize);
-		}
-		final List<Category> categoryInfos = this.categoryRepository.getCategoryInfos(pageSize, offset);
-		return Pagination.of(categoryInfos, categoryInfosCnt, pageNum, pageSize);
+	public Pagination<Category> pagination(final Long pageNum, final Integer pageSize) {
+		final PageRequest pageRequest = PageRequest.of(pageNum.intValue(), pageSize);
+		final Page<Category> categories = this.categoryRepository.findAll(pageRequest);
+		return Pagination.of(categories.getContent(), categories.getTotalElements(), pageNum, pageSize);
 	}
 }
