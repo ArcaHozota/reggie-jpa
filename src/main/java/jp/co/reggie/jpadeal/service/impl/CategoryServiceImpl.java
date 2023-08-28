@@ -115,8 +115,8 @@ public class CategoryServiceImpl implements CategoryService {
 	 * @return Pagination<Category>
 	 */
 	@Override
-	public Pagination<Category> pagination(final Long pageNum, final Integer pageSize) {
-		final PageRequest pageRequest = PageRequest.of(pageNum.intValue(), pageSize);
+	public Pagination<Category> pagination(final Integer pageNum, final Integer pageSize) {
+		final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
 		final Page<Category> categories = this.categoryRepository.findAll(pageRequest);
 		return Pagination.of(categories.getContent(), categories.getTotalElements(), pageNum, pageSize);
 	}
