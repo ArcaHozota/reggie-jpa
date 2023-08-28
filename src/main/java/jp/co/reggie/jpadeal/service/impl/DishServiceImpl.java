@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import com.google.common.collect.Lists;
 
 import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
@@ -150,13 +150,9 @@ public class DishServiceImpl implements DishService {
 	 */
 	@Override
 	public Pagination<DishDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
-		final Integer offset = (pageNum - 1) * pageSize;
-		final Integer dishInfosCnt = this.dishRepository.getDishInfosCnt(keyword);
-		if (dishInfosCnt == 0) {
-			return Pagination.of(Lists.newArrayList(), dishInfosCnt, pageNum, pageSize);
-		}
-		final List<Dish> dishInfos = this.dishRepository.getDishInfos(pageSize, offset, keyword);
-		final List<DishDto> dishDtos = dishInfos.stream().map(item -> {
+		final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
+		final Page<Dish> dishes = this.dishRepository.findAll(null, pageRequest);
+		final List<DishDto> dishDtos = dishes.getContent().stream().map(item -> {
 			final DishDto dishDto = new DishDto();
 			BeanUtils.copyProperties(item, dishDto);
 			final List<DishFlavor> flavors = this.dishFlavorRepository.selectByDishId(item.getId());
@@ -165,7 +161,7 @@ public class DishServiceImpl implements DishService {
 			dishDto.setCategoryName(category.getName());
 			return dishDto;
 		}).collect(Collectors.toList());
-		return Pagination.of(dishDtos, dishInfosCnt, pageNum, pageSize);
+		return Pagination.of(dishDtos, dishes.getTotalElements(), pageNum, pageSize);
 	}
 
 	/**

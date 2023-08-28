@@ -24,7 +24,7 @@ public final class Pagination<T> {
 	/**
 	 * 当ページ
 	 */
-	private Long pageNum;
+	private Integer pageNum;
 
 	/**
 	 * ページサイズ
@@ -88,7 +88,7 @@ public final class Pagination<T> {
 	 * @param totalRecords すべてのレコード数
 	 * @param pageNum      当ページ
 	 */
-	public static <T> Pagination<T> of(final List<T> records, final Long totalRecords, final Long pageNum) {
+	public static <T> Pagination<T> of(final List<T> records, final Long totalRecords, final Integer pageNum) {
 		return new Pagination<>(records, totalRecords, pageNum, 17, 5);
 	}
 
@@ -100,7 +100,7 @@ public final class Pagination<T> {
 	 * @param pageNum      当ページ
 	 * @param pageSize     ページサイズ
 	 */
-	public static <T> Pagination<T> of(final List<T> records, final Long totalRecords, final Long pageNum,
+	public static <T> Pagination<T> of(final List<T> records, final Long totalRecords, final Integer pageNum,
 			final Integer pageSize) {
 		return new Pagination<>(records, totalRecords, pageNum, pageSize, 5);
 	}
@@ -114,7 +114,7 @@ public final class Pagination<T> {
 	 * @param pageSize      ページサイズ
 	 * @param navigatePages ナビゲーションのページ数
 	 */
-	public static <T> Pagination<T> of(final List<T> records, final Long totalRecords, final Long pageNum,
+	public static <T> Pagination<T> of(final List<T> records, final Long totalRecords, final Integer pageNum,
 			final Integer pageSize, final Integer navigatePages) {
 		return new Pagination<>(records, totalRecords, pageNum, pageSize, navigatePages);
 	}
@@ -128,7 +128,7 @@ public final class Pagination<T> {
 	 * @param pageSize      ページサイズ
 	 * @param navigatePages ナビゲーションのページ数
 	 */
-	private Pagination(final List<T> records, final Long totalRecords, final Long pageNum, final Integer pageSize,
+	private Pagination(final List<T> records, final Long totalRecords, final Integer pageNum, final Integer pageSize,
 			final Integer navigatePages) {
 		if (records != null && !records.isEmpty()) {
 			this.pageNum = pageNum;
@@ -138,7 +138,7 @@ public final class Pagination<T> {
 			final long ape = this.totalRecords / pageSize;
 			this.totalPages = this.totalRecords % pageSize == 0 ? ape : ape + 1;
 		} else if (records != null) {
-			this.pageNum = 1L;
+			this.pageNum = 1;
 			this.records = null;
 			this.pageSize = 0;
 			this.totalRecords = 0L;
