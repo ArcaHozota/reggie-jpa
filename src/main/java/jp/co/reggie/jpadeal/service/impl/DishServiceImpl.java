@@ -213,7 +213,7 @@ public class DishServiceImpl implements DishService {
             // 拷貝除分類ID以外的屬性；
             BeanUtils.copyProperties(item, dishDto);
             // 獲取分類ID並根據分類ID查詢分類對象；
-            Optional<Category> optional = this.categoryRepository.findById(item.getCategoryId());
+            final Optional<Category> optional = this.categoryRepository.findById(item.getCategoryId());
             final Category category = optional.orElseGet(Category::new);
             // 獲取分類名稱；
             final String categoryName = category.getName();

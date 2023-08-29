@@ -16,7 +16,7 @@ import jp.co.reggie.jpadeal.entity.Setmeal;
  * 套餐數據接口
  *
  * @author Administrator
- * @date 2022-11-19
+ * @since 2022-11-19
  */
 public interface SetmealRepository extends JpaRepository<Setmeal, Long>, JpaSpecificationExecutor<Setmeal> {
 
@@ -35,30 +35,6 @@ public interface SetmealRepository extends JpaRepository<Setmeal, Long>, JpaSpec
 	 * @return 記錄數
 	 */
 	Integer getStatusByIds(@Param("smIdList") List<Long> ids);
-
-	/**
-	 * 查詢套餐數據
-	 *
-	 * @param id 套餐ID
-	 * @return Setmeal 實體類
-	 */
-	Setmeal selectById(@Param("id") Long id);
-
-	/**
-	 * 保存套餐數據
-	 *
-	 * @param setmealDto 套餐數據傳輸專用類
-	 */
-	@Transactional(rollbackFor = PSQLException.class)
-	void saveById(SetmealDto setmealDto);
-
-	/**
-	 * 更新套餐數據
-	 *
-	 * @param setmealDto 套餐數據傳輸專用類
-	 */
-	@Transactional(rollbackFor = PSQLException.class)
-	void updateById(SetmealDto setmealDto);
 
 	/**
 	 * 根據ID集合批量刪除套餐
