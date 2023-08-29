@@ -1,7 +1,5 @@
 package jp.co.reggie.jpadeal.repository;
 
-import java.util.List;
-
 import org.postgresql.util.PSQLException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
@@ -48,23 +46,4 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	 */
 	@Transactional(rollbackFor = PSQLException.class)
 	void updateById(Employee employee);
-
-	/**
-	 * 員工信息分頁查詢
-	 *
-	 * @param pageSize 頁面大小
-	 * @param offset   偏移量
-	 * @param keyword  檢索文
-	 * @return List<Employee>
-	 */
-	List<Employee> getEmployeeInfos(@Param("pageSize") Integer pageSize, @Param("offset") Integer offset,
-			@Param("keyword") String keyword);
-
-	/**
-	 * 檢索員工信息總記錄數
-	 *
-	 * @param keyword 檢索文
-	 * @return Integer 符合條件的總記錄數
-	 */
-	Integer getEmployeeInfosCnt(@Param("keyword") String keyword);
 }
