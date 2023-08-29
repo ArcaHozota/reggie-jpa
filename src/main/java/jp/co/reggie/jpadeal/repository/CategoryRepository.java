@@ -14,7 +14,7 @@ import jp.co.reggie.jpadeal.entity.Category;
  * 分類管理數據接口
  *
  * @author Administrator
- * @date 2022-11-19
+ * @since 2022-11-19
  */
 public interface CategoryRepository extends JpaRepository<Category, Long>, JpaSpecificationExecutor<Category> {
 
@@ -25,22 +25,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, JpaSp
 	 * @return List<Category>
 	 */
 	List<Category> selectByType(@Param("type") Integer categoryType);
-
-	/**
-	 * 檢索分類
-	 *
-	 * @param id ID
-	 * @return Category
-	 */
-	Category selectById(@Param("id") Long id);
-
-	/**
-	 * 修改分類
-	 *
-	 * @param category 實體類
-	 */
-	@Transactional(rollbackFor = PSQLException.class)
-	void updateById(@Param("entity") Category category);
 
 	/**
 	 * 刪除分類
