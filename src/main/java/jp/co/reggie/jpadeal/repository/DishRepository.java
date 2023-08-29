@@ -1,6 +1,5 @@
 package jp.co.reggie.jpadeal.repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.postgresql.util.PSQLException;
@@ -23,21 +22,10 @@ public interface DishRepository extends JpaRepository<Dish, Long> {
 	 * 根據菜品ID集合批量停發售
 	 *
 	 * @param dishIdList 菜品ID集合
-	 * @param status     菜品狀態
-	 * @param upTime     更新時間
-	 * @param upUser     修改者
+	 * @param dish       菜品
 	 */
 	@Transactional(rollbackFor = PSQLException.class)
-	void batchUpdateByIds(@Param("dishIdList") List<Long> dishIdList, @Param("status") String status,
-			@Param("updateTime") LocalDateTime upTime, @Param("updateUser") Long upId);
-
-	/**
-	 * 添加菜品信息
-	 *
-	 * @param dishDto 菜品以及口味數據傳輸專用類
-	 */
-	@Transactional(rollbackFor = PSQLException.class)
-	void saveById(DishDto dishDto);
+	void batchUpdateByIds(@Param("ids") List<Long> dishList, @Param("entity") Dish dish);
 
 	/**
 	 * 更新菜品信息

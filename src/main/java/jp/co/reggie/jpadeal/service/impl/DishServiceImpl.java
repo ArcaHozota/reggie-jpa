@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -61,15 +63,17 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public void saveWithFlavours(final DishDto dishDto) {
 		// 保存菜品的基本信息到菜品表；
-		dishDto.setId(BasicContextUtils.getGeneratedId());
-		dishDto.setCreationTime(LocalDateTime.now());
-		dishDto.setUpdatingTime(LocalDateTime.now());
-		dishDto.setCreationUser(BasicContextUtils.getCurrentId());
-		dishDto.setUpdatingUser(BasicContextUtils.getCurrentId());
-		dishDto.setLogicDeleteFlg(Constants.LOGIC_FLAG);
-		this.dishRepository.saveById(dishDto);
+		final Dish dish = new Dish();
+		BeanUtils.copyProperties(dishDto, dish);
+		dish.setId(BasicContextUtils.getGeneratedId());
+		dish.setCreationTime(LocalDateTime.now());
+		dish.setUpdatingTime(LocalDateTime.now());
+		dish.setCreationUser(BasicContextUtils.getCurrentId());
+		dish.setUpdatingUser(BasicContextUtils.getCurrentId());
+		dish.setLogicDeleteFlg(Constants.LOGIC_FLAG);
+		this.dishRepository.save(dish);
 		// 獲取菜品口味的集合並將菜品ID設置到口味集合中；
-		final List<DishFlavor> flavors = dishDto.getFlavors().stream().peek(item -> {
+		dishDto.getFlavors().forEach(item -> {
 			item.setId(BasicContextUtils.getGeneratedId());
 			item.setDishId(dishDto.getId());
 			item.setCreationTime(LocalDateTime.now());
@@ -77,9 +81,9 @@ public class DishServiceImpl implements DishService {
 			item.setCreationUser(BasicContextUtils.getCurrentId());
 			item.setUpdatingUser(BasicContextUtils.getCurrentId());
 			item.setLogicDeleteFlg(Constants.LOGIC_FLAG);
-		}).collect(Collectors.toList());
-		// 保存 菜品的口味數據到口味表；
-		this.dishFlavorRepository.batchInsert(flavors);
+			// 保存 菜品的口味數據到口味表；
+			this.dishFlavorRepository.save(item);
+		});
 	}
 
 	/**
@@ -109,15 +113,17 @@ public class DishServiceImpl implements DishService {
 	 */
 	@Override
 	public void batchUpdateByIds(final String status, final List<Long> dishList) {
-		final LocalDateTime upTime = LocalDateTime.now();
-		final Long upUserId = BasicContextUtils.getCurrentId();
+		final Dish dish = new Dish();
+		dish.setUpdatingTime(LocalDateTime.now());
+		dish.setUpdatingUser(BasicContextUtils.getCurrentId());
 		if (StringUtils.isEqual("0", status)) {
-			this.dishRepository.batchUpdateByIds(dishList, "1", upTime, upUserId);
+			dish.setStatus("1");
 		} else if (StringUtils.isEqual("1", status)) {
-			this.dishRepository.batchUpdateByIds(dishList, "0", upTime, upUserId);
+			dish.setStatus("0");
 		} else {
 			throw new CustomException(CustomMessages.ERP017);
 		}
+		this.dishRepository.batchUpdateByIds(dishList, dish);
 	}
 
 	/**
@@ -150,8 +156,14 @@ public class DishServiceImpl implements DishService {
 	 */
 	@Override
 	public Pagination<DishDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
+		final Dish dish = new Dish();
+		dish.setLogicDeleteFlg(Constants.LOGIC_DELETED);
+		if (StringUtils.isNotEmpty(keyword)) {
+			dish.setName("%" + keyword + "%");
+		}
+		final Example<Dish> example = Example.of(dish, ExampleMatcher.matchingAll());
 		final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
-		final Page<Dish> dishes = this.dishRepository.findAll(null, pageRequest);
+		final Page<Dish> dishes = this.dishRepository.findAll(example, pageRequest);
 		final List<DishDto> dishDtos = dishes.getContent().stream().map(item -> {
 			final DishDto dishDto = new DishDto();
 			BeanUtils.copyProperties(item, dishDto);
