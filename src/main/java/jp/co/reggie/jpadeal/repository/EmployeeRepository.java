@@ -12,7 +12,7 @@ import jp.co.reggie.jpadeal.entity.Employee;
  * 員工數據接口
  *
  * @author Administrator
- * @date 2022-11-28
+ * @since 2022-11-28
  */
 public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSpecificationExecutor<Employee> {
 
@@ -23,12 +23,4 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSp
 	 * @return Employee
 	 */
 	Employee selectByUserName(@Param("username") String userName);
-
-	/**
-	 * 根據ID修改員工信息
-	 *
-	 * @param employee 實體類對象
-	 */
-	@Transactional(rollbackFor = PSQLException.class)
-	void updateById(@Param("entity") Employee employee);
 }

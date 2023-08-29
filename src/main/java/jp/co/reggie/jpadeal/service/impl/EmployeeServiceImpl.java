@@ -87,7 +87,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void update(final Employee employee) {
 		employee.setUpdatingTime(LocalDateTime.now());
 		employee.setUpdatingUser(BasicContextUtils.getCurrentId());
-		this.employeeRepository.updateById(employee);
+		this.employeeRepository.save(employee);
 	}
 
 	/**
@@ -99,11 +99,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee getById(final Long id) {
 		final Optional<Employee> optional = this.employeeRepository.findById(id);
-		if (optional.isEmpty()) {
-			return null;
-		}
-		return optional.get();
-	}
+        return optional.orElse(null);
+    }
 
 	/**
 	 * 員工信息分頁查詢
