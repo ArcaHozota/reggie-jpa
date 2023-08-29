@@ -1,11 +1,10 @@
 package jp.co.reggie.jpadeal.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import jp.co.reggie.jpadeal.entity.Orders;
@@ -26,7 +25,7 @@ public class OrdersServiceImpl implements OrdersService {
 	 * 訂單數據接口
 	 */
 	@Resource
-	private OrdersRepository ordersMapper;
+	private OrdersRepository ordersRepository;
 
 	/**
 	 * 訂單信息分頁查詢
@@ -41,12 +40,11 @@ public class OrdersServiceImpl implements OrdersService {
 	@Override
 	public Pagination<Orders> pagination(final Integer pageNum, final Integer pageSize, final Long orderId,
 			final LocalDateTime beginTime, final LocalDateTime endTime) {
-		final Integer offset = (pageNum - 1) * pageSize;
-		final Integer orderInfosCnt = this.ordersMapper.getOrderInfosCnt(orderId, beginTime, endTime);
-		if (orderInfosCnt == 0) {
-			return Pagination.of(new ArrayList<>(), orderInfosCnt, pageNum, pageSize);
-		}
-		final List<Orders> orderInfos = this.ordersMapper.getOrderInfos(pageSize, offset, orderId, beginTime, endTime);
+		final Orders orders = new Orders();
+		orders.setId(orderId);
+		final Specification<Orders> whereSpecification = (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("ordersTime"), beginTime, endTime);
+		final Specification<Orders> where = Specification.where(whereSpecification);
+		this.ordersRepository.findAll(where);
 		return Pagination.of(orderInfos, orderInfosCnt, pageNum, pageSize);
 	}
 }
