@@ -1,11 +1,14 @@
 package jp.co.reggie.jpadeal.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -71,7 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employee.setUpdatingTime(LocalDateTime.now());
 		employee.setCreationUser(BasicContextUtils.getCurrentId());
 		employee.setUpdatingUser(BasicContextUtils.getCurrentId());
-		this.employeeRepository.saveById(employee);
+		this.employeeRepository.save(employee);
 	}
 
 	/**
@@ -107,12 +110,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public Pagination<Employee> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
-		final Integer offset = (pageNum - 1) * pageSize;
-		final Integer employeeInfosCnt = this.employeeRepository.getEmployeeInfosCnt(keyword);
-		if (employeeInfosCnt == 0) {
-			return Pagination.of(new ArrayList<>(), employeeInfosCnt, pageNum, pageSize);
-		}
-		final List<Employee> employeeInfos = this.employeeRepository.getEmployeeInfos(pageSize, offset, keyword);
-		return Pagination.of(employeeInfos, employeeInfosCnt, pageNum, pageSize);
+		final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
+		final Employee employee = new Employee();
+		final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("kanjiName",
+				GenericPropertyMatchers.contains());
+		employee.setKanjiName(keyword);
+		final Example<Employee> example = Example.of(employee, exampleMatcher);
+		final Page<Employee> employees = this.employeeRepository.findAll(example, pageRequest);
+		return Pagination.of(employees.getContent(), employees.getTotalElements(), pageNum, pageSize);
 	}
 }

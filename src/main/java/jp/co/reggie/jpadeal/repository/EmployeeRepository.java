@@ -33,18 +33,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSp
 	Employee selectById(@Param("id") Long id);
 
 	/**
-	 * 保存新增員工
-	 *
-	 * @param employee 實體類對象
-	 */
-	@Transactional(rollbackFor = PSQLException.class)
-	void saveById(Employee employee);
-
-	/**
 	 * 根據ID修改員工信息
 	 *
 	 * @param employee 實體類對象
 	 */
 	@Transactional(rollbackFor = PSQLException.class)
-	void updateById(Employee employee);
+	void updateById(@Param("entity") Employee employee);
 }
