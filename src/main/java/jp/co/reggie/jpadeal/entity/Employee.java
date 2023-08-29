@@ -25,7 +25,6 @@ import lombok.Setter;
 @Table(name = "employee")
 @NamedQuery(name = "Employee.selectByUserName", query = "select em from Employee em where em.username =:username")
 @NamedQuery(name = "Employee.updateById", query = "update Employee em set em =:entity where em.id =:entity.id")
-@NamedQuery(name = "Employee.selectById", query = "select em from Employee em where em.id =:id")
 public class Employee implements Serializable {
 
 	private static final long serialVersionUID = -6540113185665801143L;

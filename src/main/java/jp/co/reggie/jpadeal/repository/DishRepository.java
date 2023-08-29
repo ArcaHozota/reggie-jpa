@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import jp.co.reggie.jpadeal.dto.DishDto;
 import jp.co.reggie.jpadeal.entity.Dish;
 
 /**
@@ -20,21 +19,12 @@ import jp.co.reggie.jpadeal.entity.Dish;
 public interface DishRepository extends JpaRepository<Dish, Long>, JpaSpecificationExecutor<Dish> {
 
 	/**
-	 * 根據菜品ID集合批量停發售
-	 *
-	 * @param dishIdList 菜品ID集合
-	 * @param dish       菜品
-	 */
-	@Transactional(rollbackFor = PSQLException.class)
-	void batchUpdateByIds(@Param("ids") List<Long> dishList, @Param("entity") Dish dish);
-
-	/**
 	 * 更新菜品信息
 	 *
 	 * @param dishDto 菜品以及口味數據傳輸專用類
 	 */
 	@Transactional(rollbackFor = PSQLException.class)
-	void updateById(DishDto dishDto);
+	void updateById(@Param("entity") Dish dish);
 
 	/**
 	 * 根據分類ID查詢
@@ -43,14 +33,6 @@ public interface DishRepository extends JpaRepository<Dish, Long>, JpaSpecificat
 	 * @return 記錄數
 	 */
 	Integer countByCategoryId(@Param("categoryId") Long id);
-
-	/**
-	 * 根據ID查詢
-	 *
-	 * @param id ID
-	 * @return Dish 實體類
-	 */
-	Dish selectById(@Param("id") Long id);
 
 	/**
 	 * 菜品信息分頁查詢

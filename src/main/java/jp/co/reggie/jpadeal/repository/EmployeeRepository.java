@@ -25,14 +25,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSp
 	Employee selectByUserName(@Param("username") String userName);
 
 	/**
-	 * 根據ID查詢員工信息
-	 *
-	 * @param id 員工ID
-	 * @return Employee
-	 */
-	Employee selectById(@Param("id") Long id);
-
-	/**
 	 * 根據ID修改員工信息
 	 *
 	 * @param employee 實體類對象

@@ -113,17 +113,19 @@ public class DishServiceImpl implements DishService {
 	 */
 	@Override
 	public void batchUpdateByIds(final String status, final List<Long> dishList) {
-		final Dish dish = new Dish();
-		dish.setUpdatingTime(LocalDateTime.now());
-		dish.setUpdatingUser(BasicContextUtils.getCurrentId());
-		if (StringUtils.isEqual("0", status)) {
-			dish.setStatus("1");
-		} else if (StringUtils.isEqual("1", status)) {
-			dish.setStatus("0");
-		} else {
-			throw new CustomException(CustomMessages.ERP017);
-		}
-		this.dishRepository.batchUpdateByIds(dishList, dish);
+		final List<Dish> dishes = this.dishRepository.findAllById(dishList);
+		dishes.forEach(dish -> {
+			dish.setUpdatingTime(LocalDateTime.now());
+			dish.setUpdatingUser(BasicContextUtils.getCurrentId());
+			if (StringUtils.isEqual("0", status)) {
+				dish.setStatus("1");
+			} else if (StringUtils.isEqual("1", status)) {
+				dish.setStatus("0");
+			} else {
+				throw new CustomException(CustomMessages.ERP017);
+			}
+			this.dishRepository.updateById(dish);
+		});
 	}
 
 	/**
@@ -143,7 +145,7 @@ public class DishServiceImpl implements DishService {
 			item.setUpdatingTime(LocalDateTime.now());
 			item.setUpdatingUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
-		this.dishFlavorRepository.batchUpdateByDishId(flavors);
+		this.dishFlavorRepository.saveAll(flavors);
 	}
 
 	/**

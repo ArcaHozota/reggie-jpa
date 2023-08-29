@@ -10,8 +10,6 @@ import javax.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
-
 import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
@@ -114,12 +112,6 @@ public class SetmealServiceImpl implements SetmealService {
 	 */
 	@Override
 	public Pagination<SetmealDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
-		final Integer offset = (pageNum - 1) * pageSize;
-		final Integer setmealInfosCnt = this.setmealRepository.getSetmealInfosCnt(keyword);
-		if (setmealInfosCnt == 0) {
-			return Pagination.of(Lists.newArrayList(), setmealInfosCnt, pageNum, pageSize);
-		}
-		final List<Setmeal> setmealInfos = this.setmealRepository.getSetmealInfos(pageSize, offset, keyword);
 		final List<SetmealDto> setmealDtos = setmealInfos.stream().map(item -> {
 			final SetmealDto setmealDto = new SetmealDto();
 			BeanUtils.copyProperties(item, setmealDto);
