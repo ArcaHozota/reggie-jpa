@@ -100,7 +100,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public void update(final Category category) {
 		category.setUpdatingTime(LocalDateTime.now());
 		category.setUpdatingUser(BasicContextUtils.getCurrentId());
-		this.categoryRepository.updateById(category);
+		this.categoryRepository.save(category);
 	}
 
 	/**

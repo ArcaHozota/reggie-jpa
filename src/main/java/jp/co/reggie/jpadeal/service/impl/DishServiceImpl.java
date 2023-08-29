@@ -174,7 +174,7 @@ public class DishServiceImpl implements DishService {
 			final DishDto dishDto = new DishDto();
 			BeanUtils.copyProperties(item, dishDto);
 			final List<DishFlavor> flavors = this.dishFlavorRepository.selectByDishId(item.getId());
-			final Category category = this.categoryRepository.selectById(item.getCategoryId());
+			final Category category = this.categoryRepository.findById(item.getCategoryId()).get();
 			dishDto.setFlavors(flavors);
 			dishDto.setCategoryName(category.getName());
 			return dishDto;
