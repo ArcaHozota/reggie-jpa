@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -40,11 +42,13 @@ public class OrdersServiceImpl implements OrdersService {
 	@Override
 	public Pagination<Orders> pagination(final Integer pageNum, final Integer pageSize, final Long orderId,
 			final LocalDateTime beginTime, final LocalDateTime endTime) {
-		final Orders orders = new Orders();
-		orders.setId(orderId);
-		final Specification<Orders> whereSpecification = (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("ordersTime"), beginTime, endTime);
-		final Specification<Orders> where = Specification.where(whereSpecification);
-		this.ordersRepository.findAll(where);
-		return Pagination.of(orderInfos, orderInfosCnt, pageNum, pageSize);
+		final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
+		final Specification<Orders> whereSpecification1 = beginTime == null || endTime == null ? null
+				: (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("ordersTime"), beginTime, endTime);
+		final Specification<Orders> whereSpecification2 = orderId == null ? null
+				: (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("id"), orderId.toString());
+		final Specification<Orders> where = Specification.where(whereSpecification1).and(whereSpecification2);
+		final Page<Orders> orders = this.ordersRepository.findAll(where, pageRequest);
+		return Pagination.of(orders.getContent(), orders.getTotalElements(), pageNum, pageSize);
 	}
 }
