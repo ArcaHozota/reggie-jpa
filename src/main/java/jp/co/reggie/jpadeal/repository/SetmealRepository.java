@@ -68,25 +68,6 @@ public interface SetmealRepository extends JpaRepository<Setmeal, Long> {
 	void batchRemoveByIds(@Param("smIdList") List<Long> ids);
 
 	/**
-	 * 套餐信息分頁查詢
-	 *
-	 * @param pageSize 頁面大小
-	 * @param offset   偏移量
-	 * @param keyword  檢索文
-	 * @return List<Setmeal>
-	 */
-	List<Setmeal> getSetmealInfos(@Param("pageSize") Integer pageSize, @Param("offset") Integer offset,
-			@Param("keyword") String keyword);
-
-	/**
-	 * 檢索套餐信息總記錄數
-	 *
-	 * @param keyword 檢索文
-	 * @return Integer 符合條件的總記錄數
-	 */
-	Integer getSetmealInfosCnt(@Param("keyword") String keyword);
-
-	/**
 	 * 根據套餐ID集合批量停發售
 	 *
 	 * @param smIdList 套餐ID集合
