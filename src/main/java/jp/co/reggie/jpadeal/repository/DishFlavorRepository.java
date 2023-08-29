@@ -27,18 +27,10 @@ public interface DishFlavorRepository extends JpaRepository<DishFlavor, Long>, J
 	List<DishFlavor> selectByDishId(@Param("dishId") Long dishId);
 
 	/**
-	 * 批量插入數據
-	 *
-	 * @param flavors 菜品口味實體類集合
-	 */
-	@Transactional(rollbackFor = PSQLException.class)
-	void batchInsert(@Param("flavors") List<DishFlavor> flavors);
-
-	/**
 	 * 批量刪除數據
 	 *
 	 * @param dishIdList 菜品ID集合
 	 */
 	@Transactional(rollbackFor = PSQLException.class)
-	void batchRemoveByDishId(@Param("dishIdList") List<Long> dishIdList);
+	void batchRemoveByDishId(@Param("dishIds") List<Long> dishIdList);
 }

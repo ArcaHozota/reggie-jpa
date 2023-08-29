@@ -2,6 +2,7 @@ package jp.co.reggie.jpadeal.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -95,12 +96,17 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public DishDto getByIdWithFlavour(final Long id) {
 		// 查詢菜品的基本信息；
-		final Dish dish = this.dishRepository.selectById(id);
+		final Dish dish = new Dish();
+		dish.setId(id);
+		dish.setLogicDeleteFlg(Constants.LOGIC_FLAG);
+		final Example<Dish> example = Example.of(dish, ExampleMatcher.matchingAll());
+		final Optional<Dish> optional = this.dishRepository.findOne(example);
+		final Dish dish2 = optional.isPresent() ? optional.get() : new Dish();
 		// 查詢當前菜品所對應的口味信息；
-		final List<DishFlavor> flavors = this.dishFlavorRepository.selectByDishId(dish.getId());
+		final List<DishFlavor> flavors = this.dishFlavorRepository.selectByDishId(dish2.getId());
 		// 聲明一個菜品及口味數據傳輸類對象並拷貝屬性；
 		final DishDto dishDto = new DishDto();
-		BeanUtils.copyProperties(dish, dishDto);
+		BeanUtils.copyProperties(dish2, dishDto);
 		dishDto.setFlavors(flavors);
 		return dishDto;
 	}
@@ -159,10 +165,8 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public Pagination<DishDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
 		final Dish dish = new Dish();
-		dish.setLogicDeleteFlg(Constants.LOGIC_DELETED);
-		if (StringUtils.isNotEmpty(keyword)) {
-			dish.setName("%" + keyword + "%");
-		}
+		dish.setName("%" + keyword + "%");
+		dish.setLogicDeleteFlg(Constants.LOGIC_FLAG);
 		final Example<Dish> example = Example.of(dish, ExampleMatcher.matchingAll());
 		final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
 		final Page<Dish> dishes = this.dishRepository.findAll(example, pageRequest);

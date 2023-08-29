@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -23,6 +24,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "dish")
+@NamedQuery(name = "Dish.findDishesByCategoryId", query = "")
 public class Dish implements Serializable {
 
 	private static final long serialVersionUID = 6089472680388107154L;

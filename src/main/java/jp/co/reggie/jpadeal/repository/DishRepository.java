@@ -35,31 +35,12 @@ public interface DishRepository extends JpaRepository<Dish, Long>, JpaSpecificat
 	Integer countByCategoryId(@Param("categoryId") Long id);
 
 	/**
-	 * 菜品信息分頁查詢
-	 *
-	 * @param pageSize 頁面大小
-	 * @param offset   偏移量
-	 * @param keyword  檢索文
-	 * @return List<DishDto>
-	 */
-	List<Dish> getDishInfos(@Param("pageSize") Integer pageSize, @Param("offset") Integer offset,
-			@Param("keyword") String keyword);
-
-	/**
-	 * 檢索菜品信息總記錄數
-	 *
-	 * @param keyword 檢索文
-	 * @return Integer 符合條件的總記錄數
-	 */
-	Integer getDishInfosCnt(@Param("keyword") String keyword);
-
-	/**
 	 * 根據菜品ID集合批量刪除
 	 *
 	 * @param dishIdList 菜品ID集合
 	 */
 	@Transactional(rollbackFor = PSQLException.class)
-	void batchRemoveByIds(@Param("dishIdList") List<Long> dishIdList);
+	void batchRemoveByIds(@Param("dishIds") List<Long> dishIdList);
 
 	/**
 	 * 根據分類ID獲取菜品集合
