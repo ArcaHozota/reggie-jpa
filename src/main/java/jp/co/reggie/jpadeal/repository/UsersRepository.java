@@ -1,6 +1,7 @@
 package jp.co.reggie.jpadeal.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import jp.co.reggie.jpadeal.entity.User;
 
@@ -10,5 +11,5 @@ import jp.co.reggie.jpadeal.entity.User;
  * @author Administrator
  * @date 2022-11-29
  */
-public interface UsersRepository extends JpaRepository<User, Long> {
+public interface UsersRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 }

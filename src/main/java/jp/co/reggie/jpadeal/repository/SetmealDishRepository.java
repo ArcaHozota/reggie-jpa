@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.postgresql.util.PSQLException;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +16,7 @@ import jp.co.reggie.jpadeal.entity.SetmealDish;
  * @author Administrator
  * @date 2022-11-29
  */
-public interface SetmealDishRepository extends JpaRepository<SetmealDish, Long> {
+public interface SetmealDishRepository extends JpaRepository<SetmealDish, Long>, JpaSpecificationExecutor<SetmealDish> {
 
 	/**
 	 * 批量插入數據

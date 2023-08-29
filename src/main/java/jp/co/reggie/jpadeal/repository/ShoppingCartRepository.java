@@ -1,6 +1,7 @@
 package jp.co.reggie.jpadeal.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import jp.co.reggie.jpadeal.entity.ShoppingCart;
 
@@ -10,5 +11,6 @@ import jp.co.reggie.jpadeal.entity.ShoppingCart;
  * @author Administrator
  * @date 2022-11-29
  */
-public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
+public interface ShoppingCartRepository
+		extends JpaRepository<ShoppingCart, Long>, JpaSpecificationExecutor<ShoppingCart> {
 }

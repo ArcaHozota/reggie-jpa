@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.postgresql.util.PSQLException;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +17,7 @@ import jp.co.reggie.jpadeal.entity.Dish;
  * @author Administrator
  * @date 2022-11-19
  */
-public interface DishRepository extends JpaRepository<Dish, Long> {
+public interface DishRepository extends JpaRepository<Dish, Long>, JpaSpecificationExecutor<Dish> {
 
 	/**
 	 * 根據菜品ID集合批量停發售
