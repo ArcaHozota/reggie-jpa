@@ -1,6 +1,7 @@
 package jp.co.reggie.jpadeal.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -97,7 +98,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public Employee getById(final Long id) {
-		return this.employeeRepository.selectById(id);
+		final Optional<Employee> optional = this.employeeRepository.findById(id);
+		if (optional.isEmpty()) {
+			return null;
+		}
+		return optional.get();
 	}
 
 	/**
