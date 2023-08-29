@@ -128,10 +128,10 @@ public class SetmealServiceImpl implements SetmealService {
         final List<SetmealDto> setmealDtos = setmealInfos.getContent().stream().map(item -> {
             final SetmealDto aDto = new SetmealDto();
             BeanUtils.copyProperties(item, aDto);
-            Specification<Category>(){
-
-            };
-            final Category category = this.categoryRepository.findOne(item.getCategoryId());
+            final Specification<Category> categorySpecification1 = (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), item.getCategoryId().toString());
+            final Specification<Category> categorySpecification2 = (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("logicDeleteFlg"), Constants.LOGIC_FLAG);
+            final Specification<Category> categorySpecification = Specification.where(categorySpecification1).and(categorySpecification2);
+            final Category category = this.categoryRepository.findOne(categorySpecification).orElseGet(Category::new);
             final List<SetmealDish> setmealDishes = this.setmealDishRepository.selectBySmId(item.getId());
             aDto.setSetmealDishes(setmealDishes);
             aDto.setCategoryName(category.getName());
