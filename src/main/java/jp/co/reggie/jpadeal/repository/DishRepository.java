@@ -21,7 +21,7 @@ public interface DishRepository extends JpaRepository<Dish, Long>, JpaSpecificat
 	/**
 	 * 更新菜品信息
 	 *
-	 * @param dishDto 菜品以及口味數據傳輸專用類
+	 * @param dish 菜品以及口味數據傳輸專用類
 	 */
 	@Transactional(rollbackFor = PSQLException.class)
 	void updateById(@Param("entity") Dish dish);

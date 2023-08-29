@@ -24,90 +24,90 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "dish")
-@NamedQuery(name = "Dish.findDishesByCategoryId", query = "")
+@NamedQuery(name = "Dish.findDishesByCategoryId", query = "select dh from Dish dh where dh.logicDeleteFlg = 'visible' and dh.categoryId =:categoryId")
 public class Dish implements Serializable {
 
-	private static final long serialVersionUID = 6089472680388107154L;
+    private static final long serialVersionUID = 6089472680388107154L;
 
-	/**
-	 * ID
-	 */
-	@Id
-	private Long id;
+    /**
+     * ID
+     */
+    @Id
+    private Long id;
 
-	/**
-	 * 菜品名稱
-	 */
-	@Column(nullable = false)
-	private String name;
+    /**
+     * 菜品名稱
+     */
+    @Column(nullable = false)
+    private String name;
 
-	/**
-	 * 菜品分類ID
-	 */
-	@Column(nullable = false)
-	private Long categoryId;
+    /**
+     * 菜品分類ID
+     */
+    @Column(nullable = false)
+    private Long categoryId;
 
-	/**
-	 * 菜品價格
-	 */
-	private BigDecimal price;
+    /**
+     * 菜品價格
+     */
+    private BigDecimal price;
 
-	/**
-	 * 商品碼
-	 */
-	@Column(nullable = false)
-	private String code;
+    /**
+     * 商品碼
+     */
+    @Column(nullable = false)
+    private String code;
 
-	/**
-	 * 圖片
-	 */
-	@Column(nullable = false)
-	private String image;
+    /**
+     * 圖片
+     */
+    @Column(nullable = false)
+    private String image;
 
-	/**
-	 * 描述信息
-	 */
-	private String description;
+    /**
+     * 描述信息
+     */
+    private String description;
 
-	/**
-	 * 菜品售賣狀態：1:在售, 0:停售;
-	 */
-	@Column(nullable = false)
-	private String status;
+    /**
+     * 菜品售賣狀態：1:在售, 0:停售;
+     */
+    @Column(nullable = false)
+    private String status;
 
-	/**
-	 * 順序
-	 */
-	@Column(nullable = false)
-	private Integer sort;
+    /**
+     * 順序
+     */
+    @Column(nullable = false)
+    private Integer sort;
 
-	/**
-	 * 創建時間
-	 */
-	@Column(nullable = false)
-	private LocalDateTime creationTime;
+    /**
+     * 創建時間
+     */
+    @Column(nullable = false)
+    private LocalDateTime creationTime;
 
-	/**
-	 * 更新時間
-	 */
-	@Column(nullable = false)
-	private LocalDateTime updatingTime;
+    /**
+     * 更新時間
+     */
+    @Column(nullable = false)
+    private LocalDateTime updatingTime;
 
-	/**
-	 * 創建人
-	 */
-	@Column(nullable = false)
-	private Long creationUser;
+    /**
+     * 創建人
+     */
+    @Column(nullable = false)
+    private Long creationUser;
 
-	/**
-	 * 修改者
-	 */
-	@Column(nullable = false)
-	private Long updatingUser;
+    /**
+     * 修改者
+     */
+    @Column(nullable = false)
+    private Long updatingUser;
 
-	/**
-	 * 邏輯刪除字段
-	 */
-	@Column(nullable = false)
-	private String logicDeleteFlg;
+    /**
+     * 邏輯刪除字段
+     */
+    @Column(nullable = false)
+    private String logicDeleteFlg;
 }
