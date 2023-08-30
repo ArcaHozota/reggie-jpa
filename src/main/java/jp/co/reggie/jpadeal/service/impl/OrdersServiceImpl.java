@@ -23,6 +23,8 @@ import jp.co.reggie.jpadeal.utils.Pagination;
 @Service
 public class OrdersServiceImpl implements OrdersService {
 
+	private static final String ORDERS_TIME = "ordersTime";
+
 	/**
 	 * 訂單數據接口
 	 */
@@ -54,14 +56,14 @@ public class OrdersServiceImpl implements OrdersService {
 	private static Specification<Orders> getOrdersSpecification(LocalDateTime beginTime, LocalDateTime endTime) {
 		Specification<Orders> whereSpecification1;
 		if (beginTime != null && endTime != null) {
-			whereSpecification1 = (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("ordersTime"),
+			whereSpecification1 = (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get(ORDERS_TIME),
 					beginTime, endTime);
 		} else if (beginTime == null && endTime != null) {
 			whereSpecification1 = (root, query, criteriaBuilder) -> criteriaBuilder
-					.lessThanOrEqualTo(root.get("ordersTime"), endTime);
+					.lessThanOrEqualTo(root.get(ORDERS_TIME), endTime);
 		} else if (beginTime != null) {
 			whereSpecification1 = (root, query, criteriaBuilder) -> criteriaBuilder
-					.greaterThanOrEqualTo(root.get("ordersTime"), beginTime);
+					.greaterThanOrEqualTo(root.get(ORDERS_TIME), beginTime);
 		} else {
 			whereSpecification1 = null;
 		}
