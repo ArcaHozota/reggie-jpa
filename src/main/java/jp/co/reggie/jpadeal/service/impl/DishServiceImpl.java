@@ -100,8 +100,7 @@ public class DishServiceImpl implements DishService {
         dish1.setId(id);
         dish1.setLogicDeleteFlg(Constants.LOGIC_FLAG);
         final Example<Dish> example = Example.of(dish1, ExampleMatcher.matchingAll());
-        final Optional<Dish> optional = this.dishRepository.findOne(example);
-        final Dish dish2 = optional.orElseGet(Dish::new);
+        final Dish dish2 = this.dishRepository.findOne(example).orElseGet(Dish::new);
         // 查詢當前菜品所對應的口味信息；
         final List<DishFlavor> flavors = this.dishFlavorRepository.selectByDishId(dish2.getId());
         // 聲明一個菜品及口味數據傳輸類對象並拷貝屬性；
@@ -164,11 +163,14 @@ public class DishServiceImpl implements DishService {
      */
     @Override
     public Pagination<DishDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
-        final Dish dish = new Dish();
-        dish.setName("%" + keyword + "%");
-        dish.setLogicDeleteFlg(Constants.LOGIC_FLAG);
-        final Example<Dish> example = Example.of(dish, ExampleMatcher.matchingAll());
         final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
+        final Dish dish = new Dish();
+        dish.setName(keyword);
+        dish.setLogicDeleteFlg(Constants.LOGIC_FLAG);
+        final ExampleMatcher exampleMatcher = ExampleMatcher.matching()
+                .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("logicDeleteFlg", ExampleMatcher.GenericPropertyMatchers.exact());
+        final Example<Dish> example = Example.of(dish, exampleMatcher);
         final Page<Dish> dishes = this.dishRepository.findAll(example, pageRequest);
         final List<DishDto> dishDtos = dishes.getContent().stream().map(item -> {
             final DishDto dishDto = new DishDto();
