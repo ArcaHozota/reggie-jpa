@@ -118,7 +118,8 @@ public class SetmealServiceImpl implements SetmealService {
     @Override
     public Pagination<SetmealDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
         final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
-        final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains())
+        final ExampleMatcher exampleMatcher = ExampleMatcher.matching()
+                .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains())
                 .withMatcher("logicDeleteFlg", ExampleMatcher.GenericPropertyMatchers.exact());
         final SetmealDto setmealDto = new SetmealDto();
         setmealDto.setName(keyword);
@@ -128,10 +129,11 @@ public class SetmealServiceImpl implements SetmealService {
         final List<SetmealDto> setmealDtos = setmealInfos.getContent().stream().map(item -> {
             final SetmealDto aDto = new SetmealDto();
             BeanUtils.copyProperties(item, aDto);
-            final Specification<Category> categorySpecification1 = (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), item.getCategoryId().toString());
-            final Specification<Category> categorySpecification2 = (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("logicDeleteFlg"), Constants.LOGIC_FLAG);
-            final Specification<Category> categorySpecification = Specification.where(categorySpecification1).and(categorySpecification2);
-            final Category category = this.categoryRepository.findOne(categorySpecification).orElseGet(Category::new);
+            Category category = new Category();
+            category.setId(item.getCategoryId());
+            category.setLogicDeleteFlg(Constants.LOGIC_FLAG);
+            final Example<Category> categoryExample = Example.of(category, ExampleMatcher.matchingAll());
+            category = this.categoryRepository.findOne(categoryExample).orElseGet(Category::new);
             final List<SetmealDish> setmealDishes = this.setmealDishRepository.selectBySmId(item.getId());
             aDto.setSetmealDishes(setmealDishes);
             aDto.setCategoryName(category.getName());

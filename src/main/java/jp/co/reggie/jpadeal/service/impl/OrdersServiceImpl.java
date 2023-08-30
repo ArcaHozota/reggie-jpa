@@ -43,6 +43,15 @@ public class OrdersServiceImpl implements OrdersService {
 	public Pagination<Orders> pagination(final Integer pageNum, final Integer pageSize, final Long orderId,
 			final LocalDateTime beginTime, final LocalDateTime endTime) {
 		final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
+		final Specification<Orders> whereSpecification1 = getOrdersSpecification(beginTime, endTime);
+		final Specification<Orders> whereSpecification2 = orderId == null ? null
+				: (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("id"), orderId.toString());
+		final Specification<Orders> where = Specification.where(whereSpecification1).and(whereSpecification2);
+		final Page<Orders> orders = this.ordersRepository.findAll(where, pageRequest);
+		return Pagination.of(orders.getContent(), orders.getTotalElements(), pageNum, pageSize);
+	}
+
+	private static Specification<Orders> getOrdersSpecification(LocalDateTime beginTime, LocalDateTime endTime) {
 		Specification<Orders> whereSpecification1;
 		if (beginTime != null && endTime != null) {
 			whereSpecification1 = (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("ordersTime"),
@@ -56,10 +65,6 @@ public class OrdersServiceImpl implements OrdersService {
 		} else {
 			whereSpecification1 = null;
 		}
-		final Specification<Orders> whereSpecification2 = orderId == null ? null
-				: (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("id"), orderId.toString());
-		final Specification<Orders> where = Specification.where(whereSpecification1).and(whereSpecification2);
-		final Page<Orders> orders = this.ordersRepository.findAll(where, pageRequest);
-		return Pagination.of(orders.getContent(), orders.getTotalElements(), pageNum, pageSize);
+		return whereSpecification1;
 	}
 }
