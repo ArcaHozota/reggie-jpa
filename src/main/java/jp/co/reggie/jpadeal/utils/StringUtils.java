@@ -5,10 +5,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections4.BidiMap;
+import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.springframework.lang.Nullable;
-
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -25,7 +24,7 @@ public final class StringUtils {
 	/**
 	 * 全角半角変換マップ
 	 */
-	private static final BiMap<String, String> HALF_FULL_CONVERTAR = HashBiMap.create(200);
+	private static final BidiMap<String, String> HALF_FULL_CONVERTAR = new DualHashBidiMap<>();
 
 	/**
 	 * UTF-8キャラセット
@@ -75,7 +74,7 @@ public final class StringUtils {
 		for (int i = 0; i < hankaku.length(); i++) {
 			final String charAtString = String.valueOf(hankaku.charAt(i));
 			if (hankakuList.contains(charAtString)) {
-				builder.append(HALF_FULL_CONVERTAR.inverse().get(charAtString));
+				builder.append(HALF_FULL_CONVERTAR.inverseBidiMap().get(charAtString));
 			} else {
 				builder.append(charAtString);
 			}
