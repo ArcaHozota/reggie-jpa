@@ -10,7 +10,7 @@ import jp.co.reggie.jpadeal.entity.ShoppingCart;
  * ショッピングカートリポジトリ
  *
  * @author Administrator
- * @date 2022-11-29
+ * @since 2022-11-29
  */
 @Repository
 public interface ShoppingCartRepository

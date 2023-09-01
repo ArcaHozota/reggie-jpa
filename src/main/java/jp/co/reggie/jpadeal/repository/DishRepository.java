@@ -15,7 +15,7 @@ import jp.co.reggie.jpadeal.entity.Dish;
  * 料理リポジトリ
  *
  * @author Administrator
- * @date 2022-11-19
+ * @since 2022-11-19
  */
 @Repository
 public interface DishRepository extends JpaRepository<Dish, Long>, JpaSpecificationExecutor<Dish> {
