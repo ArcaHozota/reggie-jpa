@@ -15,7 +15,7 @@ import jp.co.reggie.jpadeal.entity.DishFlavor;
  * 料理と料理の味の関係リポジトリ
  *
  * @author Administrator
- * @date 2022-11-23
+ * @since 2022-11-23
  */
 @Repository
 public interface DishFlavorRepository extends JpaRepository<DishFlavor, Long>, JpaSpecificationExecutor<DishFlavor> {

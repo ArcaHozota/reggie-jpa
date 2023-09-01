@@ -10,7 +10,7 @@ import jp.co.reggie.jpadeal.entity.AddressBook;
  * アドレスリポジトリ
  *
  * @author Administrator
- * @date 2022-11-08
+ * @since 2022-11-08
  */
 @Repository
 public interface AddressBookRepository extends JpaRepository<AddressBook, Long>, JpaSpecificationExecutor<AddressBook> {
