@@ -25,7 +25,7 @@ public final class StringUtils {
 	/**
 	 * 全角半角変換マップ
 	 */
-	private static final BiMap<String, String> HALF_FULL_CONVERTAR = HashBiMap.create(1200);
+	private static final BiMap<String, String> HALF_FULL_CONVERTAR = HashBiMap.create(200);
 
 	/**
 	 * UTF-8キャラセット
