@@ -22,11 +22,6 @@ import lombok.NoArgsConstructor;
 public final class StringUtils {
 
 	/**
-	 * 全角半角変換マップ
-	 */
-	private static final BidiMap<String, String> HALF_FULL_CONVERTAR = new DualHashBidiMap<>();
-
-	/**
 	 * UTF-8キャラセット
 	 */
 	public static final Charset CHARSET_UTF8 = StandardCharsets.UTF_8;
@@ -35,6 +30,43 @@ public final class StringUtils {
 	 * 空のストリング
 	 */
 	public static final String EMPTY_STRING = "";
+
+	/**
+	 * 全角半角変換マップ
+	 */
+	private static final BidiMap<String, String> HALF_FULL_CONVERTAR = new DualHashBidiMap<>();
+
+	/**
+	 * 該当文字列はすべて半角かどうかを判断する
+	 *
+	 * @param hankakuString 文字列
+	 * @return true: すべて半角文字列, false: 全角文字も含める
+	 */
+	public static boolean isHankaku(final String hankakuString) {
+		final List<String> zenkakuList = new ArrayList<>(HALF_FULL_CONVERTAR.keySet());
+		for (final char aChar : hankakuString.toCharArray()) {
+			if (zenkakuList.contains(String.valueOf(aChar))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 該当文字列はすべて全角かどうかを判断する
+	 *
+	 * @param hankakuString 文字列
+	 * @return true: すべて全角文字列, false: 半角文字も含める
+	 */
+	public static boolean isZenkaku(final String zenkakuString) {
+		final List<String> hankakuList = new ArrayList<>(HALF_FULL_CONVERTAR.values());
+		for (final char aChar : zenkakuString.toCharArray()) {
+			if (hankakuList.contains(String.valueOf(aChar))) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	/**
 	 * 全角から半角へ変換
