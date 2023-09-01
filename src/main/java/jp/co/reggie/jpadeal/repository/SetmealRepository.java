@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import jp.co.reggie.jpadeal.dto.SetmealDto;
 import jp.co.reggie.jpadeal.entity.Setmeal;
 
 /**

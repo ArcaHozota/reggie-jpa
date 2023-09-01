@@ -1,10 +1,8 @@
 package jp.co.reggie.jpadeal.repository;
 
-import org.postgresql.util.PSQLException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.reggie.jpadeal.entity.Employee;
 
