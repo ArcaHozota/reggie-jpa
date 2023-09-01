@@ -53,7 +53,8 @@ public class OrdersServiceImpl implements OrdersService {
 		return Pagination.of(orders.getContent(), orders.getTotalElements(), pageNum, pageSize);
 	}
 
-	private static Specification<Orders> getOrdersSpecification(LocalDateTime beginTime, LocalDateTime endTime) {
+	private static Specification<Orders> getOrdersSpecification(final LocalDateTime beginTime,
+			final LocalDateTime endTime) {
 		Specification<Orders> whereSpecification1;
 		if (beginTime != null && endTime != null) {
 			whereSpecification1 = (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get(ORDERS_TIME),
