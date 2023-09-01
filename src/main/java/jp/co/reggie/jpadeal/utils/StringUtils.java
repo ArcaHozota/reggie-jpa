@@ -84,31 +84,31 @@ public final class StringUtils {
 	}
 
 	/**
-	 * 判斷該字符串是否爲空
+	 * 当ストリングは空かどうかを判断する
 	 *
-	 * @param str 目標字符串
-	 * @return boolean
+	 * @param str ストリング
+	 * @return true: 空, false: 空ではない
 	 */
 	public static boolean isEmpty(@Nullable final String str) {
 		return str == null || str.length() == 0 || str.isBlank();
 	}
 
 	/**
-	 * 判斷該字符串是否不為空
+	 * 当ストリングは空ではないかどうかを判断する
 	 *
-	 * @param str 目標字符串
-	 * @return boolean
+	 * @param str ストリング
+	 * @return true: 空ではない, false: 空
 	 */
 	public static boolean isNotEmpty(@Nullable final String str) {
 		return !isEmpty(str);
 	}
 
 	/**
-	 * 兩者相等
+	 * 二つのストリングはイコールすることを判断する
 	 *
-	 * @param str1 值
-	 * @param str2 值
-	 * @return 判斷結果
+	 * @param str1 ストリング1
+	 * @param str2 ストリング2
+	 * @return true: イコール, false: イコールしない
 	 */
 	public static boolean isEqual(@Nullable final String str1, @Nullable final String str2) {
 		final boolean isEqual;
@@ -123,11 +123,11 @@ public final class StringUtils {
 	}
 
 	/**
-	 * 兩者不等
+	 * 二つのストリングはイコールしないことを判断する
 	 *
-	 * @param str1 值
-	 * @param str2 值
-	 * @return 判斷結果
+	 * @param str1 ストリング1
+	 * @param str2 ストリング2
+	 * @return true: イコールしない, false: イコール
 	 */
 	public static boolean isNotEqual(@Nullable final String str1, @Nullable final String str2) {
 		return !isEqual(str1, str2);
