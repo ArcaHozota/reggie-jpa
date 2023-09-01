@@ -6,16 +6,18 @@ import org.postgresql.util.PSQLException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.reggie.jpadeal.entity.DishFlavor;
 
 /**
- * 菜品口味數據接口
+ * 料理と料理の味の関係リポジトリ
  *
  * @author Administrator
  * @date 2022-11-23
  */
+@Repository
 public interface DishFlavorRepository extends JpaRepository<DishFlavor, Long>, JpaSpecificationExecutor<DishFlavor> {
 
 	/**
