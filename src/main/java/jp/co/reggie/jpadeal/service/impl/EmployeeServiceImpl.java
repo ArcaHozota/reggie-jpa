@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
@@ -71,6 +72,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		// 設置初始密碼，需進行MD5加密；
 		final Employee employee = new Employee();
 		final String password = DigestUtils.md5DigestAsHex(Constants.PRIMARY_CODE.getBytes()).toUpperCase();
+		BeanUtils.copyProperties(employeeDto, employee);
 		employee.setId(BasicContextUtils.getGeneratedId());
 		employee.setKanjiName(employeeDto.getName());
 		employee.setPassword(password);
