@@ -22,7 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "public.employee")
+@Table(name = "employee")
 @NamedQuery(name = "Employee.selectByUserName", query = "select em from Employee em where em.username =:username")
 public class Employee implements Serializable {
 
