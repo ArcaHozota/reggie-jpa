@@ -15,6 +15,7 @@ import org.springframework.util.DigestUtils;
 
 import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
+import jp.co.reggie.jpadeal.dto.EmployeeDto;
 import jp.co.reggie.jpadeal.entity.Employee;
 import jp.co.reggie.jpadeal.repository.EmployeeRepository;
 import jp.co.reggie.jpadeal.service.EmployeeService;
@@ -66,11 +67,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 * @param employee 實體類對象
 	 */
 	@Override
-	public void save(final Employee employee) {
+	public void save(final EmployeeDto employeeDto) {
 		// 設置初始密碼，需進行MD5加密；
+		final Employee employee = new Employee();
 		final String password = DigestUtils.md5DigestAsHex(Constants.PRIMARY_CODE.getBytes()).toUpperCase();
 		employee.setId(BasicContextUtils.getGeneratedId());
+		employee.setKanjiName(employeeDto.getName());
 		employee.setPassword(password);
+		employee.setStatus(1);
 		employee.setCreationTime(LocalDateTime.now());
 		employee.setUpdatingTime(LocalDateTime.now());
 		employee.setCreatedUser(BasicContextUtils.getCurrentId());
