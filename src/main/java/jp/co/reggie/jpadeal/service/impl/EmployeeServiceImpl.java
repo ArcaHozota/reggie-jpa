@@ -113,12 +113,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Pagination<Employee> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
         final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
-        final Employee employee = new Employee();
-        final ExampleMatcher exampleMatcher = ExampleMatcher.matching()
-                .withMatcher("kanjiName", GenericPropertyMatchers.contains());
-        employee.setKanjiName(keyword);
-        final Example<Employee> example = Example.of(employee, exampleMatcher);
-        final Page<Employee> employees = this.employeeRepository.findAll(example, pageRequest);
+        if(StringUtils.isNotEmpty(keyword)) {
+            final Employee employee = new Employee();
+            final ExampleMatcher exampleMatcher = ExampleMatcher.matching()
+                    .withMatcher("kanjiName", GenericPropertyMatchers.contains());
+            employee.setKanjiName(keyword);
+            final Example<Employee> example = Example.of(employee, exampleMatcher);
+            final Page<Employee> employees = this.employeeRepository.findAll(example, pageRequest);
+            return Pagination.of(employees.getContent(), employees.getTotalElements(), pageNum, pageSize);
+        }
+        final Page<Employee> employees = this.employeeRepository.findAll(pageRequest);
         return Pagination.of(employees.getContent(), employees.getTotalElements(), pageNum, pageSize);
     }
 }
