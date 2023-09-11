@@ -62,6 +62,16 @@ public final class Constants {
 	public static final String LOGIC_DELETED = "removed";
 
 	/**
+	 * 非禁用狀態
+	 */
+	public static final Integer STATUS_VALID = 1;
+
+	/**
+	 * 禁用狀態
+	 */
+	public static final Integer STATUS_FORBIDDEN = 0;
+
+	/**
 	 * 獲取Entity類名
 	 *
 	 * @param obj
