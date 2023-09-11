@@ -76,7 +76,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employee.setId(BasicContextUtils.getGeneratedId());
 		employee.setKanjiName(employeeDto.getName());
 		employee.setPassword(password);
-		employee.setStatus(1);
+		employee.setStatus(Constants.STATUS_VALID);
 		employee.setCreationTime(LocalDateTime.now());
 		employee.setUpdatingTime(LocalDateTime.now());
 		employee.setCreatedUser(BasicContextUtils.getCurrentId());
