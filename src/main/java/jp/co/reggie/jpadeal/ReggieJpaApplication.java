@@ -17,9 +17,9 @@ import lombok.extern.log4j.Log4j2;
 @SpringBootApplication
 @ServletComponentScan
 @EnableTransactionManagement
-public class ReggieJpApplication {
+public class ReggieJpaApplication {
 	public static void main(final String[] args) {
-		SpringApplication.run(ReggieJpApplication.class, args);
+		SpringApplication.run(ReggieJpaApplication.class, args);
 		log.info("本工程啓動成功...");
 	}
 }
