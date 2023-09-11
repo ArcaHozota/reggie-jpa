@@ -35,7 +35,7 @@ public interface SetmealRepository extends JpaRepository<Setmeal, Long>, JpaSpec
 	 * @param ids 套餐ID集合
 	 * @return 記錄數
 	 */
-	Integer getStatusByIds(@Param("smIdList") List<Long> ids);
+	Integer countStatusByIds(@Param("smIdList") List<Long> ids);
 
 	/**
 	 * 根據ID集合批量刪除套餐

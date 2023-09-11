@@ -95,7 +95,7 @@ public class SetmealServiceImpl implements SetmealService {
 	@Override
 	public void removeWithDish(final List<Long> ids) {
 		// 查詢套餐狀態以確認是否可以刪除；
-		final Integer count = this.setmealRepository.getStatusByIds(ids);
+		final Integer count = this.setmealRepository.countStatusByIds(ids);
 		if (count > 0) {
 			// 如果無法刪除，則抛出異常；
 			throw new CustomException(CustomMessages.ERP012);
