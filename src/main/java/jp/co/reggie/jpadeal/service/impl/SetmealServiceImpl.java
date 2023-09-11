@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -117,28 +118,28 @@ public class SetmealServiceImpl implements SetmealService {
 	@Override
 	public Pagination<SetmealDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
 		final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
-		final ExampleMatcher exampleMatcher = ExampleMatcher.matching()
-				.withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains())
-				.withMatcher("logicDeleteFlg", ExampleMatcher.GenericPropertyMatchers.exact());
 		final Setmeal setmeal = new Setmeal();
 		setmeal.setName(keyword);
 		setmeal.setLogicDeleteFlg(Constants.LOGIC_FLAG);
+		final ExampleMatcher exampleMatcher = ExampleMatcher.matching()
+				.withMatcher("name", GenericPropertyMatchers.contains())
+				.withMatcher("logicDeleteFlg", GenericPropertyMatchers.exact());
 		final Example<Setmeal> example = Example.of(setmeal, exampleMatcher);
-		final Page<Setmeal> setmealInfos = this.setmealRepository.findAll(example, pageRequest);
-		final List<SetmealDto> setmealDtos = setmealInfos.getContent().stream().map(item -> {
+		final Page<Setmeal> setmeals = this.setmealRepository.findAll(example, pageRequest);
+		final List<SetmealDto> setmealDtos = setmeals.getContent().stream().map(item -> {
 			final SetmealDto aDto = new SetmealDto();
 			BeanUtils.copyProperties(item, aDto);
+			final List<SetmealDish> setmealDishes = this.setmealDishRepository.selectBySmId(item.getId());
 			Category category = new Category();
 			category.setId(item.getCategoryId());
 			category.setLogicDeleteFlg(Constants.LOGIC_FLAG);
 			final Example<Category> categoryExample = Example.of(category, ExampleMatcher.matchingAll());
 			category = this.categoryRepository.findOne(categoryExample).orElseGet(Category::new);
-			final List<SetmealDish> setmealDishes = this.setmealDishRepository.selectBySmId(item.getId());
 			aDto.setSetmealDishes(setmealDishes);
 			aDto.setCategoryName(category.getName());
 			return aDto;
 		}).collect(Collectors.toList());
-		return Pagination.of(setmealDtos, setmealInfos.getTotalElements(), pageNum, pageSize);
+		return Pagination.of(setmealDtos, setmeals.getTotalElements(), pageNum, pageSize);
 	}
 
 	/**

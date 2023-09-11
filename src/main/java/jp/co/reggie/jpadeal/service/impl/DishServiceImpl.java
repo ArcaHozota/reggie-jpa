@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -168,16 +169,19 @@ public class DishServiceImpl implements DishService {
 		dish.setName(keyword);
 		dish.setLogicDeleteFlg(Constants.LOGIC_FLAG);
 		final ExampleMatcher exampleMatcher = ExampleMatcher.matching()
-				.withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains())
-				.withMatcher("logicDeleteFlg", ExampleMatcher.GenericPropertyMatchers.exact());
+				.withMatcher("name", GenericPropertyMatchers.contains())
+				.withMatcher("logicDeleteFlg", GenericPropertyMatchers.exact());
 		final Example<Dish> example = Example.of(dish, exampleMatcher);
 		final Page<Dish> dishes = this.dishRepository.findAll(example, pageRequest);
 		final List<DishDto> dishDtos = dishes.getContent().stream().map(item -> {
 			final DishDto dishDto = new DishDto();
 			BeanUtils.copyProperties(item, dishDto);
 			final List<DishFlavor> flavors = this.dishFlavorRepository.selectByDishId(item.getId());
-			final Optional<Category> optional = this.categoryRepository.findById(item.getCategoryId());
-			final Category category = optional.orElseGet(Category::new);
+			Category category = new Category();
+			category.setId(item.getCategoryId());
+			category.setLogicDeleteFlg(Constants.LOGIC_FLAG);
+			final Example<Category> categoryExample = Example.of(category, ExampleMatcher.matchingAll());
+			category = this.categoryRepository.findOne(categoryExample).orElseGet(Category::new);
 			dishDto.setFlavors(flavors);
 			dishDto.setCategoryName(category.getName());
 			return dishDto;
