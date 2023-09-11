@@ -85,8 +85,8 @@ public class CategoryServiceImpl implements CategoryService {
 		category.setId(BasicContextUtils.getGeneratedId());
 		category.setCreationTime(LocalDateTime.now());
 		category.setUpdatingTime(LocalDateTime.now());
-		category.setCreationUser(BasicContextUtils.getCurrentId());
-		category.setUpdatingUser(BasicContextUtils.getCurrentId());
+		category.setCreatedUser(BasicContextUtils.getCurrentId());
+		category.setUpdatedUser(BasicContextUtils.getCurrentId());
 		category.setLogicDeleteFlg(Constants.LOGIC_FLAG);
 		this.categoryRepository.save(category);
 	}
@@ -99,7 +99,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void update(final Category category) {
 		category.setUpdatingTime(LocalDateTime.now());
-		category.setUpdatingUser(BasicContextUtils.getCurrentId());
+		category.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.categoryRepository.save(category);
 	}
 
