@@ -67,14 +67,14 @@ public class DishFlavor implements Serializable {
 	/**
 	 * 創建人
 	 */
-	@Column(nullable = false)
-	private Long creationUser;
+	@Column(name = "creation_user", nullable = false)
+	private Long createdUser;
 
 	/**
 	 * 修改者
 	 */
-	@Column(nullable = false)
-	private Long updatingUser;
+	@Column(name = "updating_user", nullable = false)
+	private Long updatedUser;
 
 	/**
 	 * 邏輯刪除字段
