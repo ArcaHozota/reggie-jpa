@@ -82,7 +82,8 @@ public class SetmealController {
 	/**
 	 * 修改菜品信息
 	 *
-	 * @param setmealDto 數據傳輸類對象
+	 * @param status 狀態
+	 * @param ids 菜品ID集合
 	 * @return R.success(套餐更新成功的信息)
 	 */
 	@PutMapping("/status/{status}")
@@ -109,7 +110,7 @@ public class SetmealController {
 	 *
 	 * @param pageNum  頁碼
 	 * @param pageSize 頁面大小
-	 * @param name     檢索文
+	 * @param keyword     檢索文
 	 * @return R.success(分頁信息)
 	 */
 	@GetMapping("/page")

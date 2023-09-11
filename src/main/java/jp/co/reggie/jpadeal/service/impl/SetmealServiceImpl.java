@@ -120,11 +120,11 @@ public class SetmealServiceImpl implements SetmealService {
 		final ExampleMatcher exampleMatcher = ExampleMatcher.matching()
 				.withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains())
 				.withMatcher("logicDeleteFlg", ExampleMatcher.GenericPropertyMatchers.exact());
-		final SetmealDto setmealDto = new SetmealDto();
-		setmealDto.setName(keyword);
-		setmealDto.setLogicDeleteFlg(Constants.LOGIC_FLAG);
-		final Example<SetmealDto> example = Example.of(setmealDto, exampleMatcher);
-		final Page<SetmealDto> setmealInfos = this.setmealRepository.findAll(example, pageRequest);
+		final Setmeal setmeal = new Setmeal();
+		setmeal.setName(keyword);
+		setmeal.setLogicDeleteFlg(Constants.LOGIC_FLAG);
+		final Example<Setmeal> example = Example.of(setmeal, exampleMatcher);
+		final Page<Setmeal> setmealInfos = this.setmealRepository.findAll(example, pageRequest);
 		final List<SetmealDto> setmealDtos = setmealInfos.getContent().stream().map(item -> {
 			final SetmealDto aDto = new SetmealDto();
 			BeanUtils.copyProperties(item, aDto);
