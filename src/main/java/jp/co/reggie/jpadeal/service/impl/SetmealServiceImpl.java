@@ -178,7 +178,7 @@ public class SetmealServiceImpl implements SetmealService {
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
 		// 保存套餐和菜品的關聯關係；
-		this.setmealDishRepository.batchUpdateBySmIds(setmealDishes);
+		this.setmealDishRepository.saveAll(setmealDishes);
 	}
 
 	/**

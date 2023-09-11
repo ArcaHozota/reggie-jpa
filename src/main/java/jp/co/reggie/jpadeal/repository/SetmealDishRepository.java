@@ -35,12 +35,4 @@ public interface SetmealDishRepository extends JpaRepository<SetmealDish, Long>,
 	 */
 	@Transactional(rollbackFor = PSQLException.class)
 	void batchRemoveBySmIds(@Param("smIds") List<Long> ids);
-
-	/**
-	 * 根據套餐集合批量更新數據
-	 *
-	 * @param setmealDishes 套餐集合
-	 */
-	@Transactional(rollbackFor = PSQLException.class)
-	void batchUpdateBySmIds(@Param("dishes") List<SetmealDish> setmealDishes);
 }
