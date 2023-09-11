@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomMessages;
+import jp.co.reggie.jpadeal.dto.EmployeeDto;
 import jp.co.reggie.jpadeal.entity.Employee;
 import jp.co.reggie.jpadeal.service.EmployeeService;
 import jp.co.reggie.jpadeal.utils.Pagination;
@@ -72,10 +73,10 @@ public class EmployeeController {
 	 * @return R.success(成功增加員工的信息)
 	 */
 	@PostMapping
-	public Reggie<String> save(@RequestBody final Employee employee) {
-		log.info("員工信息：{}", employee.toString());
+	public Reggie<String> save(@RequestBody final EmployeeDto employeeDto) {
+		log.info("員工信息：{}", employeeDto.toString());
 		// 保存員工信息；
-		this.employeeService.save(employee);
+		this.employeeService.save(employeeDto);
 		return Reggie.success(CustomMessages.SRP006);
 	}
 

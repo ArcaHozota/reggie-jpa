@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * 員工管理實體類
@@ -23,7 +22,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @Table(name = "employee")
 @NamedQuery(name = "Employee.selectByUserName", query = "select em from Employee em where em.username =:username")
 public class Employee implements Serializable {

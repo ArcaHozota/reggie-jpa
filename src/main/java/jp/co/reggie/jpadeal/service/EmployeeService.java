@@ -1,5 +1,6 @@
 package jp.co.reggie.jpadeal.service;
 
+import jp.co.reggie.jpadeal.dto.EmployeeDto;
 import jp.co.reggie.jpadeal.entity.Employee;
 import jp.co.reggie.jpadeal.utils.Pagination;
 
@@ -21,9 +22,9 @@ public interface EmployeeService {
 	/**
 	 * 保存新增員工
 	 *
-	 * @param employee 實體類對象
+	 * @param employeeDto 數據傳輸類對象
 	 */
-	void save(Employee employee);
+	void save(EmployeeDto employeeDto);
 
 	/**
 	 * 修改員工信息
