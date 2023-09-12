@@ -4,10 +4,10 @@ spring:
   application:
     name: reggie-jpa
   datasource:
-    driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
-    username: ORACLECT
-    password: ORACLECT
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://postgresdb01.cdd6uaafebcj.ap-northeast-1.rds.amazonaws.com:5432/reggie
+    username: postgres
+    password: postgres
     hikari:
       maximum-pool-size: 30
       max-lifetime: 1500000
@@ -19,7 +19,7 @@ spring:
       ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
-    database: ORACLE
+    database: POSTGRESQL
     show-sql: true
     open-in-view: false
 # 自定義傳入文件根目錄路徑
