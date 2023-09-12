@@ -31,30 +31,26 @@ public class OrdersServiceImpl implements OrdersService {
 	@Resource
 	private OrdersRepository ordersRepository;
 
-	/**
-	 * 訂單信息分頁查詢
-	 *
-	 * @param pageNum   頁碼
-	 * @param pageSize  頁面大小
-	 * @param orderId   訂單ID
-	 * @param beginTime 開始時間
-	 * @param endTime   截止時間
-	 * @return Pagination<Orders>
-	 */
 	@Override
 	public Pagination<Orders> pagination(final Integer pageNum, final Integer pageSize, final Long orderId,
 			final LocalDateTime beginTime, final LocalDateTime endTime) {
 		final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
 		final Specification<Orders> whereSpecification1 = orderId == null ? null
 				: (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("id"), orderId.toString());
-		final Specification<Orders> whereSpecification2 = getOrdersSpecification(beginTime, endTime);
+		final Specification<Orders> whereSpecification2 = this.getOrdersSpecification(beginTime, endTime);
 		final Specification<Orders> where = Specification.where(whereSpecification1).and(whereSpecification2);
 		final Page<Orders> orders = this.ordersRepository.findAll(where, pageRequest);
 		return Pagination.of(orders.getContent(), orders.getTotalElements(), pageNum, pageSize);
 	}
 
-	private static Specification<Orders> getOrdersSpecification(final LocalDateTime beginTime,
-			final LocalDateTime endTime) {
+	/**
+	 * 獲取起始時間與截止日期的檢索條件
+	 *
+	 * @param beginTime 起始時間
+	 * @param endTime   截止日期
+	 * @return Specification<Orders>
+	 */
+	private Specification<Orders> getOrdersSpecification(final LocalDateTime beginTime, final LocalDateTime endTime) {
 		Specification<Orders> whereSpecification1;
 		if (beginTime != null && endTime != null) {
 			whereSpecification1 = (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get(ORDERS_TIME),
