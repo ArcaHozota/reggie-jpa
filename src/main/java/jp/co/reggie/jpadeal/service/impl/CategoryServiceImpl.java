@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import jp.co.reggie.jpadeal.common.Constants;
@@ -112,8 +113,11 @@ public class CategoryServiceImpl implements CategoryService {
 	 */
 	@Override
 	public Pagination<Category> pagination(final Integer pageNum, final Integer pageSize) {
-		final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
-		final Page<Category> categories = this.categoryRepository.findAll(pageRequest);
-		return Pagination.of(categories.getContent(), categories.getTotalElements(), pageNum, pageSize);
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
+		final Specification<Category> specification = (root, query, criteriaBuilder) -> criteriaBuilder
+				.equal(root.get("logicDeleteFlg"), Constants.LOGIC_FLAG);
+		final Specification<Category> where = Specification.where(specification);
+		final Page<Category> categories = this.categoryRepository.findAll(where, pageRequest);
+		return Pagination.of(categories.getContent(), categories.getTotalElements(), pageNum - 1, pageSize);
 	}
 }
