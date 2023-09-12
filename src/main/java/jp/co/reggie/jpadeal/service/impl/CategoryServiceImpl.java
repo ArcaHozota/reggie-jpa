@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -81,6 +80,8 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void update(final Category category) {
 		final Category category2 = this.categoryRepository.findById(category.getId()).orElseGet(Category::new);
+		category2.setName(category.getName());
+		category2.setSort(category2.getSort());
 		category2.setUpdatingTime(LocalDateTime.now());
 		category2.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.categoryRepository.save(category2);
@@ -89,7 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public Pagination<Category> pagination(final Integer pageNum, final Integer pageSize) {
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize,
-				Sort.by(Direction.DESC, "sort", "updatingTime"));
+				Sort.by(Sort.Order.asc("sort"), Sort.Order.desc("updatingTime")));
 		final Specification<Category> specification = Specification.where((root, query,
 				criteriaBuilder) -> criteriaBuilder.equal(root.get("logicDeleteFlg"), Constants.LOGIC_FLAG));
 		final Page<Category> categories = this.categoryRepository.findAll(specification, pageRequest);
