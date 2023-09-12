@@ -22,10 +22,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "REGGIE_DISHFLAVOUR")
-@NamedQuery(name = "DishFlavour.selectByDishId", query = "select af from DishFlavour af where af.logicDeleteFlg = 'visible' and af.dishId =:dishId")
-@NamedQuery(name = "DishFlavour.batchRemoveByDishIds", query = "update DishFlavour af set af.logicDeleteFlg = 'removed' where af.dishId in(:dishIds)")
-public class DishFlavour implements Serializable {
+@Table(name = "dish_flavor")
+@NamedQuery(name = "DishFlavor.selectByDishId", query = "select af from DishFlavor af where af.logicDeleteFlg = 'visible' and af.dishId =:dishId")
+@NamedQuery(name = "DishFlavor.batchRemoveByDishIds", query = "update DishFlavor af set af.logicDeleteFlg = 'removed' where af.dishId in(:dishIds)")
+public class DishFlavor implements Serializable {
 
 	private static final long serialVersionUID = 6752106293794210881L;
 
@@ -56,29 +56,29 @@ public class DishFlavour implements Serializable {
 	 * 創建時間
 	 */
 	@Column(nullable = false)
-	private LocalDateTime createdTime;
+	private LocalDateTime creationTime;
 
 	/**
 	 * 更新時間
 	 */
 	@Column(nullable = false)
-	private LocalDateTime updatedTime;
+	private LocalDateTime updatingTime;
 
 	/**
 	 * 創建人
 	 */
-	@Column(nullable = false)
+	@Column(name = "creation_user", nullable = false)
 	private Long createdUser;
 
 	/**
 	 * 修改者
 	 */
-	@Column(nullable = false)
+	@Column(name = "updating_user", nullable = false)
 	private Long updatedUser;
 
 	/**
 	 * 邏輯刪除字段
 	 */
-	@Column(name = "DEL_FLG", nullable = false)
+	@Column(nullable = false)
 	private String logicDeleteFlg;
 }
