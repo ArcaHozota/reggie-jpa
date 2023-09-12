@@ -176,7 +176,7 @@
             getOrderDetailPage({ pageNum: this.pageNum, pageSize: this.pageSize, number: this.input || undefined, beginTime: this.beginTime || undefined, endTime: this.endTime || undefined }).then(res => {
               if (String(res.code) === 'SUCCESS') {
                 this.tableData = res.data.records || []
-                this.counts = res.data.totalRecords
+                this.counts = Number(res.data.totalRecords)
               }
             }).catch(err => {
               this.$message.error('請求出錯了：' + err)
