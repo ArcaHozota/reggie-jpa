@@ -51,7 +51,7 @@ public class Orders implements Serializable {
 	/**
 	 * 派送地址ID
 	 */
-	@Column(nullable = false)
+	@Column(name = "ADDRESSBOOK_ID", nullable = false)
 	private Long addressBookId;
 
 	/**
