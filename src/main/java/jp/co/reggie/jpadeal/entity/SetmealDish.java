@@ -23,7 +23,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "REGGIE_SETMEALDISH")
+@Table(name = "setmeal_dish")
 @NamedQuery(name = "SetmealDish.selectBySmId", query = "select smd from SetmealDish smd where smd.logicDeleteFlg = 'visible' and smd.setmealId =:smId")
 @NamedQuery(name = "SetmealDish.batchRemoveBySmIds", query = "update SetmealDish smd set smd.logicDeleteFlg = 'removed' where smd.setmealId in(:smIds)")
 public class SetmealDish implements Serializable {
@@ -70,32 +70,32 @@ public class SetmealDish implements Serializable {
 	private Integer sort;
 
 	/**
-	 * 創建時間
-	 */
-	@Column(nullable = false)
-	private LocalDateTime createdTime;
+     * 創建時間
+     */
+    @Column(nullable = false)
+    private LocalDateTime creationTime;
 
-	/**
-	 * 更新時間
-	 */
-	@Column(nullable = false)
-	private LocalDateTime updatedTime;
+    /**
+     * 更新時間
+     */
+    @Column(nullable = false)
+    private LocalDateTime updatingTime;
 
-	/**
-	 * 創建人
-	 */
-	@Column(nullable = false)
-	private Long createdUser;
+    /**
+     * 創建人
+     */
+    @Column(name = "creation_user", nullable = false)
+    private Long createdUser;
 
-	/**
-	 * 修改者
-	 */
-	@Column(nullable = false)
-	private Long updatedUser;
+    /**
+     * 修改者
+     */
+    @Column(name = "updating_user", nullable = false)
+    private Long updatedUser;
 
-	/**
-	 * 邏輯刪除字段
-	 */
-	@Column(name = "DEL_FLG", nullable = false)
-	private String logicDeleteFlg;
+    /**
+     * 邏輯刪除字段
+     */
+    @Column(nullable = false)
+    private String logicDeleteFlg;
 }

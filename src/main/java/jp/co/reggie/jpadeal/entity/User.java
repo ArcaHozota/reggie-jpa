@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "REGGIE_USER")
+@Table(name = "user")
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 2324630650798877027L;
@@ -39,13 +39,13 @@ public class User implements Serializable {
 	/**
 	 * 手機號
 	 */
-	@Column(name = "PHONE_NUMBER", nullable = false)
+	@Column(name = "phone_num", nullable = false)
 	private String phoneNo;
 
 	/**
 	 * 性別：0女，1男
 	 */
-	@Column(nullable = false)
+	@Column(name = "sex")
 	private String gender;
 
 	/**

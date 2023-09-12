@@ -23,7 +23,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "REGGIE_SETMEAL")
+@Table(name = "setmeal")
 @NamedQuery(name = "Setmeal.countByCategoryId", query = "select count(1) from Setmeal st where st.logicDeleteFlg = 'visible' and st.categoryId =:categoryId")
 @NamedQuery(name = "Setmeal.countStatusByIds", query = "select count(1) from Setmeal st where "
 		+ "st.logicDeleteFlg ='visible' and st.status ='0' and st.id in (:smIdList)")
@@ -79,32 +79,32 @@ public class Setmeal implements Serializable {
 	private String image;
 
 	/**
-	 * 創建時間
-	 */
-	@Column(nullable = false)
-	private LocalDateTime createdTime;
+     * 創建時間
+     */
+    @Column(nullable = false)
+    private LocalDateTime creationTime;
 
-	/**
-	 * 更新時間
-	 */
-	@Column(nullable = false)
-	private LocalDateTime updatedTime;
+    /**
+     * 更新時間
+     */
+    @Column(nullable = false)
+    private LocalDateTime updatingTime;
 
-	/**
-	 * 創建人
-	 */
-	@Column(nullable = false)
-	private Long createdUser;
+    /**
+     * 創建人
+     */
+    @Column(name = "creation_user", nullable = false)
+    private Long createdUser;
 
-	/**
-	 * 修改者
-	 */
-	@Column(nullable = false)
-	private Long updatedUser;
+    /**
+     * 修改者
+     */
+    @Column(name = "updating_user", nullable = false)
+    private Long updatedUser;
 
-	/**
-	 * 邏輯刪除字段
-	 */
-	@Column(name = "DEL_FLG", nullable = false)
-	private String logicDeleteFlg;
+    /**
+     * 邏輯刪除字段
+     */
+    @Column(nullable = false)
+    private String logicDeleteFlg;
 }

@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "REGGIE_ORDERS")
+@Table(name = "orders")
 public class Orders implements Serializable {
 
 	private static final long serialVersionUID = -4760386733875449380L;
@@ -34,8 +34,7 @@ public class Orders implements Serializable {
 	/**
 	 * 訂單號
 	 */
-	@Column(name = "NUMBER")
-	private String ordersNumber;
+	private String number;
 
 	/**
 	 * 訂單狀態: 1待付款，2待派送，3已派送，4已完成，5已取消
@@ -53,12 +52,12 @@ public class Orders implements Serializable {
 	 * 派送地址ID
 	 */
 	@Column(nullable = false)
-	private Long addressbookId;
+	private Long addressBookId;
 
 	/**
 	 * 訂單生成時間
 	 */
-	@Column(nullable = false)
+	@Column(name = "order_time", nullable = false)
 	private LocalDateTime ordersTime;
 
 	/**
@@ -71,7 +70,7 @@ public class Orders implements Serializable {
 	 * 支付方式
 	 */
 	@Column(nullable = false)
-	private String paymentMethod;
+	private String payMethod;
 
 	/**
 	 * 實收金額
@@ -85,20 +84,20 @@ public class Orders implements Serializable {
 	private String remark;
 
 	/**
+	 * 客戸名稱
+	 */
+	private String userName;
+
+	/**
 	 * 收貨人手機號
 	 */
-	@Column(name = "PHONE_NUMBER")
+	@Column(name = "phone_num")
 	private String phoneNo;
 
 	/**
 	 * 派送地址
 	 */
 	private String address;
-
-	/**
-	 * 客戸名稱
-	 */
-	private String userName;
 
 	/**
 	 * 簽收人昵稱

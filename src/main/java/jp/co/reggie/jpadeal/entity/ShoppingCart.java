@@ -22,7 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "REGGIE_SHOPPINGCART")
+@Table(name = "shopping_cart")
 public class ShoppingCart implements Serializable {
 
 	private static final long serialVersionUID = 1618550099529253148L;
@@ -55,9 +55,9 @@ public class ShoppingCart implements Serializable {
 	private Long setmealId;
 
 	/**
-	 * 口味
+	 * 口味ID
 	 */
-	private String dishflavourId;
+	private String dishFlavorId;
 
 	/**
 	 * 數量
@@ -79,5 +79,5 @@ public class ShoppingCart implements Serializable {
 	/**
 	 * 創建時間
 	 */
-	private LocalDateTime createdTime;
+	private LocalDateTime creationTime;
 }
