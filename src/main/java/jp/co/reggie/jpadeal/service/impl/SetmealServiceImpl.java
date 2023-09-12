@@ -59,11 +59,6 @@ public class SetmealServiceImpl implements SetmealService {
 	@Resource
 	private SetmealDishRepository setmealDishRepository;
 
-	/**
-	 * 新增套餐同時保存套餐和菜品的關聯關係
-	 *
-	 * @param setmealDto 數據傳輸類
-	 */
 	@Override
 	public void saveWithDish(final SetmealDto setmealDto) {
 		// 保存套餐的基本信息；
@@ -88,11 +83,6 @@ public class SetmealServiceImpl implements SetmealService {
 		this.setmealDishRepository.saveAll(setmealDishes);
 	}
 
-	/**
-	 * 刪除套餐同時刪除套餐和菜品的關聯關係
-	 *
-	 * @param ids 套餐ID的集合
-	 */
 	@Override
 	public void removeWithDish(final List<Long> ids) {
 		// 查詢套餐狀態以確認是否可以刪除；
@@ -107,14 +97,6 @@ public class SetmealServiceImpl implements SetmealService {
 		this.setmealDishRepository.batchRemoveBySmIds(ids);
 	}
 
-	/**
-	 * 套餐信息分頁查詢
-	 *
-	 * @param pageNum  頁碼
-	 * @param pageSize 頁面大小
-	 * @param keyword  檢索文
-	 * @return Pagination<SetmealDto>
-	 */
 	@Override
 	public Pagination<SetmealDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
@@ -142,12 +124,6 @@ public class SetmealServiceImpl implements SetmealService {
 		return Pagination.of(setmealDtos, setmeals.getTotalElements(), pageNum - 1, pageSize);
 	}
 
-	/**
-	 * 根據ID顯示套餐信息
-	 *
-	 * @param id 套餐ID
-	 * @return SetmealDto
-	 */
 	@Override
 	public SetmealDto getByIdWithDishInfo(final Long id) {
 		final Setmeal setmeal = this.setmealRepository.findById(id).orElseGet(Setmeal::new);
@@ -160,11 +136,6 @@ public class SetmealServiceImpl implements SetmealService {
 		return setmealDto;
 	}
 
-	/**
-	 * 更新套餐，同時更新套餐和菜品的關聯
-	 *
-	 * @param setmealDto 數據傳輸類
-	 */
 	@Override
 	public void updateWithDish(final SetmealDto setmealDto) {
 		// 保存套餐的基本信息；
@@ -182,12 +153,6 @@ public class SetmealServiceImpl implements SetmealService {
 		this.setmealDishRepository.saveAll(setmealDishes);
 	}
 
-	/**
-	 * 根據套餐集合批量停發售
-	 *
-	 * @param status   在售狀態
-	 * @param stmlList 套餐集合
-	 */
 	@Override
 	public void batchUpdateByIds(String status, final List<Long> stmlList) {
 		final LocalDateTime upTime = LocalDateTime.now();
