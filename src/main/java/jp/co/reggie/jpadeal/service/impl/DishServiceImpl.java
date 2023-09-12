@@ -166,7 +166,7 @@ public class DishServiceImpl implements DishService {
 	public Pagination<DishDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
 		final Dish dish = new Dish();
-		dish.setName(keyword);
+		dish.setName(StringUtils.toHankaku(keyword));
 		dish.setLogicDeleteFlg(Constants.LOGIC_FLAG);
 		final ExampleMatcher exampleMatcher = ExampleMatcher.matching()
 				.withMatcher("name", GenericPropertyMatchers.contains())

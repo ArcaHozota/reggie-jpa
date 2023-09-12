@@ -120,8 +120,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Pagination<Employee> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
 		final Employee employee = new Employee();
-		employee.setName(keyword);
-		final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("kanjiName",
+		employee.setName(StringUtils.toHankaku(keyword));
+		final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("name",
 				GenericPropertyMatchers.contains());
 		final Example<Employee> example = Example.of(employee, exampleMatcher);
 		final Page<Employee> employees = this.employeeRepository.findAll(example, pageRequest);
