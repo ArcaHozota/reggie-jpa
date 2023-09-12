@@ -51,7 +51,7 @@
                     <span style="margin-right: 10px;">{{scope.row.status === '0' ? '售罄' : '在售'}}</span>
                 </template>
             </el-table-column>
-            <el-table-column prop="updatingTime" label="最後操作時間"></el-table-column>
+            <el-table-column prop="updatedTime" label="最後操作時間"></el-table-column>
             <el-table-column label="操作" width="160" align="center">
                 <template slot-scope="scope">
                     <el-button type="text" size="small" class="blueBug" @click="addFoodtype(scope.row.id)">修改</el-button>
