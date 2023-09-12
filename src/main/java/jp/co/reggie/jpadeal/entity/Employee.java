@@ -55,7 +55,7 @@ public class Employee implements Serializable {
 	/**
 	 * 手機號
 	 */
-	@Column(name = "phone_num", nullable = false)
+	@Column(name = "PHONE_NUMBER", nullable = false)
 	private String phoneNo;
 
 	/**

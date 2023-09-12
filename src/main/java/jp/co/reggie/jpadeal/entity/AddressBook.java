@@ -53,7 +53,7 @@ public class AddressBook implements Serializable {
 	/**
 	 * 手機號
 	 */
-	@Column(name = "phone_num", nullable = false)
+	@Column(name = "PHONE_NUMBER", nullable = false)
 	private String phoneNo;
 
 	/**
@@ -129,6 +129,6 @@ public class AddressBook implements Serializable {
 	/**
 	 * 邏輯刪除字段
 	 */
-	@Column(nullable = false)
+	@Column(name = "DEL_FLG", nullable = false)
 	private String logicDeleteFlg;
 }

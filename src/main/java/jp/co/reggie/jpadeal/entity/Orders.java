@@ -91,7 +91,7 @@ public class Orders implements Serializable {
 	/**
 	 * 收貨人手機號
 	 */
-	@Column(name = "phone_num")
+	@Column(name = "PHONE_NUMBER")
 	private String phoneNo;
 
 	/**

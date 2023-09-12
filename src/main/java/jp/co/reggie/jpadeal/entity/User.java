@@ -39,13 +39,13 @@ public class User implements Serializable {
 	/**
 	 * 手機號
 	 */
-	@Column(name = "phone_num", nullable = false)
+	@Column(name = "PHONE_NUMBER", nullable = false)
 	private String phoneNo;
 
 	/**
 	 * 性別：0女，1男
 	 */
-	@Column(name = "sex")
+	@Column(nullable = false)
 	private String gender;
 
 	/**

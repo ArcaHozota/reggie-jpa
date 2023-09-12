@@ -96,6 +96,6 @@ public class SetmealDish implements Serializable {
 	/**
 	 * 邏輯刪除字段
 	 */
-	@Column(nullable = false)
+	@Column(name = "DEL_FLG", nullable = false)
 	private String logicDeleteFlg;
 }
