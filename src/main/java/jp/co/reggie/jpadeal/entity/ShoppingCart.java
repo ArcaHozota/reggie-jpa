@@ -57,7 +57,7 @@ public class ShoppingCart implements Serializable {
 	/**
 	 * 口味
 	 */
-	private String dishFlavor;
+	private String dishflavourId;
 
 	/**
 	 * 數量
