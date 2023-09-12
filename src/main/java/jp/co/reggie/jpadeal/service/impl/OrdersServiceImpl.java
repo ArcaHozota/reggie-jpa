@@ -30,15 +30,15 @@ public class OrdersServiceImpl implements OrdersService {
 	private OrdersRepository ordersRepository;
 
 	@Override
-	public Pagination<Orders> pagination(final Integer pageNum, final Integer pageSize, final Long orderId,
+	public Pagination<Orders> pagination(final Integer pageNum, final Integer pageSize, final Long ordersId,
 			final LocalDateTime beginTime, final LocalDateTime endTime) {
-		final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
-		final Specification<Orders> whereSpecification1 = orderId == null ? null
-				: (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("id"), orderId.toString());
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
+		final Specification<Orders> whereSpecification1 = ordersId == null ? null
+				: (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), ordersId);
 		final Specification<Orders> whereSpecification2 = this.getOrdersSpecification(beginTime, endTime);
 		final Specification<Orders> where = Specification.where(whereSpecification1).and(whereSpecification2);
 		final Page<Orders> orders = this.ordersRepository.findAll(where, pageRequest);
-		return Pagination.of(orders.getContent(), orders.getTotalElements(), pageNum, pageSize);
+		return Pagination.of(orders.getContent(), orders.getTotalElements(), pageNum - 1, pageSize);
 	}
 
 	/**
