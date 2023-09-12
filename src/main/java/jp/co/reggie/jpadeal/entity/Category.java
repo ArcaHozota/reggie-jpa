@@ -22,7 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "REGGIE_CATEGORY")
+@Table(name = "category")
 @NamedQuery(name = "Category.selectByType", query = "select ca from Category ca where ca.logicDeleteFlg = 'visible' and ca.type =:type")
 @NamedQuery(name = "Category.removeById", query = "update Category ca set ca.logicDeleteFlg = 'removed' where ca.id =:id")
 public class Category implements Serializable {
@@ -56,29 +56,29 @@ public class Category implements Serializable {
 	 * 創建時間
 	 */
 	@Column(nullable = false)
-	private LocalDateTime createdTime;
+	private LocalDateTime creationTime;
 
 	/**
 	 * 更新時間
 	 */
 	@Column(nullable = false)
-	private LocalDateTime updatedTime;
+	private LocalDateTime updatingTime;
 
 	/**
 	 * 創建人
 	 */
-	@Column(nullable = false)
+	@Column(name = "creation_user", nullable = false)
 	private Long createdUser;
 
 	/**
 	 * 修改者
 	 */
-	@Column(nullable = false)
+	@Column(name = "updating_user", nullable = false)
 	private Long updatedUser;
 
 	/**
 	 * 邏輯刪除字段
 	 */
-	@Column(name = "DEL_FLG", nullable = false)
+	@Column(nullable = false)
 	private String logicDeleteFlg;
 }

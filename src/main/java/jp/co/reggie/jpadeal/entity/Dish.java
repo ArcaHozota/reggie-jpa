@@ -23,7 +23,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "REGGIE_DISH")
+@Table(name = "dish")
 @NamedQuery(name = "Dish.findDishesByCategoryId", query = "select dh from Dish dh where dh.logicDeleteFlg = 'visible' and dh.categoryId =:categoryId")
 @NamedQuery(name = "Dish.countByCategoryId", query = "select dh from Dish dh where dh.logicDeleteFlg = 'visible' and dh.categoryId =:categoryId")
 @NamedQuery(name = "Dish.batchRemoveByIds", query = "update Dish dh set dh.logicDeleteFlg = 'removed' where dh.id in(:dishIds)")
@@ -84,32 +84,32 @@ public class Dish implements Serializable {
 	private Integer sort;
 
 	/**
-	 * 創建時間
-	 */
-	@Column(nullable = false)
-	private LocalDateTime createdTime;
+     * 創建時間
+     */
+    @Column(nullable = false)
+    private LocalDateTime creationTime;
 
-	/**
-	 * 更新時間
-	 */
-	@Column(nullable = false)
-	private LocalDateTime updatedTime;
+    /**
+     * 更新時間
+     */
+    @Column(nullable = false)
+    private LocalDateTime updatingTime;
 
-	/**
-	 * 創建人
-	 */
-	@Column(nullable = false)
-	private Long createdUser;
+    /**
+     * 創建人
+     */
+    @Column(name = "creation_user", nullable = false)
+    private Long createdUser;
 
-	/**
-	 * 修改者
-	 */
-	@Column(nullable = false)
-	private Long updatedUser;
+    /**
+     * 修改者
+     */
+    @Column(name = "updating_user", nullable = false)
+    private Long updatedUser;
 
-	/**
-	 * 邏輯刪除字段
-	 */
-	@Column(name = "DEL_FLG", nullable = false)
-	private String logicDeleteFlg;
+    /**
+     * 邏輯刪除字段
+     */
+    @Column(nullable = false)
+    private String logicDeleteFlg;
 }
