@@ -2,6 +2,7 @@ package jp.co.reggie.jpadeal.repository;
 
 import java.util.List;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.reggie.jpadeal.entity.Dish;
-import oracle.jdbc.driver.OracleSQLException;
 
 /**
  * 料理リポジトリ
@@ -25,7 +25,7 @@ public interface DishRepository extends JpaRepository<Dish, Long>, JpaSpecificat
 	 *
 	 * @param dishIdList 菜品ID集合
 	 */
-	@Transactional(rollbackFor = OracleSQLException.class)
+	@Transactional(rollbackFor = PSQLException.class)
 	void batchRemoveByIds(@Param("dishIds") List<Long> dishIdList);
 
 	/**
