@@ -63,7 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		// 設置初始密碼，需進行MD5加密；
 		final Employee employee = new Employee();
 		final String password = DigestUtils.md5DigestAsHex(Constants.PRIMARY_CODE.getBytes()).toUpperCase();
-		BeanUtils.copyProperties(employeeDto, employee);
+		BeanUtils.copyProperties(employeeDto, employee, "name");
 		employee.setId(BasicContextUtils.getGeneratedId());
 		employee.setKanjiName(employeeDto.getName());
 		employee.setPassword(password);
@@ -78,7 +78,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void update(final EmployeeDto employeeDto) {
 		final Employee employee = new Employee();
-		BeanUtils.copyProperties(employeeDto, employee);
+		BeanUtils.copyProperties(employeeDto, employee, "name");
 		employee.setKanjiName(employeeDto.getName());
 		employee.setUpdatingTime(LocalDateTime.now());
 		employee.setUpdatedUser(BasicContextUtils.getCurrentId());

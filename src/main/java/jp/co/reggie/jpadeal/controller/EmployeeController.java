@@ -3,6 +3,7 @@ package jp.co.reggie.jpadeal.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,12 +46,14 @@ public class EmployeeController {
 	 * @return R.success(實體類對象)
 	 */
 	@PostMapping("/login")
-	public Reggie<Employee> login(final HttpServletRequest request, @RequestBody final Employee employee) {
+	public Reggie<EmployeeDto> login(final HttpServletRequest request, @RequestBody final EmployeeDto employeeDto) {
 		// 進行登錄操作；
-		final Employee aEmployee = this.employeeService.login(employee);
+		final Employee aEmployee = this.employeeService.login(employeeDto);
 		// 登錄成功，將員工ID存入Session並返回登錄成功；
-		request.getSession().setAttribute(Constants.getEntityName(employee), aEmployee.getId());
-		return Reggie.success(aEmployee);
+		request.getSession().setAttribute(Constants.getEntityName(aEmployee), aEmployee.getId());
+		BeanUtils.copyProperties(aEmployee, employeeDto);
+		employeeDto.setName(aEmployee.getKanjiName());
+		return Reggie.success(employeeDto);
 	}
 
 	/**
