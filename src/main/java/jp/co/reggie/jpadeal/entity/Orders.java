@@ -34,7 +34,8 @@ public class Orders implements Serializable {
 	/**
 	 * 訂單號
 	 */
-	private String number;
+	@Column(name = "NUMBER")
+	private String ordersNumber;
 
 	/**
 	 * 訂單狀態: 1待付款，2待派送，3已派送，4已完成，5已取消
@@ -51,8 +52,8 @@ public class Orders implements Serializable {
 	/**
 	 * 派送地址ID
 	 */
-	@Column(name = "ADDRESSBOOK_ID", nullable = false)
-	private Long addressBookId;
+	@Column(nullable = false)
+	private Long addressbookId;
 
 	/**
 	 * 訂單生成時間
@@ -84,11 +85,6 @@ public class Orders implements Serializable {
 	private String remark;
 
 	/**
-	 * 客戸名稱
-	 */
-	private String userName;
-
-	/**
 	 * 收貨人手機號
 	 */
 	@Column(name = "PHONE_NUMBER")
@@ -98,6 +94,11 @@ public class Orders implements Serializable {
 	 * 派送地址
 	 */
 	private String address;
+
+	/**
+	 * 客戸名稱
+	 */
+	private String userName;
 
 	/**
 	 * 簽收人昵稱
