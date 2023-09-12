@@ -55,13 +55,13 @@ public class LoginCheckFilter extends BasicContextUtils implements Filter {
 		} else if (empId != null) {
 			log.info("用戸已登錄，用戸ID為：{}", empId);
 			// 將當前ID儲存於内存綫程中；
-			super.setCurrentId(empId);
+			setCurrentId(empId);
 			filterChain.doFilter(request, response);
 			return;
 		} else if (userId != null) {
 			log.info("用戸已登錄，用戸ID為：{}", userId);
 			// 將當前ID儲存於内存綫程中；
-			super.setCurrentId(userId);
+			setCurrentId(userId);
 			filterChain.doFilter(request, response);
 			return;
 		}
