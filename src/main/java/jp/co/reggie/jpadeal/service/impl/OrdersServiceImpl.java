@@ -48,10 +48,6 @@ public class OrdersServiceImpl implements OrdersService {
 		final Specification<Orders> whereSpecification1 = orderId == null ? null
 				: (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("id"), orderId.toString());
 		final Specification<Orders> whereSpecification2 = getOrdersSpecification(beginTime, endTime);
-		if (whereSpecification1 == null && whereSpecification2 == null) {
-			final Page<Orders> orders = this.ordersRepository.findAll(pageRequest);
-			return Pagination.of(orders.getContent(), orders.getTotalElements(), pageNum, pageSize);
-		}
 		final Specification<Orders> where = Specification.where(whereSpecification1).and(whereSpecification2);
 		final Page<Orders> orders = this.ordersRepository.findAll(where, pageRequest);
 		return Pagination.of(orders.getContent(), orders.getTotalElements(), pageNum, pageSize);
