@@ -79,5 +79,5 @@ public class ShoppingCart implements Serializable {
 	/**
 	 * 創建時間
 	 */
-	private LocalDateTime creationTime;
+	private LocalDateTime createdTime;
 }

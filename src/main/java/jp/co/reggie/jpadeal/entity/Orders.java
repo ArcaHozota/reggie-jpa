@@ -57,7 +57,7 @@ public class Orders implements Serializable {
 	/**
 	 * 訂單生成時間
 	 */
-	@Column(name = "order_time", nullable = false)
+	@Column(nullable = false)
 	private LocalDateTime ordersTime;
 
 	/**

@@ -37,7 +37,7 @@ public class Employee implements Serializable {
 	/**
 	 * 姓名
 	 */
-	@Column(name = "name", nullable = false)
+	@Column(nullable = false)
 	private String kanjiName;
 
 	/**
@@ -61,7 +61,7 @@ public class Employee implements Serializable {
 	/**
 	 * 性別
 	 */
-	@Column(name = "sex", nullable = false)
+	@Column(nullable = false)
 	private String gender;
 
 	/**

@@ -47,7 +47,7 @@ public class AddressBook implements Serializable {
 	/**
 	 * 性別
 	 */
-	@Column(name = "sex", nullable = false)
+	@Column(nullable = false)
 	private String gender;
 
 	/**
