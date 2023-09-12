@@ -39,12 +39,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Resource
 	private EmployeeRepository employeeRepository;
 
-	/**
-	 * 根據所提供的用戸名進行登錄
-	 *
-	 * @param employee 用戸實體類
-	 * @return Employee
-	 */
 	@Override
 	public Employee login(final Employee employee) {
 		// 將頁面提交的密碼進行MD5加密；
@@ -62,11 +56,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return aEmployee;
 	}
 
-	/**
-	 * 保存新增員工
-	 *
-	 * @param employee 實體類對象
-	 */
 	@Override
 	public void save(final EmployeeDto employeeDto) {
 		// 設置初始密碼，需進行MD5加密；
@@ -84,11 +73,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		this.employeeRepository.save(employee);
 	}
 
-	/**
-	 * 修改員工信息
-	 *
-	 * @param employee 實體類對象
-	 */
 	@Override
 	public void update(final Employee employee) {
 		employee.setUpdatedTime(LocalDateTime.now());
@@ -96,26 +80,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		this.employeeRepository.save(employee);
 	}
 
-	/**
-	 * 根據ID查詢員工信息
-	 *
-	 * @param id 員工ID
-	 * @return Employee
-	 */
 	@Override
 	public Employee getById(final Long id) {
 		final Optional<Employee> optional = this.employeeRepository.findById(id);
 		return optional.orElse(null);
 	}
 
-	/**
-	 * 員工信息分頁查詢
-	 *
-	 * @param pageNum  頁碼
-	 * @param pageSize 頁面大小
-	 * @param keyword  檢索文
-	 * @return Pagination<Employee>
-	 */
 	@Override
 	public Pagination<Employee> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);

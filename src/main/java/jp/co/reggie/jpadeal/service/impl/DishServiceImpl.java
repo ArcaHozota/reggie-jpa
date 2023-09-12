@@ -57,11 +57,6 @@ public class DishServiceImpl implements DishService {
 	@Resource
 	private CategoryRepository categoryRepository;
 
-	/**
-	 * 新增菜品，同時插入菜品所對應的口味數據
-	 *
-	 * @param dishDto 菜品及口味數據傳輸類
-	 */
 	@Override
 	public void saveWithFlavours(final DishDto dishDto) {
 		// 保存菜品的基本信息到菜品表；
@@ -88,12 +83,6 @@ public class DishServiceImpl implements DishService {
 		});
 	}
 
-	/**
-	 * 根據ID查詢菜品信息以及對應的口味信息
-	 *
-	 * @param id 菜品ID
-	 * @return dishDto 菜品及口味數據傳輸類
-	 */
 	@Override
 	public DishDto getByIdWithFlavour(final Long id) {
 		// 查詢菜品的基本信息；
@@ -111,12 +100,6 @@ public class DishServiceImpl implements DishService {
 		return dishDto;
 	}
 
-	/**
-	 * 根據菜品集合批量停發售
-	 *
-	 * @param status   在售狀態
-	 * @param dishList 菜品集合
-	 */
 	@Override
 	public void batchUpdateByIds(final String status, final List<Long> dishList) {
 		final List<Dish> dishes = this.dishRepository.findAllById(dishList);
@@ -134,11 +117,6 @@ public class DishServiceImpl implements DishService {
 		});
 	}
 
-	/**
-	 * 修改菜品信息並同時插入菜品所對應的口味數據
-	 *
-	 * @param dishDto 菜品及口味數據傳輸類
-	 */
 	@Override
 	public void updateWithFlavour(final DishDto dishDto) {
 		// 更新菜品信息；
@@ -154,14 +132,6 @@ public class DishServiceImpl implements DishService {
 		this.dishFlavourRepository.saveAll(flavours);
 	}
 
-	/**
-	 * 菜品信息分頁查詢
-	 *
-	 * @param pageNum  頁碼
-	 * @param pageSize 頁面大小
-	 * @param keyword  檢索文
-	 * @return Pagination<DishDto>
-	 */
 	@Override
 	public Pagination<DishDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
@@ -189,11 +159,6 @@ public class DishServiceImpl implements DishService {
 		return Pagination.of(dishDtos, dishes.getTotalElements(), pageNum - 1, pageSize);
 	}
 
-	/**
-	 * 根據ID批量刪除菜品
-	 *
-	 * @param idList 菜品ID集合
-	 */
 	@Override
 	public void remove(final List<Long> idList) {
 		// 刪除菜品口味數據；
@@ -202,12 +167,6 @@ public class DishServiceImpl implements DishService {
 		this.dishRepository.batchRemoveByIds(idList);
 	}
 
-	/**
-	 * 根據分類ID回顯菜品表單數據
-	 *
-	 * @param categoryId 分類ID
-	 * @return List<DishDto>
-	 */
 	@Override
 	public List<DishDto> getListByCategoryId(final Long categoryId) {
 		// 查詢菜品信息；
