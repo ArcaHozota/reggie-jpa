@@ -68,8 +68,8 @@ public class SetmealServiceImpl implements SetmealService {
 	public void saveWithDish(final SetmealDto setmealDto) {
 		// 保存套餐的基本信息；
 		setmealDto.setId(BasicContextUtils.getGeneratedId());
-		setmealDto.setCreationTime(LocalDateTime.now());
-		setmealDto.setUpdatingTime(LocalDateTime.now());
+		setmealDto.setCreatedTime(LocalDateTime.now());
+		setmealDto.setUpdatedTime(LocalDateTime.now());
 		setmealDto.setCreatedUser(BasicContextUtils.getCurrentId());
 		setmealDto.setUpdatedUser(BasicContextUtils.getCurrentId());
 		setmealDto.setLogicDeleteFlg(Constants.LOGIC_FLAG);
@@ -78,8 +78,8 @@ public class SetmealServiceImpl implements SetmealService {
 		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().peek(item -> {
 			item.setId(BasicContextUtils.getGeneratedId());
 			item.setSetmealId(setmealDto.getId());
-			item.setCreationTime(LocalDateTime.now());
-			item.setUpdatingTime(LocalDateTime.now());
+			item.setCreatedTime(LocalDateTime.now());
+			item.setUpdatedTime(LocalDateTime.now());
 			item.setCreatedUser(BasicContextUtils.getCurrentId());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 			item.setLogicDeleteFlg(Constants.LOGIC_FLAG);
@@ -168,14 +168,14 @@ public class SetmealServiceImpl implements SetmealService {
 	@Override
 	public void updateWithDish(final SetmealDto setmealDto) {
 		// 保存套餐的基本信息；
-		setmealDto.setUpdatingTime(LocalDateTime.now());
+		setmealDto.setUpdatedTime(LocalDateTime.now());
 		setmealDto.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.setmealRepository.save(setmealDto);
 		// 獲取套餐菜品關聯集合；
 		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().peek(item -> {
 			item.setSetmealId(setmealDto.getId());
 			item.setSort(RANDOM.nextInt(setmealDto.getSetmealDishes().size()));
-			item.setUpdatingTime(LocalDateTime.now());
+			item.setUpdatedTime(LocalDateTime.now());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
 		// 保存套餐和菜品的關聯關係；

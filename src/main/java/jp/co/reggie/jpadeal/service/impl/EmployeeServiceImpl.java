@@ -77,8 +77,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employee.setKanjiName(employeeDto.getName());
 		employee.setPassword(password);
 		employee.setStatus(Constants.STATUS_VALID);
-		employee.setCreationTime(LocalDateTime.now());
-		employee.setUpdatingTime(LocalDateTime.now());
+		employee.setCreatedTime(LocalDateTime.now());
+		employee.setUpdatedTime(LocalDateTime.now());
 		employee.setCreatedUser(BasicContextUtils.getCurrentId());
 		employee.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.employeeRepository.save(employee);
@@ -91,7 +91,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public void update(final Employee employee) {
-		employee.setUpdatingTime(LocalDateTime.now());
+		employee.setUpdatedTime(LocalDateTime.now());
 		employee.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.employeeRepository.save(employee);
 	}
