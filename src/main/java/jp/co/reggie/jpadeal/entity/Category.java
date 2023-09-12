@@ -3,7 +3,11 @@ package jp.co.reggie.jpadeal.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,24 +56,24 @@ public class Category implements Serializable {
 	 * 創建時間
 	 */
 	@Column(nullable = false)
-	private LocalDateTime creationTime;
+	private LocalDateTime createdTime;
 
 	/**
 	 * 更新時間
 	 */
 	@Column(nullable = false)
-	private LocalDateTime updatingTime;
+	private LocalDateTime updatedTime;
 
 	/**
 	 * 創建人
 	 */
-	@Column(name = "creation_user", nullable = false)
+	@Column(nullable = false)
 	private Long createdUser;
 
 	/**
 	 * 修改者
 	 */
-	@Column(name = "updating_user", nullable = false)
+	@Column(nullable = false)
 	private Long updatedUser;
 
 	/**
