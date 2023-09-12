@@ -13,6 +13,8 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import jp.co.reggie.jpadeal.common.Constants;
@@ -99,7 +101,7 @@ public class SetmealServiceImpl implements SetmealService {
 
 	@Override
 	public Pagination<SetmealDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize, Sort.by(Direction.ASC, "updatingTime"));
 		final Setmeal setmeal = new Setmeal();
 		setmeal.setName(keyword);
 		setmeal.setLogicDeleteFlg(Constants.LOGIC_FLAG);

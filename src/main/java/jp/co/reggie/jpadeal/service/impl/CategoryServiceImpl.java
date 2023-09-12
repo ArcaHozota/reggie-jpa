@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -85,7 +87,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public Pagination<Category> pagination(final Integer pageNum, final Integer pageSize) {
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize, Sort.by(Direction.ASC, "updatingTime"));
 		final Specification<Category> specification = Specification.where((root, query,
 				criteriaBuilder) -> criteriaBuilder.equal(root.get("logicDeleteFlg"), Constants.LOGIC_FLAG));
 		final Page<Category> categories = this.categoryRepository.findAll(specification, pageRequest);
