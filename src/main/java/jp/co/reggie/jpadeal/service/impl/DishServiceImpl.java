@@ -23,7 +23,7 @@ import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.entity.Dish;
 import jp.co.reggie.jpadeal.entity.DishFlavor;
 import jp.co.reggie.jpadeal.repository.CategoryRepository;
-import jp.co.reggie.jpadeal.repository.DishFlavorRepository;
+import jp.co.reggie.jpadeal.repository.DishFlavourRepository;
 import jp.co.reggie.jpadeal.repository.DishRepository;
 import jp.co.reggie.jpadeal.service.DishService;
 import jp.co.reggie.jpadeal.utils.BasicContextUtils;
@@ -49,7 +49,7 @@ public class DishServiceImpl implements DishService {
 	 * 菜品口味數據接口
 	 */
 	@Resource
-	private DishFlavorRepository dishFlavorRepository;
+	private DishFlavourRepository dishFlavourRepository;
 
 	/**
 	 * 分類管理數據接口
@@ -84,7 +84,7 @@ public class DishServiceImpl implements DishService {
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 			item.setLogicDeleteFlg(Constants.LOGIC_FLAG);
 			// 保存 菜品的口味數據到口味表；
-			this.dishFlavorRepository.save(item);
+			this.dishFlavourRepository.save(item);
 		});
 	}
 
@@ -103,7 +103,7 @@ public class DishServiceImpl implements DishService {
 		final Example<Dish> example = Example.of(dish1, ExampleMatcher.matchingAll());
 		final Dish dish2 = this.dishRepository.findOne(example).orElseGet(Dish::new);
 		// 查詢當前菜品所對應的口味信息；
-		final List<DishFlavor> flavors = this.dishFlavorRepository.selectByDishId(dish2.getId());
+		final List<DishFlavor> flavors = this.dishFlavourRepository.selectByDishId(dish2.getId());
 		// 聲明一個菜品及口味數據傳輸類對象並拷貝屬性；
 		final DishDto dishDto = new DishDto();
 		BeanUtils.copyProperties(dish2, dishDto);
@@ -151,7 +151,7 @@ public class DishServiceImpl implements DishService {
 			item.setUpdatingTime(LocalDateTime.now());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
-		this.dishFlavorRepository.saveAll(flavors);
+		this.dishFlavourRepository.saveAll(flavors);
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class DishServiceImpl implements DishService {
 		final List<DishDto> dishDtos = dishes.getContent().stream().map(item -> {
 			final DishDto dishDto = new DishDto();
 			BeanUtils.copyProperties(item, dishDto);
-			final List<DishFlavor> flavors = this.dishFlavorRepository.selectByDishId(item.getId());
+			final List<DishFlavor> flavors = this.dishFlavourRepository.selectByDishId(item.getId());
 			Category category = new Category();
 			category.setId(item.getCategoryId());
 			category.setLogicDeleteFlg(Constants.LOGIC_FLAG);
@@ -197,7 +197,7 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public void remove(final List<Long> idList) {
 		// 刪除菜品口味數據；
-		this.dishFlavorRepository.batchRemoveByDishIds(idList);
+		this.dishFlavourRepository.batchRemoveByDishIds(idList);
 		// 刪除菜品信息；
 		this.dishRepository.batchRemoveByIds(idList);
 	}
@@ -228,7 +228,7 @@ public class DishServiceImpl implements DishService {
 			// 當前菜品的ID；
 			final Long dishId = item.getId();
 			// 檢索口味信息；
-			final List<DishFlavor> flavors = this.dishFlavorRepository.selectByDishId(dishId);
+			final List<DishFlavor> flavors = this.dishFlavourRepository.selectByDishId(dishId);
 			dishDto.setFlavors(flavors);
 			return dishDto;
 		}).collect(Collectors.toList());
