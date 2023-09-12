@@ -49,5 +49,5 @@ public interface EmployeeService {
 	 * @param keyword  檢索文
 	 * @return Pagination<Employee>
 	 */
-	Pagination<Employee> pagination(Integer pageNum, Integer pageSize, String keyword);
+	Pagination<EmployeeDto> pagination(Integer pageNum, Integer pageSize, String keyword);
 }

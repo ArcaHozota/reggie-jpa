@@ -1,7 +1,9 @@
 package jp.co.reggie.jpadeal.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -63,11 +65,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		final String password = DigestUtils.md5DigestAsHex(Constants.PRIMARY_CODE.getBytes()).toUpperCase();
 		BeanUtils.copyProperties(employeeDto, employee);
 		employee.setId(BasicContextUtils.getGeneratedId());
-		employee.setName(employeeDto.getName());
+		employee.setKanjiName(employeeDto.getName());
 		employee.setPassword(password);
 		employee.setStatus(Constants.STATUS_VALID);
-		employee.setCreatedTime(LocalDateTime.now());
-		employee.setUpdatedTime(LocalDateTime.now());
+		employee.setCreationTime(LocalDateTime.now());
+		employee.setUpdatingTime(LocalDateTime.now());
 		employee.setCreatedUser(BasicContextUtils.getCurrentId());
 		employee.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.employeeRepository.save(employee);
@@ -75,7 +77,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void update(final Employee employee) {
-		employee.setUpdatedTime(LocalDateTime.now());
+		employee.setUpdatingTime(LocalDateTime.now());
 		employee.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.employeeRepository.save(employee);
 	}
@@ -87,14 +89,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Pagination<Employee> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
+	public Pagination<EmployeeDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
 		final Employee employee = new Employee();
-		employee.setName(StringUtils.toHankaku(keyword));
+		employee.setKanjiName(StringUtils.toHankaku(keyword));
 		final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("name",
 				GenericPropertyMatchers.contains());
 		final Example<Employee> example = Example.of(employee, exampleMatcher);
 		final Page<Employee> employees = this.employeeRepository.findAll(example, pageRequest);
-		return Pagination.of(employees.getContent(), employees.getTotalElements(), pageNum - 1, pageSize);
+		final List<EmployeeDto> employeeDtos = employees.getContent().stream().map(item -> {
+			final EmployeeDto employeeDto = new EmployeeDto();
+			BeanUtils.copyProperties(item, employeeDto);
+			employeeDto.setName(item.getKanjiName());
+			return employeeDto;
+		}).collect(Collectors.toList());
+		return Pagination.of(employeeDtos, employees.getTotalElements(), pageNum - 1, pageSize);
 	}
 }
