@@ -80,6 +80,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void update(final EmployeeDto employeeDto) {
 		final Employee employee = this.employeeRepository.findById(employeeDto.getId()).orElseGet(Employee::new);
+		employee.setStatus(employeeDto.getStatus());
 		employee.setUpdatingTime(LocalDateTime.now());
 		employee.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.employeeRepository.save(employee);
