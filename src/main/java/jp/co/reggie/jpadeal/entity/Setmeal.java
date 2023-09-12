@@ -23,7 +23,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "setmeal")
+@Table(name = "REGGIE_SETMEAL")
 @NamedQuery(name = "Setmeal.countByCategoryId", query = "select count(1) from Setmeal st where st.logicDeleteFlg = 'visible' and st.categoryId =:categoryId")
 @NamedQuery(name = "Setmeal.countStatusByIds", query = "select count(1) from Setmeal st where "
 		+ "st.logicDeleteFlg ='visible' and st.status ='0' and st.id in (:smIdList)")

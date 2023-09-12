@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "address_book")
+@Table(name = "REGGIE_ADDRESSBOOK")
 public class AddressBook implements Serializable {
 
 	private static final long serialVersionUID = 3548464562522747007L;

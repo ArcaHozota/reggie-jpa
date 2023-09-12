@@ -22,7 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "dish_flavor")
+@Table(name = "REGGIE_DISHFLAVOUR")
 @NamedQuery(name = "DishFlavour.selectByDishId", query = "select af from DishFlavour af where af.logicDeleteFlg = 'visible' and af.dishId =:dishId")
 @NamedQuery(name = "DishFlavour.batchRemoveByDishIds", query = "update DishFlavour af set af.logicDeleteFlg = 'removed' where af.dishId in(:dishIds)")
 public class DishFlavour implements Serializable {
