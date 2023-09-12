@@ -136,7 +136,7 @@ public class DishServiceImpl implements DishService {
 
 	@Override
 	public Pagination<DishDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize, Sort.by(Direction.ASC, "updatingTime"));
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize, Sort.by(Direction.DESC, "updatingTime"));
 		final Dish dish = new Dish();
 		dish.setName(StringUtils.toHankaku(keyword));
 		dish.setLogicDeleteFlg(Constants.LOGIC_FLAG);
