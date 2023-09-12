@@ -164,7 +164,7 @@ public class DishServiceImpl implements DishService {
 	 */
 	@Override
 	public Pagination<DishDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
-		final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
 		final Dish dish = new Dish();
 		dish.setName(keyword);
 		dish.setLogicDeleteFlg(Constants.LOGIC_FLAG);
@@ -186,7 +186,7 @@ public class DishServiceImpl implements DishService {
 			dishDto.setCategoryName(category.getName());
 			return dishDto;
 		}).collect(Collectors.toList());
-		return Pagination.of(dishDtos, dishes.getTotalElements(), pageNum, pageSize);
+		return Pagination.of(dishDtos, dishes.getTotalElements(), pageNum - 1, pageSize);
 	}
 
 	/**
