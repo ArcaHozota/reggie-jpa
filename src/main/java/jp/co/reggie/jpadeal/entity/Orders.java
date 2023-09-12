@@ -70,7 +70,7 @@ public class Orders implements Serializable {
 	 * 支付方式
 	 */
 	@Column(nullable = false)
-	private String payMethod;
+	private String paymentMethod;
 
 	/**
 	 * 實收金額
