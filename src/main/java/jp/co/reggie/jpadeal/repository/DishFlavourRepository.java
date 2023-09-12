@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import jp.co.reggie.jpadeal.entity.DishFlavor;
+import jp.co.reggie.jpadeal.entity.DishFlavour;
 import oracle.jdbc.driver.OracleSQLException;
 
 /**
@@ -18,7 +18,7 @@ import oracle.jdbc.driver.OracleSQLException;
  * @since 2022-11-23
  */
 @Repository
-public interface DishFlavorRepository extends JpaRepository<DishFlavor, Long>, JpaSpecificationExecutor<DishFlavor> {
+public interface DishFlavourRepository extends JpaRepository<DishFlavour, Long>, JpaSpecificationExecutor<DishFlavour> {
 
 	/**
 	 * 根據菜品ID查詢口味信息
@@ -26,7 +26,7 @@ public interface DishFlavorRepository extends JpaRepository<DishFlavor, Long>, J
 	 * @param dishId 菜品ID
 	 * @return 菜品口味列表
 	 */
-	List<DishFlavor> selectByDishId(@Param("dishId") Long dishId);
+	List<DishFlavour> selectByDishId(@Param("dishId") Long dishId);
 
 	/**
 	 * 批量刪除數據
