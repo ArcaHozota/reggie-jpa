@@ -89,11 +89,11 @@ public class EmployeeController {
 	 * @return R.success(分頁信息)
 	 */
 	@GetMapping("/page")
-	public Reggie<Pagination<Employee>> pagination(@RequestParam("pageNum") final Integer pageNum,
+	public Reggie<Pagination<EmployeeDto>> pagination(@RequestParam("pageNum") final Integer pageNum,
 			@RequestParam("pageSize") final Integer pageSize,
 			@RequestParam(name = "name", required = false) final String keyword) {
 		// 執行查詢；
-		final Pagination<Employee> pageInfo = this.employeeService.pagination(pageNum, pageSize, keyword);
+		final Pagination<EmployeeDto> pageInfo = this.employeeService.pagination(pageNum, pageSize, keyword);
 		return Reggie.success(pageInfo);
 	}
 
@@ -104,8 +104,8 @@ public class EmployeeController {
 	 * @return R.success(成功修改員工的信息)
 	 */
 	@PutMapping
-	public Reggie<String> update(@RequestBody final Employee employee) {
-		this.employeeService.update(employee);
+	public Reggie<String> update(@RequestBody final EmployeeDto employeeDto) {
+		this.employeeService.update(employeeDto);
 		return Reggie.success(CustomMessages.SRP008);
 	}
 

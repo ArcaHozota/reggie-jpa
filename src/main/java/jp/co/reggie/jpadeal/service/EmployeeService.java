@@ -29,9 +29,9 @@ public interface EmployeeService {
 	/**
 	 * 修改員工信息
 	 *
-	 * @param employee 實體類對象
+	 * @param employeeDto 數據傳輸類對象
 	 */
-	void update(Employee employee);
+	void update(EmployeeDto employeeDto);
 
 	/**
 	 * 根據ID查詢員工信息

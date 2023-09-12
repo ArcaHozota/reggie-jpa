@@ -76,7 +76,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public void update(final Employee employee) {
+	public void update(final EmployeeDto employeeDto) {
+		final Employee employee = new Employee();
+		BeanUtils.copyProperties(employeeDto, employee);
+		employee.setKanjiName(employeeDto.getName());
 		employee.setUpdatingTime(LocalDateTime.now());
 		employee.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.employeeRepository.save(employee);
