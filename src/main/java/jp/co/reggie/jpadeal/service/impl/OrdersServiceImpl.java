@@ -45,9 +45,9 @@ public class OrdersServiceImpl implements OrdersService {
 	public Pagination<Orders> pagination(final Integer pageNum, final Integer pageSize, final Long orderId,
 			final LocalDateTime beginTime, final LocalDateTime endTime) {
 		final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
-		final Specification<Orders> whereSpecification1 = getOrdersSpecification(beginTime, endTime);
-		final Specification<Orders> whereSpecification2 = orderId == null ? null
+		final Specification<Orders> whereSpecification1 = orderId == null ? null
 				: (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("id"), orderId.toString());
+		final Specification<Orders> whereSpecification2 = getOrdersSpecification(beginTime, endTime);
 		final Specification<Orders> where = Specification.where(whereSpecification1).and(whereSpecification2);
 		final Page<Orders> orders = this.ordersRepository.findAll(where, pageRequest);
 		return Pagination.of(orders.getContent(), orders.getTotalElements(), pageNum, pageSize);
