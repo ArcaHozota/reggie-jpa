@@ -96,7 +96,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
 		final Employee employee = new Employee();
 		employee.setKanjiName(StringUtils.toHankaku(keyword));
-		final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("name",
+		final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("kanjiName",
 				GenericPropertyMatchers.contains());
 		final Example<Employee> example = Example.of(employee, exampleMatcher);
 		final Page<Employee> employees = this.employeeRepository.findAll(example, pageRequest);
