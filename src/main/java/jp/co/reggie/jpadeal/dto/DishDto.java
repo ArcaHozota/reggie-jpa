@@ -3,7 +3,7 @@ package jp.co.reggie.jpadeal.dto;
 import java.util.List;
 
 import jp.co.reggie.jpadeal.entity.Dish;
-import jp.co.reggie.jpadeal.entity.DishFlavour;
+import jp.co.reggie.jpadeal.entity.DishFlavor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -21,7 +21,7 @@ public final class DishDto extends Dish {
 	/**
 	 * 口味集合
 	 */
-	private List<DishFlavour> flavors;
+	private List<DishFlavor> flavors;
 
 	/**
 	 * 分類名稱

@@ -37,8 +37,8 @@ public class Employee implements Serializable {
 	/**
 	 * 姓名
 	 */
-	@Column(nullable = false)
-	private String name;
+	@Column(name = "name", nullable = false)
+	private String kanjiName;
 
 	/**
 	 * 賬號名
