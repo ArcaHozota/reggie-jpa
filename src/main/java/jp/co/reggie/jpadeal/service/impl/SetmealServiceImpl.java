@@ -117,7 +117,7 @@ public class SetmealServiceImpl implements SetmealService {
 	 */
 	@Override
 	public Pagination<SetmealDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
-		final PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
 		final Setmeal setmeal = new Setmeal();
 		setmeal.setName(keyword);
 		setmeal.setLogicDeleteFlg(Constants.LOGIC_FLAG);
@@ -139,7 +139,7 @@ public class SetmealServiceImpl implements SetmealService {
 			aDto.setCategoryName(category.getName());
 			return aDto;
 		}).collect(Collectors.toList());
-		return Pagination.of(setmealDtos, setmeals.getTotalElements(), pageNum, pageSize);
+		return Pagination.of(setmealDtos, setmeals.getTotalElements(), pageNum - 1, pageSize);
 	}
 
 	/**
