@@ -34,7 +34,7 @@ public class OrdersServiceImpl implements OrdersService {
 	@Override
 	public Pagination<Orders> pagination(final Integer pageNum, final Integer pageSize, final Long ordersId,
 			final LocalDateTime beginTime, final LocalDateTime endTime) {
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize, Sort.by(Direction.DESC, "updatingTime"));
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize, Sort.by(Direction.DESC, "checkoutTime"));
 		final Specification<Orders> whereSpecification1 = ordersId == null ? null
 				: (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), ordersId);
 		final Specification<Orders> whereSpecification2 = this.getOrdersSpecification(beginTime, endTime);
