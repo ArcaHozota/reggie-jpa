@@ -81,7 +81,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public void update(final Category category) {
 		final Category category2 = this.categoryRepository.findById(category.getId()).orElseGet(Category::new);
 		category2.setName(category.getName());
-		category2.setSort(category2.getSort());
+		category2.setSort(category.getSort());
 		category2.setUpdatingTime(LocalDateTime.now());
 		category2.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.categoryRepository.save(category2);
