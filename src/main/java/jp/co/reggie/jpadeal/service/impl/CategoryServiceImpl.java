@@ -48,22 +48,11 @@ public class CategoryServiceImpl implements CategoryService {
 	@Resource
 	private SetmealRepository setmealRepository;
 
-	/**
-	 * 根據類型查詢數據
-	 *
-	 * @param categoryType 類型
-	 * @return List<Category>
-	 */
 	@Override
 	public List<Category> findByType(final Integer categoryType) {
 		return this.categoryRepository.selectByType(categoryType);
 	}
 
-	/**
-	 * 根據ID刪除分類
-	 *
-	 * @param id 分類ID
-	 */
 	@Override
 	public void remove(final Long id) {
 		// 查詢當前分類是否已經關聯了菜品或者套餐，如果已經關聯抛出一個異常；
@@ -76,11 +65,6 @@ public class CategoryServiceImpl implements CategoryService {
 		this.categoryRepository.removeById(id);
 	}
 
-	/**
-	 * 新增分類
-	 *
-	 * @param category 實體類
-	 */
 	@Override
 	public void save(final Category category) {
 		category.setId(BasicContextUtils.getGeneratedId());
@@ -92,11 +76,6 @@ public class CategoryServiceImpl implements CategoryService {
 		this.categoryRepository.save(category);
 	}
 
-	/**
-	 * 修改分類
-	 *
-	 * @param category 實體類
-	 */
 	@Override
 	public void update(final Category category) {
 		category.setUpdatedTime(LocalDateTime.now());
@@ -104,13 +83,6 @@ public class CategoryServiceImpl implements CategoryService {
 		this.categoryRepository.save(category);
 	}
 
-	/**
-	 * 分類信息分頁查詢
-	 *
-	 * @param pageNum  頁碼
-	 * @param pageSize 頁面大小
-	 * @return Pagination<Category>
-	 */
 	@Override
 	public Pagination<Category> pagination(final Integer pageNum, final Integer pageSize) {
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
