@@ -22,7 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "REGGIE_EMPLOYEE")
+@Table(name = "employee")
 @NamedQuery(name = "Employee.selectByUserName", query = "select em from Employee em where em.username =:username")
 public class Employee implements Serializable {
 
@@ -37,7 +37,7 @@ public class Employee implements Serializable {
 	/**
 	 * 姓名
 	 */
-	@Column(name = "KANJI_NAME", nullable = false)
+	@Column(nullable = false)
 	private String name;
 
 	/**
@@ -55,13 +55,13 @@ public class Employee implements Serializable {
 	/**
 	 * 手機號
 	 */
-	@Column(name = "PHONE_NUMBER", nullable = false)
+	@Column(name = "phone_num", nullable = false)
 	private String phoneNo;
 
 	/**
 	 * 性別
 	 */
-	@Column(nullable = false)
+	@Column(name = "sex", nullable = false)
 	private String gender;
 
 	/**
@@ -80,23 +80,23 @@ public class Employee implements Serializable {
 	 * 創建時間
 	 */
 	@Column(nullable = false)
-	private LocalDateTime createdTime;
+	private LocalDateTime creationTime;
 
 	/**
 	 * 更新時間
 	 */
 	@Column(nullable = false)
-	private LocalDateTime updatedTime;
+	private LocalDateTime updatingTime;
 
 	/**
 	 * 創建人
 	 */
-	@Column(nullable = false)
+	@Column(name = "creation_user", nullable = false)
 	private Long createdUser;
 
 	/**
 	 * 修改者
 	 */
-	@Column(nullable = false)
+	@Column(name = "updating_user", nullable = false)
 	private Long updatedUser;
 }
