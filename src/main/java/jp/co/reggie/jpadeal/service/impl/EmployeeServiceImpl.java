@@ -74,7 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		final String password = DigestUtils.md5DigestAsHex(Constants.PRIMARY_CODE.getBytes()).toUpperCase();
 		BeanUtils.copyProperties(employeeDto, employee);
 		employee.setId(BasicContextUtils.getGeneratedId());
-		employee.setKanjiName(employeeDto.getName());
+		employee.setName(employeeDto.getName());
 		employee.setPassword(password);
 		employee.setStatus(Constants.STATUS_VALID);
 		employee.setCreatedTime(LocalDateTime.now());
@@ -120,7 +120,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Pagination<Employee> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
 		final Employee employee = new Employee();
-		employee.setKanjiName(keyword);
+		employee.setName(keyword);
 		final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("kanjiName",
 				GenericPropertyMatchers.contains());
 		final Example<Employee> example = Example.of(employee, exampleMatcher);
