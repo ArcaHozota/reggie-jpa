@@ -3,8 +3,6 @@ package jp.co.reggie.jpadeal.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -21,6 +19,7 @@ import jp.co.reggie.jpadeal.repository.SetmealRepository;
 import jp.co.reggie.jpadeal.service.CategoryService;
 import jp.co.reggie.jpadeal.utils.BasicContextUtils;
 import jp.co.reggie.jpadeal.utils.Pagination;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 分類管理服務實現類
@@ -29,25 +28,23 @@ import jp.co.reggie.jpadeal.utils.Pagination;
  * @since 2022-11-19
  */
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
 	/**
 	 * 分類管理數據接口
 	 */
-	@Resource
-	private CategoryRepository categoryRepository;
+	private final CategoryRepository categoryRepository;
 
 	/**
 	 * 菜品數據接口
 	 */
-	@Resource
-	private DishRepository dishRepository;
+	private final DishRepository dishRepository;
 
 	/**
 	 * 套餐數據接口
 	 */
-	@Resource
-	private SetmealRepository setmealRepository;
+	private final SetmealRepository setmealRepository;
 
 	@Override
 	public List<Category> findByType(final Integer categoryType) {
