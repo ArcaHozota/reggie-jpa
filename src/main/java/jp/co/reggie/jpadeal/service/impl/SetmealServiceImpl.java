@@ -154,8 +154,16 @@ public class SetmealServiceImpl implements SetmealService {
 		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().peek(item -> {
 			item.setSetmealId(setmealDto.getId());
 			item.setSort(RANDOM.nextInt(setmealDto.getSetmealDishes().size()));
+			if (item.getCreatedTime() == null && item.getCreatedUser() == null) {
+				item.setCreatedTime(LocalDateTime.now());
+				item.setCreatedUser(BasicContextUtils.getCurrentId());
+			}
 			item.setUpdatedTime(LocalDateTime.now());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
+			if (item.getId() == null && item.getLogicDeleteFlg() == null) {
+				item.setId(BasicContextUtils.getGeneratedId());
+				item.setLogicDeleteFlg(Constants.LOGIC_FLAG);
+			}
 		}).collect(Collectors.toList());
 		// 保存套餐和菜品的關聯關係；
 		this.setmealDishRepository.saveAll(setmealDishes);

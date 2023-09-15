@@ -57,8 +57,8 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void remove(final Long id) {
 		// 查詢當前分類是否已經關聯了菜品或者套餐，如果已經關聯抛出一個異常；
-		final long count1 = this.dishRepository.countByCategoryId(id);
-		final long count2 = this.setmealRepository.countByCategoryId(id);
+		final int count1 = this.dishRepository.countByCategoryId(id);
+		final int count2 = this.setmealRepository.countByCategoryId(id);
 		if (count1 > 0 || count2 > 0) {
 			throw new CustomException(CustomMessages.ERP009);
 		}
