@@ -63,14 +63,17 @@ public class SetmealServiceImpl implements SetmealService {
 
 	@Override
 	public void saveWithDish(final SetmealDto setmealDto) {
+		// 聲明套餐實體類並拷貝屬性；
+		final Setmeal setmeal = new Setmeal();
+		BeanUtils.copyProperties(setmealDto, setmeal, "categoryName", "setmealDishes");
 		// 保存套餐的基本信息；
-		setmealDto.setId(BasicContextUtils.getGeneratedId());
-		setmealDto.setCreatedTime(LocalDateTime.now());
-		setmealDto.setUpdatedTime(LocalDateTime.now());
-		setmealDto.setCreatedUser(BasicContextUtils.getCurrentId());
-		setmealDto.setUpdatedUser(BasicContextUtils.getCurrentId());
-		setmealDto.setLogicDeleteFlg(Constants.LOGIC_FLAG);
-		this.setmealRepository.save(setmealDto);
+		setmeal.setId(BasicContextUtils.getGeneratedId());
+		setmeal.setCreatedTime(LocalDateTime.now());
+		setmeal.setUpdatedTime(LocalDateTime.now());
+		setmeal.setCreatedUser(BasicContextUtils.getCurrentId());
+		setmeal.setUpdatedUser(BasicContextUtils.getCurrentId());
+		setmeal.setLogicDeleteFlg(Constants.LOGIC_FLAG);
+		this.setmealRepository.save(setmeal);
 		// 獲取套餐菜品關聯集合；
 		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().peek(item -> {
 			item.setId(BasicContextUtils.getGeneratedId());
@@ -140,10 +143,13 @@ public class SetmealServiceImpl implements SetmealService {
 
 	@Override
 	public void updateWithDish(final SetmealDto setmealDto) {
+		// 聲明套餐實體類並拷貝屬性；
+		final Setmeal setmeal = new Setmeal();
+		BeanUtils.copyProperties(setmealDto, setmeal, "categoryName", "setmealDishes");
 		// 保存套餐的基本信息；
-		setmealDto.setUpdatedTime(LocalDateTime.now());
-		setmealDto.setUpdatedUser(BasicContextUtils.getCurrentId());
-		this.setmealRepository.save(setmealDto);
+		setmeal.setUpdatedTime(LocalDateTime.now());
+		setmeal.setUpdatedUser(BasicContextUtils.getCurrentId());
+		this.setmealRepository.save(setmeal);
 		// 獲取套餐菜品關聯集合；
 		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().peek(item -> {
 			item.setSetmealId(setmealDto.getId());
