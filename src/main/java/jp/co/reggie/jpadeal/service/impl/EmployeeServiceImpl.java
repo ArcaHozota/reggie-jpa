@@ -94,7 +94,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Pagination<EmployeeDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize, Sort.by(Direction.DESC, "updatingTime"));
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize, Sort.by(Direction.DESC, "updatedTime"));
 		final Employee employee = new Employee();
 		employee.setKanjiName(StringUtils.toHankaku(keyword));
 		final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("kanjiName",

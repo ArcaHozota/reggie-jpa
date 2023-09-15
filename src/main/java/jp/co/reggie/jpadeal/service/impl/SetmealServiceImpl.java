@@ -101,7 +101,7 @@ public class SetmealServiceImpl implements SetmealService {
 
 	@Override
 	public Pagination<SetmealDto> pagination(final Integer pageNum, final Integer pageSize, final String keyword) {
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize, Sort.by(Direction.DESC, "updatingTime"));
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize, Sort.by(Direction.DESC, "updatedTime"));
 		final Setmeal setmeal = new Setmeal();
 		setmeal.setName(keyword);
 		setmeal.setLogicDeleteFlg(Constants.LOGIC_FLAG);
