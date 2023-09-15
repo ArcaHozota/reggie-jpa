@@ -75,7 +75,7 @@ public class Dish implements Serializable {
 	 * 菜品售賣狀態：1:在售, 0:停售;
 	 */
 	@Column(nullable = false)
-	private String status;
+	private Integer status;
 
 	/**
 	 * 順序
@@ -84,32 +84,32 @@ public class Dish implements Serializable {
 	private Integer sort;
 
 	/**
-     * 創建時間
-     */
-    @Column(nullable = false)
-    private LocalDateTime creationTime;
+	 * 創建時間
+	 */
+	@Column(nullable = false)
+	private LocalDateTime createdTime;
 
-    /**
-     * 更新時間
-     */
-    @Column(nullable = false)
-    private LocalDateTime updatingTime;
+	/**
+	 * 更新時間
+	 */
+	@Column(nullable = false)
+	private LocalDateTime updatedTime;
 
-    /**
-     * 創建人
-     */
-    @Column(name = "creation_user", nullable = false)
-    private Long createdUser;
+	/**
+	 * 創建人
+	 */
+	@Column(nullable = false)
+	private Long createdUser;
 
-    /**
-     * 修改者
-     */
-    @Column(name = "updating_user", nullable = false)
-    private Long updatedUser;
+	/**
+	 * 修改者
+	 */
+	@Column(nullable = false)
+	private Long updatedUser;
 
-    /**
-     * 邏輯刪除字段
-     */
-    @Column(nullable = false)
-    private String logicDeleteFlg;
+	/**
+	 * 邏輯刪除字段
+	 */
+	@Column(name = "is_deleted", nullable = false)
+	private String logicDeleteFlg;
 }
