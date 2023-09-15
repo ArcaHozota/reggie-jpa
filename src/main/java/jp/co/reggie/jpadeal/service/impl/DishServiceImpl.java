@@ -2,7 +2,6 @@ package jp.co.reggie.jpadeal.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -65,8 +64,8 @@ public class DishServiceImpl implements DishService {
 		final Dish dish = new Dish();
 		BeanUtils.copyProperties(dishDto, dish);
 		dish.setId(BasicContextUtils.getGeneratedId());
-		dish.setCreationTime(LocalDateTime.now());
-		dish.setUpdatingTime(LocalDateTime.now());
+		dish.setCreatedTime(LocalDateTime.now());
+		dish.setUpdatedTime(LocalDateTime.now());
 		dish.setCreatedUser(BasicContextUtils.getCurrentId());
 		dish.setUpdatedUser(BasicContextUtils.getCurrentId());
 		dish.setLogicDeleteFlg(Constants.LOGIC_FLAG);
@@ -75,8 +74,8 @@ public class DishServiceImpl implements DishService {
 		dishDto.getFlavors().forEach(item -> {
 			item.setId(BasicContextUtils.getGeneratedId());
 			item.setDishId(dishDto.getId());
-			item.setCreationTime(LocalDateTime.now());
-			item.setUpdatingTime(LocalDateTime.now());
+			item.setCreatedTime(LocalDateTime.now());
+			item.setUpdatedTime(LocalDateTime.now());
 			item.setCreatedUser(BasicContextUtils.getCurrentId());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 			item.setLogicDeleteFlg(Constants.LOGIC_FLAG);
@@ -106,12 +105,12 @@ public class DishServiceImpl implements DishService {
 	public void batchUpdateByIds(final String status, final List<Long> dishList) {
 		final List<Dish> dishes = this.dishRepository.findAllById(dishList);
 		dishes.forEach(dish -> {
-			dish.setUpdatingTime(LocalDateTime.now());
+			dish.setUpdatedTime(LocalDateTime.now());
 			dish.setUpdatedUser(BasicContextUtils.getCurrentId());
 			if (StringUtils.isEqual("0", status)) {
-				dish.setStatus("1");
+				dish.setStatus(Constants.STATUS_VALID);
 			} else if (StringUtils.isEqual("1", status)) {
-				dish.setStatus("0");
+				dish.setStatus(Constants.STATUS_FORBIDDEN);
 			} else {
 				throw new CustomException(CustomMessages.ERP017);
 			}
@@ -122,13 +121,13 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public void updateWithFlavour(final DishDto dishDto) {
 		// 更新菜品信息；
-		dishDto.setUpdatingTime(LocalDateTime.now());
+		dishDto.setUpdatedTime(LocalDateTime.now());
 		dishDto.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.dishRepository.save(dishDto);
 		// 添加當前菜品的口味數據並將菜品ID設置到口味集合中；
 		final List<DishFlavor> flavours = dishDto.getFlavors().stream().peek(item -> {
 			item.setDishId(dishDto.getId());
-			item.setUpdatingTime(LocalDateTime.now());
+			item.setUpdatedTime(LocalDateTime.now());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
 		this.dishFlavourRepository.saveAll(flavours);
@@ -180,8 +179,7 @@ public class DishServiceImpl implements DishService {
 			// 拷貝除分類ID以外的屬性；
 			BeanUtils.copyProperties(item, dishDto);
 			// 獲取分類ID並根據分類ID查詢分類對象；
-			final Optional<Category> optional = this.categoryRepository.findById(item.getCategoryId());
-			final Category category = optional.orElseGet(Category::new);
+			final Category category = this.categoryRepository.findById(item.getCategoryId()).orElseGet(Category::new);
 			// 獲取分類名稱；
 			final String categoryName = category.getName();
 			// 存儲於DTO對象中並返回；

@@ -65,8 +65,8 @@ public class SetmealServiceImpl implements SetmealService {
 	public void saveWithDish(final SetmealDto setmealDto) {
 		// 保存套餐的基本信息；
 		setmealDto.setId(BasicContextUtils.getGeneratedId());
-		setmealDto.setCreationTime(LocalDateTime.now());
-		setmealDto.setUpdatingTime(LocalDateTime.now());
+		setmealDto.setCreatedTime(LocalDateTime.now());
+		setmealDto.setUpdatedTime(LocalDateTime.now());
 		setmealDto.setCreatedUser(BasicContextUtils.getCurrentId());
 		setmealDto.setUpdatedUser(BasicContextUtils.getCurrentId());
 		setmealDto.setLogicDeleteFlg(Constants.LOGIC_FLAG);
@@ -75,8 +75,8 @@ public class SetmealServiceImpl implements SetmealService {
 		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().peek(item -> {
 			item.setId(BasicContextUtils.getGeneratedId());
 			item.setSetmealId(setmealDto.getId());
-			item.setCreationTime(LocalDateTime.now());
-			item.setUpdatingTime(LocalDateTime.now());
+			item.setCreatedTime(LocalDateTime.now());
+			item.setUpdatedTime(LocalDateTime.now());
 			item.setCreatedUser(BasicContextUtils.getCurrentId());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 			item.setLogicDeleteFlg(Constants.LOGIC_FLAG);
@@ -141,14 +141,14 @@ public class SetmealServiceImpl implements SetmealService {
 	@Override
 	public void updateWithDish(final SetmealDto setmealDto) {
 		// 保存套餐的基本信息；
-		setmealDto.setUpdatingTime(LocalDateTime.now());
+		setmealDto.setUpdatedTime(LocalDateTime.now());
 		setmealDto.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.setmealRepository.save(setmealDto);
 		// 獲取套餐菜品關聯集合；
 		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().peek(item -> {
 			item.setSetmealId(setmealDto.getId());
 			item.setSort(RANDOM.nextInt(setmealDto.getSetmealDishes().size()));
-			item.setUpdatingTime(LocalDateTime.now());
+			item.setUpdatedTime(LocalDateTime.now());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
 		// 保存套餐和菜品的關聯關係；
@@ -156,16 +156,17 @@ public class SetmealServiceImpl implements SetmealService {
 	}
 
 	@Override
-	public void batchUpdateByIds(String status, final List<Long> stmlList) {
+	public void batchUpdateByIds(final String status, final List<Long> stmlList) {
 		final LocalDateTime upTime = LocalDateTime.now();
 		final Long upUserId = BasicContextUtils.getCurrentId();
+		Integer newStatus;
 		if (StringUtils.isEqual("0", status)) {
-			status = "1";
+			newStatus = Constants.STATUS_VALID;
 		} else if (StringUtils.isEqual("1", status)) {
-			status = "0";
+			newStatus = Constants.STATUS_FORBIDDEN;
 		} else {
 			throw new CustomException(CustomMessages.ERP022);
 		}
-		this.setmealRepository.batchUpdateByIds(stmlList, status, upTime, upUserId);
+		this.setmealRepository.batchUpdateByIds(stmlList, newStatus, upTime, upUserId);
 	}
 }
