@@ -90,7 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public Pagination<Category> pagination(final Integer pageNum, final Integer pageSize) {
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize,
-				Sort.by(Sort.Order.asc("sort"), Sort.Order.desc("updatingTime")));
+				Sort.by(Sort.Order.asc("sort"), Sort.Order.desc("updatedTime")));
 		final Specification<Category> specification = Specification.where((root, query,
 				criteriaBuilder) -> criteriaBuilder.equal(root.get("logicDeleteFlg"), Constants.LOGIC_FLAG));
 		final Page<Category> categories = this.categoryRepository.findAll(specification, pageRequest);
