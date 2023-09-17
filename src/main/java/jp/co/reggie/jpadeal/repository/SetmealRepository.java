@@ -6,6 +6,7 @@ import java.util.List;
 import org.postgresql.util.PSQLException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +54,7 @@ public interface SetmealRepository extends JpaRepository<Setmeal, Long>, JpaSpec
 	 * @param upTime   更新時間
 	 * @param upUser   修改者
 	 */
+	@Modifying
 	@Transactional(rollbackFor = PSQLException.class)
 	void batchUpdateByIds(@Param("smIdList") List<Long> smIdList, @Param("status") Integer status,
 			@Param("updatedTime") LocalDateTime upTime, @Param("updatedUser") Long upUser);
