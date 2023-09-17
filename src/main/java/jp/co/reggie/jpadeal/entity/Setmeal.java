@@ -28,8 +28,7 @@ import lombok.Setter;
 @NamedQuery(name = "Setmeal.countStatusByIds", query = "select count(1) from Setmeal st where "
 		+ "st.logicDeleteFlg ='visible' and st.status ='0' and st.id in (:smIdList)")
 @NamedQuery(name = "Setmeal.batchRemoveByIds", query = "update Setmeal st set st.logicDeleteFlg ='removed' where st.id in(:smIdList)")
-@NamedQuery(name = "Setmeal.batchUpdateByIds", query = "update Setmeal st set st.status =:status, "
-		+ "st.updatedTime =:updateTime, st.updatedUser =:updateUser where st.id in(:smIdList)")
+@NamedQuery(name = "Setmeal.batchUpdateByIds", query = "update Setmeal set status =:status, updatedTime =:updateTime, updatedUser =:updateUser where id in(:smIdList)")
 public class Setmeal implements Serializable {
 
 	private static final long serialVersionUID = 4020217756505140488L;

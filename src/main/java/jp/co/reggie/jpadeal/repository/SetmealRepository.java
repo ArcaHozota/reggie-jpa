@@ -55,5 +55,5 @@ public interface SetmealRepository extends JpaRepository<Setmeal, Long>, JpaSpec
 	 */
 	@Transactional(rollbackFor = PSQLException.class)
 	void batchUpdateByIds(@Param("smIdList") List<Long> smIdList, @Param("status") Integer status,
-			@Param("updateTime") LocalDateTime upTime, @Param("updateUser") Long upUser);
+			@Param("updatedTime") LocalDateTime upTime, @Param("updatedUser") Long upUser);
 }
