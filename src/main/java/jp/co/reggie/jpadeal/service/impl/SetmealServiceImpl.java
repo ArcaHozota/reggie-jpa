@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
@@ -39,6 +41,7 @@ import jp.co.reggie.jpadeal.utils.StringUtils;
  * @since 2022-11-19
  */
 @Service
+@Transactional(rollbackFor = PSQLException.class)
 public class SetmealServiceImpl implements SetmealService {
 
 	private static final Random RANDOM = new Random();
@@ -154,16 +157,8 @@ public class SetmealServiceImpl implements SetmealService {
 		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().peek(item -> {
 			item.setSetmealId(setmealDto.getId());
 			item.setSort(RANDOM.nextInt(setmealDto.getSetmealDishes().size()));
-			if (item.getCreatedTime() == null && item.getCreatedUser() == null) {
-				item.setCreatedTime(LocalDateTime.now());
-				item.setCreatedUser(BasicContextUtils.getCurrentId());
-			}
 			item.setUpdatedTime(LocalDateTime.now());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
-			if (item.getId() == null && item.getLogicDeleteFlg() == null) {
-				item.setId(BasicContextUtils.getGeneratedId());
-				item.setLogicDeleteFlg(Constants.LOGIC_FLAG);
-			}
 		}).collect(Collectors.toList());
 		// 保存套餐和菜品的關聯關係；
 		this.setmealDishRepository.saveAll(setmealDishes);
