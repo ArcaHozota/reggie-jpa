@@ -67,7 +67,7 @@ public class SetmealController {
 	}
 
 	/**
-	 * 修改菜品信息
+	 * 更新套餐信息
 	 *
 	 * @param setmealDto 數據傳輸類對象
 	 * @return R.success(套餐更新成功的信息)
@@ -80,11 +80,11 @@ public class SetmealController {
 	}
 
 	/**
-	 * 修改菜品信息
+	 * 更改套餐狀態
 	 *
 	 * @param status 狀態
-	 * @param ids 菜品ID集合
-	 * @return R.success(套餐更新成功的信息)
+	 * @param ids    套餐ID集合
+	 * @return R.success(套餐狀態更新成功的信息)
 	 */
 	@PutMapping("/status/{status}")
 	public Reggie<String> changeStatus(@PathVariable final String status, @RequestParam("ids") final Long[] ids) {
@@ -110,7 +110,7 @@ public class SetmealController {
 	 *
 	 * @param pageNum  頁碼
 	 * @param pageSize 頁面大小
-	 * @param keyword     檢索文
+	 * @param keyword  檢索文
 	 * @return R.success(分頁信息)
 	 */
 	@GetMapping("/page")
