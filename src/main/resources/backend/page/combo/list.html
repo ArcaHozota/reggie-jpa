@@ -59,7 +59,7 @@
 					@click="addSetMeal(scope.row.id)">修改</el-button>
 				<el-button type="text" size="small" class="blueBug"
 					@click="statusHandle(scope.row)"> {{scope.row.status ==
-				'1' ? '發售' : '停售'}} </el-button>
+				'0' ? '發售' : '停售'}} </el-button>
 				<el-button type="text" size="small" class="delBut non"
 					@click="deleteHandle('單個刪除', scope.row.id)">刪除</el-button>
 			</template>
@@ -173,7 +173,7 @@
                     params.status = row
                 } else {
                     params.ids = row.id
-                    params.status = row.status ? '0' : '1'
+                    params.status = row.status
                 }
                 this.$confirm('確認修改該套餐狀態?', '提示', {
                     'confirmButtonText': '確定',
