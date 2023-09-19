@@ -25,7 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "setmeal")
 @NamedQuery(name = "Setmeal.countByCategoryId", query = "select count(1) from Setmeal st where st.logicDeleteFlg = 'visible' and st.categoryId =:categoryId")
-@NamedQuery(name = "Setmeal.countStatusByIds", query = "select count(1) from Setmeal st where st.logicDeleteFlg ='visible' and st.status ='0' and st.id in (:smIdList)")
+@NamedQuery(name = "Setmeal.countStatusByIds", query = "select count(1) from Setmeal st where st.logicDeleteFlg ='visible' and st.status =1 and st.id in (:smIdList)")
 @NamedQuery(name = "Setmeal.batchRemoveByIds", query = "update Setmeal st set st.logicDeleteFlg ='removed' where st.id in(:smIdList)")
 @NamedQuery(name = "Setmeal.batchUpdateByIds", query = "update Setmeal st set st.status =:status, st.updatedTime =:updatedTime, st.updatedUser =:updatedUser where st.id in(:smIdList)")
 public class Setmeal implements Serializable {

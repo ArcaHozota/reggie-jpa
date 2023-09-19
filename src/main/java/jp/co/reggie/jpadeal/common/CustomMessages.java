@@ -98,6 +98,11 @@ public final class CustomMessages {
 	public static final String ERP017 = "菜品狀態碼識別錯誤，請刷新本頁";
 
 	/**
+	 * 菜品刪除出錯
+	 */
+	public static final String ERP024 = "該菜品正在售賣中，無法刪除";
+
+	/**
 	 * 清空購物車成功
 	 */
 	public static final String SRP018 = "清空購物車成功！";

@@ -29,6 +29,14 @@ public interface DishRepository extends JpaRepository<Dish, Long>, JpaSpecificat
 	void batchRemoveByIds(@Param("dishIds") List<Long> dishIdList);
 
 	/**
+	 * 根據菜品ID查詢狀態
+	 *
+	 * @param id 菜品ID
+	 * @return 記錄數
+	 */
+	Integer countStatusByIds(@Param("ids") List<Long> ids);
+
+	/**
 	 * 根據分類ID查詢
 	 *
 	 * @param id 分類ID

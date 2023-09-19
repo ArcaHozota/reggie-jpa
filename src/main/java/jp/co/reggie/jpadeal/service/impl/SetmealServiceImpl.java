@@ -99,10 +99,10 @@ public class SetmealServiceImpl implements SetmealService {
 			// 如果無法刪除，則抛出異常；
 			throw new CustomException(CustomMessages.ERP012);
 		}
-		// 刪除套餐表中的數據；
-		this.setmealRepository.batchRemoveByIds(ids);
 		// 刪除套餐口味表中的數據；
 		this.setmealDishRepository.batchRemoveBySmIds(ids);
+		// 刪除套餐表中的數據；
+		this.setmealRepository.batchRemoveByIds(ids);
 	}
 
 	@Override

@@ -162,6 +162,10 @@ public class DishServiceImpl implements DishService {
 
 	@Override
 	public void remove(final List<Long> idList) {
+		final Integer countStatusByIds = this.dishRepository.countStatusByIds(idList);
+		if (countStatusByIds > 0) {
+			throw new CustomException(CustomMessages.ERP024);
+		}
 		// 刪除菜品口味數據；
 		this.dishFlavourRepository.batchRemoveByDishIds(idList);
 		// 刪除菜品信息；

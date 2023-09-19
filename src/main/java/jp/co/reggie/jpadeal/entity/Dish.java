@@ -25,6 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "dish")
 @NamedQuery(name = "Dish.countByCategoryId", query = "select count(1) from Dish dh where dh.logicDeleteFlg = 'visible' and dh.categoryId =:categoryId")
+@NamedQuery(name = "Dish.countStatusByIds", query = "select count(1) from Dish dh where dh.logicDeleteFlg = 'visible' and dh.status = 1 and dh.id in(:ids)")
 @NamedQuery(name = "Dish.findByCategoryId", query = "select dh from Dish dh where dh.logicDeleteFlg = 'visible' and dh.categoryId =:categoryId")
 @NamedQuery(name = "Dish.batchRemoveByIds", query = "update Dish dh set dh.logicDeleteFlg = 'removed' where dh.id in(:dishIds)")
 public class Dish implements Serializable {
