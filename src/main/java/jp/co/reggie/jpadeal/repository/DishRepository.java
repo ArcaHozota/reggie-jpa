@@ -6,7 +6,6 @@ import org.postgresql.util.PSQLException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.reggie.jpadeal.entity.Dish;
@@ -17,7 +16,6 @@ import jp.co.reggie.jpadeal.entity.Dish;
  * @author Administrator
  * @since 2022-11-19
  */
-@Repository
 public interface DishRepository extends JpaRepository<Dish, Long>, JpaSpecificationExecutor<Dish> {
 
 	/**
@@ -42,5 +40,5 @@ public interface DishRepository extends JpaRepository<Dish, Long>, JpaSpecificat
 	 * @param categoryId 分類ID
 	 * @return List<Dish>
 	 */
-	List<Dish> findDishesByCategoryId(@Param("categoryId") Long categoryId);
+	List<Dish> findByCategoryId(@Param("categoryId") Long categoryId);
 }
