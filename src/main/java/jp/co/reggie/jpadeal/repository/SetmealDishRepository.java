@@ -5,6 +5,7 @@ import java.util.List;
 import org.postgresql.util.PSQLException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,7 @@ public interface SetmealDishRepository extends JpaRepository<SetmealDish, Long>,
 	 *
 	 * @param ids 套餐ID集合
 	 */
+	@Modifying
 	@Transactional(rollbackFor = PSQLException.class)
 	void batchRemoveBySmIds(@Param("smIds") List<Long> ids);
 }

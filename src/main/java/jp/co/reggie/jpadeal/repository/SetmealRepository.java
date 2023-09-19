@@ -43,6 +43,7 @@ public interface SetmealRepository extends JpaRepository<Setmeal, Long>, JpaSpec
 	 *
 	 * @param ids 套餐ID集合
 	 */
+	@Modifying
 	@Transactional(rollbackFor = PSQLException.class)
 	void batchRemoveByIds(@Param("smIdList") List<Long> ids);
 
