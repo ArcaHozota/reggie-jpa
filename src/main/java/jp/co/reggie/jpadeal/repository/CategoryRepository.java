@@ -5,6 +5,7 @@ import java.util.List;
 import org.postgresql.util.PSQLException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, JpaSp
 	 *
 	 * @param id 分類ID
 	 */
+	@Modifying
 	@Transactional(rollbackFor = PSQLException.class)
 	void removeById(@Param("id") Long id);
 }
