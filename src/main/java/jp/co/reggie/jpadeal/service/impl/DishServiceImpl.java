@@ -171,7 +171,7 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public List<DishDto> getListByCategoryId(final Long categoryId) {
 		// 查詢菜品信息；
-		final List<Dish> dishList = this.dishRepository.findDishesByCategoryId(categoryId);
+		final List<Dish> dishList = this.dishRepository.findByCategoryId(categoryId);
 		// 獲取菜品及口味數據傳輸類；
 		return dishList.stream().map(item -> {
 			// 聲明菜品及口味數據傳輸類對象；
