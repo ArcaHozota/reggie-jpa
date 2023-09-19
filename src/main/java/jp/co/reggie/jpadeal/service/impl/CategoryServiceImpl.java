@@ -3,11 +3,15 @@ package jp.co.reggie.jpadeal.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.postgresql.util.PSQLException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
@@ -19,7 +23,6 @@ import jp.co.reggie.jpadeal.repository.SetmealRepository;
 import jp.co.reggie.jpadeal.service.CategoryService;
 import jp.co.reggie.jpadeal.utils.BasicContextUtils;
 import jp.co.reggie.jpadeal.utils.Pagination;
-import lombok.RequiredArgsConstructor;
 
 /**
  * 分類管理服務實現類
@@ -28,23 +31,26 @@ import lombok.RequiredArgsConstructor;
  * @since 2022-11-19
  */
 @Service
-@RequiredArgsConstructor
+@Transactional(rollbackFor = PSQLException.class)
 public class CategoryServiceImpl implements CategoryService {
 
 	/**
 	 * 分類管理數據接口
 	 */
-	private final CategoryRepository categoryRepository;
+	@Resource
+	private CategoryRepository categoryRepository;
 
 	/**
 	 * 菜品數據接口
 	 */
-	private final DishRepository dishRepository;
+	@Resource
+	private DishRepository dishRepository;
 
 	/**
 	 * 套餐數據接口
 	 */
-	private final SetmealRepository setmealRepository;
+	@Resource
+	private SetmealRepository setmealRepository;
 
 	@Override
 	public List<Category> findByType(final Integer categoryType) {
