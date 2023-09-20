@@ -5,7 +5,7 @@ spring:
     name: reggie-jpa
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://54.250.57.240:5432/reggie
+    url: jdbc:postgresql://52.199.163.241:5432/reggie
     username: postgres
     password: postgres
     hikari:
