@@ -22,7 +22,6 @@ import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.dto.DishDto;
 import jp.co.reggie.jpadeal.entity.Dish;
 import jp.co.reggie.jpadeal.entity.DishFlavor;
-import jp.co.reggie.jpadeal.repository.CategoryRepository;
 import jp.co.reggie.jpadeal.repository.DishFlavorRepository;
 import jp.co.reggie.jpadeal.repository.DishRepository;
 import jp.co.reggie.jpadeal.service.DishService;
@@ -50,12 +49,6 @@ public class DishServiceImpl implements DishService {
 	 */
 	@Resource
 	private DishFlavorRepository dishFlavourRepository;
-
-	/**
-	 * 分類管理數據接口
-	 */
-	@Resource
-	private CategoryRepository categoryRepository;
 
 	@Override
 	public void saveWithFlavours(final DishDto dishDto) {

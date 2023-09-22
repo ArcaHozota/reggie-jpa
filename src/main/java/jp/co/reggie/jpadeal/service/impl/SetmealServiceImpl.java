@@ -25,7 +25,6 @@ import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.dto.SetmealDto;
 import jp.co.reggie.jpadeal.entity.Setmeal;
 import jp.co.reggie.jpadeal.entity.SetmealDish;
-import jp.co.reggie.jpadeal.repository.CategoryRepository;
 import jp.co.reggie.jpadeal.repository.SetmealDishRepository;
 import jp.co.reggie.jpadeal.repository.SetmealRepository;
 import jp.co.reggie.jpadeal.service.SetmealService;
@@ -44,12 +43,6 @@ import jp.co.reggie.jpadeal.utils.StringUtils;
 public class SetmealServiceImpl implements SetmealService {
 
 	private static final Random RANDOM = new Random();
-
-	/**
-	 * 分類管理數據接口
-	 */
-	@Resource
-	private CategoryRepository categoryRepository;
 
 	/**
 	 * 套餐數據接口類
