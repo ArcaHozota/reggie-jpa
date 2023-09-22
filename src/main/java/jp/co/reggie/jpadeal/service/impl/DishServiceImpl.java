@@ -20,7 +20,6 @@ import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.dto.DishDto;
-import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.entity.Dish;
 import jp.co.reggie.jpadeal.entity.DishFlavor;
 import jp.co.reggie.jpadeal.repository.CategoryRepository;
@@ -148,12 +147,7 @@ public class DishServiceImpl implements DishService {
 		final List<DishDto> dishDtos = dishes.getContent().stream().map(item -> {
 			final DishDto dishDto = new DishDto();
 			BeanUtils.copyProperties(item, dishDto);
-			Category category = new Category();
-			category.setId(item.getCategoryId());
-			category.setLogicDeleteFlg(Constants.LOGIC_FLAG);
-			final Example<Category> categoryExample = Example.of(category, ExampleMatcher.matchingAll());
-			category = this.categoryRepository.findOne(categoryExample).orElseGet(Category::new);
-			dishDto.setCategoryName(category.getName());
+			dishDto.setCategoryName(item.getCategory().getName());
 			return dishDto;
 		}).collect(Collectors.toList());
 		return Pagination.of(dishDtos, dishes.getTotalElements(), pageNum - 1, pageSize);
@@ -174,24 +168,15 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public List<DishDto> getListByCategoryId(final Long categoryId) {
 		// 查詢菜品信息；
-		final List<Dish> dishList = this.dishRepository.findByCategoryId(categoryId);
+		final List<Dish> dishes = this.dishRepository.findByCategoryId(categoryId);
 		// 獲取菜品及口味數據傳輸類；
-		return dishList.stream().map(item -> {
+		return dishes.stream().map(item -> {
 			// 聲明菜品及口味數據傳輸類對象；
 			final DishDto dishDto = new DishDto();
-			// 拷貝除分類ID以外的屬性；
+			// 拷貝除分類名稱以外的屬性；
 			BeanUtils.copyProperties(item, dishDto);
-			// 獲取分類ID並根據分類ID查詢分類對象；
-			final Category category = this.categoryRepository.findById(item.getCategoryId()).orElseGet(Category::new);
-			// 獲取分類名稱；
-			final String categoryName = category.getName();
-			// 存儲於DTO對象中並返回；
-			dishDto.setCategoryName(categoryName);
-			// 當前菜品的ID；
-			final Long dishId = item.getId();
-			// 檢索口味信息；
-			final List<DishFlavor> flavours = this.dishFlavourRepository.selectByDishId(dishId);
-			dishDto.setDishFlavors(flavours);
+			// 設置分類名稱；
+			dishDto.setCategoryName(item.getCategory().getName());
 			return dishDto;
 		}).collect(Collectors.toList());
 	}
