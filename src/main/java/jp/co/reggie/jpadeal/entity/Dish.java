@@ -3,11 +3,14 @@ package jp.co.reggie.jpadeal.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -113,4 +116,10 @@ public final class Dish implements Serializable {
 	 */
 	@Column(name = "is_deleted", nullable = false)
 	private String logicDeleteFlg;
+
+	/**
+	 * 菜品口味關聯
+	 */
+	@OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
+	private List<DishFlavor> dishFlavors;
 }
