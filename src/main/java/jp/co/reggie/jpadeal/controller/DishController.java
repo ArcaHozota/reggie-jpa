@@ -62,8 +62,8 @@ public class DishController {
 	public Reggie<Pagination<DishDto>> pagination(@RequestParam("pageNum") final Integer pageNum,
 			@RequestParam("pageSize") final Integer pageSize,
 			@RequestParam(name = "name", required = false) final String keyword) {
-		final Pagination<DishDto> dtoPage = this.dishService.pagination(pageNum, pageSize, keyword);
-		return Reggie.success(dtoPage);
+		final Pagination<DishDto> dishDtos = this.dishService.pagination(pageNum, pageSize, keyword);
+		return Reggie.success(dishDtos);
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class DishController {
 	 */
 	@GetMapping("/list")
 	public Reggie<List<DishDto>> getList(@RequestParam("categoryId") final Long categoryId) {
-		final List<DishDto> dtoList = this.dishService.getListByCategoryId(categoryId);
-		return Reggie.success(dtoList);
+		final List<DishDto> dishDtos = this.dishService.getListByCategoryId(categoryId);
+		return Reggie.success(dishDtos);
 	}
 }
