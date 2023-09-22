@@ -22,7 +22,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "address_book")
-public class AddressBook implements Serializable {
+public final class AddressBook implements Serializable {
 
 	private static final long serialVersionUID = 3548464562522747007L;
 
