@@ -18,8 +18,6 @@ import jp.co.reggie.jpadeal.common.CustomException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.repository.CategoryRepository;
-import jp.co.reggie.jpadeal.repository.DishRepository;
-import jp.co.reggie.jpadeal.repository.SetmealRepository;
 import jp.co.reggie.jpadeal.service.CategoryService;
 import jp.co.reggie.jpadeal.utils.BasicContextUtils;
 import jp.co.reggie.jpadeal.utils.Pagination;
@@ -40,18 +38,6 @@ public class CategoryServiceImpl implements CategoryService {
 	@Resource
 	private CategoryRepository categoryRepository;
 
-	/**
-	 * 菜品數據接口
-	 */
-	@Resource
-	private DishRepository dishRepository;
-
-	/**
-	 * 套餐數據接口
-	 */
-	@Resource
-	private SetmealRepository setmealRepository;
-
 	@Override
 	public List<Category> findByType(final Integer categoryType) {
 		return this.categoryRepository.selectByType(categoryType);
@@ -60,9 +46,8 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void remove(final Long id) {
 		// 查詢當前分類是否已經關聯了菜品或者套餐，如果已經關聯抛出一個異常；
-		final int count1 = this.dishRepository.countByCategoryId(id);
-		final int count2 = this.setmealRepository.countByCategoryId(id);
-		if (count1 > 0 || count2 > 0) {
+		final Category category = this.categoryRepository.findById(id).orElseGet(Category::new);
+		if (category.getDishes().isEmpty() || category.getSetmealList().isEmpty()) {
 			throw new CustomException(CustomMessages.ERP009);
 		}
 		// 正常刪除分類；

@@ -23,7 +23,6 @@ import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.dto.SetmealDto;
-import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.entity.Setmeal;
 import jp.co.reggie.jpadeal.entity.SetmealDish;
 import jp.co.reggie.jpadeal.repository.CategoryRepository;
@@ -68,7 +67,7 @@ public class SetmealServiceImpl implements SetmealService {
 	public void saveWithDish(final SetmealDto setmealDto) {
 		// 聲明套餐實體類並拷貝屬性；
 		final Setmeal setmeal = new Setmeal();
-		BeanUtils.copyProperties(setmealDto, setmeal, "categoryName", "setmealDishes");
+		BeanUtils.copyProperties(setmealDto, setmeal);
 		// 保存套餐的基本信息；
 		setmeal.setId(BasicContextUtils.getGeneratedId());
 		setmeal.setCreatedTime(LocalDateTime.now());
@@ -78,9 +77,9 @@ public class SetmealServiceImpl implements SetmealService {
 		setmeal.setLogicDeleteFlg(Constants.LOGIC_FLAG);
 		this.setmealRepository.save(setmeal);
 		// 獲取套餐菜品關聯集合；
-		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().peek(item -> {
+		final List<SetmealDish> setmealDishes = setmeal.getSetmealDishes().stream().peek(item -> {
 			item.setId(BasicContextUtils.getGeneratedId());
-			item.setSetmealId(setmealDto.getId());
+			item.setSetmealId(setmeal.getId());
 			item.setCreatedTime(LocalDateTime.now());
 			item.setUpdatedTime(LocalDateTime.now());
 			item.setCreatedUser(BasicContextUtils.getCurrentId());
@@ -117,17 +116,10 @@ public class SetmealServiceImpl implements SetmealService {
 		final Example<Setmeal> example = Example.of(setmeal, exampleMatcher);
 		final Page<Setmeal> setmeals = this.setmealRepository.findAll(example, pageRequest);
 		final List<SetmealDto> setmealDtos = setmeals.getContent().stream().map(item -> {
-			final SetmealDto aDto = new SetmealDto();
-			BeanUtils.copyProperties(item, aDto);
-			final List<SetmealDish> setmealDishes = this.setmealDishRepository.selectBySmId(item.getId());
-			Category category = new Category();
-			category.setId(item.getCategoryId());
-			category.setLogicDeleteFlg(Constants.LOGIC_FLAG);
-			final Example<Category> categoryExample = Example.of(category, ExampleMatcher.matchingAll());
-			category = this.categoryRepository.findOne(categoryExample).orElseGet(Category::new);
-			aDto.setSetmealDishes(setmealDishes);
-			aDto.setCategoryName(category.getName());
-			return aDto;
+			final SetmealDto setmealDto = new SetmealDto();
+			BeanUtils.copyProperties(item, setmealDto);
+			setmealDto.setCategoryName(item.getCategory().getName());
+			return setmealDto;
 		}).collect(Collectors.toList());
 		return Pagination.of(setmealDtos, setmeals.getTotalElements(), pageNum - 1, pageSize);
 	}
@@ -137,10 +129,7 @@ public class SetmealServiceImpl implements SetmealService {
 		final Setmeal setmeal = this.setmealRepository.findById(id).orElseGet(Setmeal::new);
 		final SetmealDto setmealDto = new SetmealDto();
 		BeanUtils.copyProperties(setmeal, setmealDto);
-		final Category category = this.categoryRepository.findById(setmeal.getCategoryId()).orElseGet(Category::new);
-		final List<SetmealDish> setmealDishes = this.setmealDishRepository.selectBySmId(id);
-		setmealDto.setCategoryName(category.getName());
-		setmealDto.setSetmealDishes(setmealDishes);
+		setmealDto.setCategoryName(setmeal.getCategory().getName());
 		return setmealDto;
 	}
 
@@ -148,15 +137,15 @@ public class SetmealServiceImpl implements SetmealService {
 	public void updateWithDish(final SetmealDto setmealDto) {
 		// 聲明套餐實體類並拷貝屬性；
 		final Setmeal setmeal = new Setmeal();
-		BeanUtils.copyProperties(setmealDto, setmeal, "categoryName", "setmealDishes");
+		BeanUtils.copyProperties(setmealDto, setmeal);
 		// 保存套餐的基本信息；
 		setmeal.setUpdatedTime(LocalDateTime.now());
 		setmeal.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.setmealRepository.save(setmeal);
 		// 獲取套餐菜品關聯集合；
-		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().peek(item -> {
-			item.setSetmealId(setmealDto.getId());
-			item.setSort(RANDOM.nextInt(setmealDto.getSetmealDishes().size()));
+		final List<SetmealDish> setmealDishes = setmeal.getSetmealDishes().stream().peek(item -> {
+			item.setSetmealId(setmeal.getId());
+			item.setSort(RANDOM.nextInt(setmeal.getSetmealDishes().size()));
 			item.setUpdatedTime(LocalDateTime.now());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
