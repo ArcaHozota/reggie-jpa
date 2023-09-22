@@ -2,7 +2,6 @@ package jp.co.reggie.jpadeal.dto;
 
 import java.util.List;
 
-import jp.co.reggie.jpadeal.entity.Setmeal;
 import jp.co.reggie.jpadeal.entity.SetmealDish;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,9 +13,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public final class SetmealDto extends Setmeal {
-
-	private static final long serialVersionUID = 5174917893420797875L;
+public final class SetmealDto {
 
 	/**
 	 * 套餐集合

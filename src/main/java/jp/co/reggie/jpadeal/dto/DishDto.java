@@ -2,7 +2,6 @@ package jp.co.reggie.jpadeal.dto;
 
 import java.util.List;
 
-import jp.co.reggie.jpadeal.entity.Dish;
 import jp.co.reggie.jpadeal.entity.DishFlavor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,9 +13,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public final class DishDto extends Dish {
-
-	private static final long serialVersionUID = 363782191754121480L;
+public final class DishDto {
 
 	/**
 	 * 口味集合
