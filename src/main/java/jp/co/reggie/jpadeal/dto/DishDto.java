@@ -83,7 +83,7 @@ public final class DishDto {
 	/**
 	 * 口味集合
 	 */
-	private List<DishFlavor> flavors;
+	private List<DishFlavor> dishFlavors;
 
 	/**
 	 * 分類名稱

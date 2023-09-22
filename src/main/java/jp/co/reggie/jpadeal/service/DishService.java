@@ -37,10 +37,10 @@ public interface DishService {
 	/**
 	 * 根據菜品集合批量停發售
 	 *
-	 * @param status   在售狀態
-	 * @param dishList 菜品集合
+	 * @param status  在售狀態
+	 * @param dishIds 菜品ID集合
 	 */
-	void batchUpdateByIds(String status, List<Long> dishList);
+	void batchUpdateByIds(String status, List<Long> dishIds);
 
 	/**
 	 * 菜品信息分頁查詢
