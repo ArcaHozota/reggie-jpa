@@ -9,6 +9,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -108,6 +110,13 @@ public final class Setmeal implements Serializable {
 	 */
 	@Column(name = "is_deleted", nullable = false)
 	private String logicDeleteFlg;
+
+	/**
+	 * 套餐分類關聯
+	 */
+	@ManyToOne
+	@JoinColumn(name = "categoryId", insertable = false, updatable = false)
+	private Category category;
 
 	/**
 	 * 菜品套餐關聯

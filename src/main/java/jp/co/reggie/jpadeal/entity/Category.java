@@ -90,4 +90,10 @@ public final class Category implements Serializable {
 	 */
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
 	private List<Dish> dishes;
+
+	/**
+	 * 套餐分類關聯
+	 */
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	private List<Setmeal> setmealList;
 }
