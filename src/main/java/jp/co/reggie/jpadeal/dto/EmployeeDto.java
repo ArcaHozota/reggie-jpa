@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class EmployeeDto extends Employee {
+public final class EmployeeDto extends Employee {
 
 	/**
 	 * シリアルナンバー
