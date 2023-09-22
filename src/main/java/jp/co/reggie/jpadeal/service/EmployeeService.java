@@ -14,10 +14,10 @@ public interface EmployeeService {
 	/**
 	 * 根據所提供的用戸名進行登錄
 	 *
-	 * @param username 用戸名
+	 * @param employeeDto 數據傳輸類對象
 	 * @return Employee
 	 */
-	Employee login(Employee employee);
+	Employee login(EmployeeDto employeeDto);
 
 	/**
 	 * 保存新增員工

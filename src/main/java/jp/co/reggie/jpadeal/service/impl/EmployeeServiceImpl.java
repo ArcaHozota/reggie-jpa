@@ -44,11 +44,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private EmployeeRepository employeeRepository;
 
 	@Override
-	public Employee login(final Employee employee) {
+	public Employee login(final EmployeeDto employeeDto) {
 		// 將頁面提交的密碼進行MD5加密；
-		final String password = DigestUtils.md5DigestAsHex(employee.getPassword().getBytes()).toUpperCase();
+		final String password = DigestUtils.md5DigestAsHex(employeeDto.getPassword().getBytes()).toUpperCase();
 		// 根據頁面提交的用戸名查詢數據庫；
-		final Employee aEmployee = this.employeeRepository.selectByUserName(employee.getUsername());
+		final Employee aEmployee = this.employeeRepository.selectByUserName(employeeDto.getUsername());
 		// 如果沒有查詢到或者密碼錯誤則返回登錄失敗；
 		if (aEmployee == null || StringUtils.isNotEqual(password, aEmployee.getPassword())) {
 			throw new CustomException(Constants.LOGIN_FAILED);
