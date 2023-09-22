@@ -122,4 +122,10 @@ public final class Dish implements Serializable {
 	 */
 	@OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
 	private List<DishFlavor> dishFlavors;
+
+	/**
+	 * 菜品套餐關聯
+	 */
+	@OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
+	private List<SetmealDish> setmealDishes;
 }
