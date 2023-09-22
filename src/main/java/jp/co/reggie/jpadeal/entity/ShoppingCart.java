@@ -23,7 +23,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "shopping_cart")
-public class ShoppingCart implements Serializable {
+public final class ShoppingCart implements Serializable {
 
 	private static final long serialVersionUID = 1618550099529253148L;
 
