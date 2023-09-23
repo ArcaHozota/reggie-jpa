@@ -24,22 +24,22 @@ public final class Pagination<T> {
 	/**
 	 * 当ページ
 	 */
-	private Integer pageNum;
+	private int pageNum;
 
 	/**
 	 * ページサイズ
 	 */
-	private Integer pageSize;
+	private int pageSize;
 
 	/**
 	 * すべてのページ数
 	 */
-	private Long totalPages;
+	private long totalPages;
 
 	/**
 	 * すべてのレコード数
 	 */
-	private Long totalRecords;
+	private long totalRecords;
 
 	/**
 	 * 前のページはあるか
@@ -54,32 +54,32 @@ public final class Pagination<T> {
 	/**
 	 * 前のページ
 	 */
-	private Integer previousPage;
+	private int previousPage;
 
 	/**
 	 * 次のページ
 	 */
-	private Integer nextPage;
+	private int nextPage;
 
 	/**
 	 * ナビゲーションのページ数
 	 */
-	private Integer navigatePages;
+	private int navigatePages;
 
 	/**
 	 * ナビゲーションの最初のページ
 	 */
-	private Integer naviFirstPage;
+	private int naviFirstPage;
 
 	/**
 	 * ナビゲーションの最後のページ
 	 */
-	private Integer naviLastPage;
+	private int naviLastPage;
 
 	/**
 	 * ナビゲーションページの数の集合
 	 */
-	private Integer[] navigatePageNums;
+	private int[] navigatePageNums;
 
 	/**
 	 * Paginationを取得する
@@ -88,8 +88,8 @@ public final class Pagination<T> {
 	 * @param totalRecords すべてのレコード数
 	 * @param pageNum      当ページ
 	 */
-	public static <T> Pagination<T> of(final List<T> records, final Long totalRecords, final Integer pageNum) {
-		return new Pagination<>(records, totalRecords, pageNum, 17, 5);
+	public static <T> Pagination<T> of(final List<T> records, final long totalRecords, final int pageNum) {
+		return new Pagination<>(records, totalRecords, pageNum, records.size(), 5);
 	}
 
 	/**
@@ -100,8 +100,8 @@ public final class Pagination<T> {
 	 * @param pageNum      当ページ
 	 * @param pageSize     ページサイズ
 	 */
-	public static <T> Pagination<T> of(final List<T> records, final Long totalRecords, final Integer pageNum,
-			final Integer pageSize) {
+	public static <T> Pagination<T> of(final List<T> records, final long totalRecords, final int pageNum,
+			final int pageSize) {
 		return new Pagination<>(records, totalRecords, pageNum, pageSize, 5);
 	}
 
@@ -114,8 +114,8 @@ public final class Pagination<T> {
 	 * @param pageSize      ページサイズ
 	 * @param navigatePages ナビゲーションのページ数
 	 */
-	public static <T> Pagination<T> of(final List<T> records, final Long totalRecords, final Integer pageNum,
-			final Integer pageSize, final Integer navigatePages) {
+	public static <T> Pagination<T> of(final List<T> records, final long totalRecords, final int pageNum,
+			final int pageSize, final int navigatePages) {
 		return new Pagination<>(records, totalRecords, pageNum, pageSize, navigatePages);
 	}
 
@@ -128,12 +128,12 @@ public final class Pagination<T> {
 	 * @param pageSize      ページサイズ
 	 * @param navigatePages ナビゲーションのページ数
 	 */
-	private Pagination(final List<T> records, final Long totalRecords, final Integer pageNum, final Integer pageSize,
-			final Integer navigatePages) {
+	private Pagination(final List<T> records, final long totalRecords, final int pageNum, final int pageSize,
+			final int navigatePages) {
 		if (records != null && !records.isEmpty()) {
 			this.pageNum = pageNum;
 			this.records = records;
-			this.pageSize = records.size();
+			this.pageSize = pageSize;
 			this.totalRecords = totalRecords;
 			final long ape = this.totalRecords / pageSize;
 			this.totalPages = this.totalRecords % pageSize == 0 ? ape : ape + 1;
@@ -170,17 +170,17 @@ public final class Pagination<T> {
 	 */
 	private void calcNavigatePageNums() {
 		if (this.totalPages <= this.navigatePages) {
-			this.navigatePageNums = new Integer[this.totalPages.intValue()];
+			this.navigatePageNums = new int[(int) this.totalPages];
 			for (int i = 0; i < this.totalPages; i++) {
 				this.navigatePageNums[i] = i + 1;
 			}
 			return;
 		}
-		this.navigatePageNums = new Integer[this.navigatePages];
-		Integer startNum = (int) (this.pageNum - this.navigatePages / 2);
-		Integer endNum = (int) (this.pageNum + this.navigatePages / 2);
+		this.navigatePageNums = new int[this.navigatePages];
+		int startNum = this.pageNum - this.navigatePages / 2;
+		int endNum = this.pageNum + this.navigatePages / 2;
 		if (endNum > this.totalPages && startNum >= 1) {
-			endNum = this.totalPages.intValue();
+			endNum = (int) this.totalPages;
 			// 最後のナビゲーションページ
 			for (int i = this.navigatePages - 1; i >= 0; i--) {
 				this.navigatePageNums[i] = endNum;
@@ -206,10 +206,10 @@ public final class Pagination<T> {
 			this.naviFirstPage = this.navigatePageNums[0];
 			this.naviLastPage = this.navigatePageNums[this.navigatePageNums.length - 1];
 			if (this.pageNum > 1) {
-				this.previousPage = this.pageNum.intValue() - 1;
+				this.previousPage = this.pageNum - 1;
 			}
 			if (this.pageNum < this.totalPages) {
-				this.nextPage = this.pageNum.intValue() + 1;
+				this.nextPage = this.pageNum + 1;
 			}
 		}
 	}
