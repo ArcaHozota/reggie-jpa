@@ -139,8 +139,7 @@ public class DishServiceImpl implements DishService {
 		final Page<Dish> dishes = this.dishRepository.findAll(example, pageRequest);
 		final List<DishDto> dishDtos = dishes.getContent().stream().map(item -> {
 			final DishDto dishDto = new DishDto();
-			BeanUtils.copyProperties(item, dishDto);
-			dishDto.setCategoryName(item.getCategory().getName());
+			BeanUtils.copyProperties(item, dishDto, "dishFlavors");
 			return dishDto;
 		}).collect(Collectors.toList());
 		return Pagination.of(dishDtos, dishes.getTotalElements(), pageNum - 1, pageSize);
