@@ -15,6 +15,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Proxy;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,6 +31,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "setmeal")
+@Proxy(lazy = false)
 @NamedQuery(name = "Setmeal.countByCategoryId", query = "select count(1) from Setmeal st where st.logicDeleteFlg = 'visible' and st.categoryId =:categoryId")
 @NamedQuery(name = "Setmeal.countStatusByIds", query = "select count(1) from Setmeal st where st.logicDeleteFlg ='visible' and st.status =1 and st.id in (:smIdList)")
 @NamedQuery(name = "Setmeal.batchRemoveByIds", query = "update Setmeal st set st.logicDeleteFlg ='removed' where st.id in(:smIdList)")

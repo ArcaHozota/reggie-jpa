@@ -12,6 +12,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Proxy;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +28,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "category")
+@Proxy(lazy = false)
 @NamedQuery(name = "Category.selectByType", query = "select ca from Category ca where ca.logicDeleteFlg = 'visible' and ca.type =:type")
 @NamedQuery(name = "Category.removeById", query = "update Category ca set ca.logicDeleteFlg = 'removed' where ca.id =:id")
 public final class Category implements Serializable {

@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Proxy;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +25,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "employee")
+@Proxy(lazy = false)
 @NamedQuery(name = "Employee.selectByUserName", query = "select em from Employee em where em.username =:username")
 public final class Employee implements Serializable {
 

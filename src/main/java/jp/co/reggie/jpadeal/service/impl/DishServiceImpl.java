@@ -20,6 +20,7 @@ import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.dto.DishDto;
+import jp.co.reggie.jpadeal.dto.DishFlavorDto;
 import jp.co.reggie.jpadeal.entity.Dish;
 import jp.co.reggie.jpadeal.entity.DishFlavor;
 import jp.co.reggie.jpadeal.repository.DishFlavorRepository;
@@ -140,6 +141,13 @@ public class DishServiceImpl implements DishService {
 		final List<DishDto> dishDtos = dishes.getContent().stream().map(item -> {
 			final DishDto dishDto = new DishDto();
 			BeanUtils.copyProperties(item, dishDto, "dishFlavors");
+			final List<DishFlavorDto> dishFlavors = dishDto.getDishFlavors();
+			for (final DishFlavor dishFlavor : item.getDishFlavors()) {
+				final DishFlavorDto dishFlavorDto = new DishFlavorDto();
+				BeanUtils.copyProperties(dishFlavor, dishFlavorDto);
+				dishFlavors.add(dishFlavorDto);
+			}
+			dishDto.setDishFlavors(dishFlavors);
 			return dishDto;
 		}).collect(Collectors.toList());
 		return Pagination.of(dishDtos, dishes.getTotalElements(), pageNum - 1, pageSize);

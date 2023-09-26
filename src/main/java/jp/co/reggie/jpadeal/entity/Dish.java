@@ -15,6 +15,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Proxy;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,6 +31,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "dish")
+@Proxy(lazy = false)
 @NamedQuery(name = "Dish.countByCategoryId", query = "select count(1) from Dish dh where dh.logicDeleteFlg = 'visible' and dh.categoryId =:categoryId")
 @NamedQuery(name = "Dish.countStatusByIds", query = "select count(1) from Dish dh where dh.logicDeleteFlg = 'visible' and dh.status = 1 and dh.id in(:ids)")
 @NamedQuery(name = "Dish.findByCategoryId", query = "select dh from Dish dh where dh.logicDeleteFlg = 'visible' and dh.categoryId =:categoryId")

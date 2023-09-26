@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Proxy;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +24,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "address_book")
+@Proxy(lazy = false)
 public final class AddressBook implements Serializable {
 
 	private static final long serialVersionUID = 3548464562522747007L;
