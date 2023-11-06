@@ -9,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Proxy;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,14 +16,14 @@ import lombok.Setter;
 /**
  * 分類管理實體類
  *
- * @author Administrator
+ * @author ArkamaHozota
+ * @since 1.00beta
  */
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @Table(name = "category")
-@Proxy(lazy = false)
 @NamedQuery(name = "Category.selectByType", query = "select ca from Category as ca where ca.deleteFlg = 'visible' and ca.type =:type")
 @NamedQuery(name = "Category.removeById", query = "update Category as ca set ca.deleteFlg = 'removed' where ca.id =:id")
 public final class Category implements Serializable {
