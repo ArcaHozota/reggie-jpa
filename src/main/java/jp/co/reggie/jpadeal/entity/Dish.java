@@ -27,10 +27,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "dish")
 @Proxy(lazy = false)
-@NamedQuery(name = "Dish.countByCategoryId", query = "select count(1) from Dish dh where dh.logicDeleteFlg = 'visible' and dh.categoryId =:categoryId")
-@NamedQuery(name = "Dish.countStatusByIds", query = "select count(1) from Dish dh where dh.logicDeleteFlg = 'visible' and dh.status = 1 and dh.id in(:ids)")
-@NamedQuery(name = "Dish.findByCategoryId", query = "select dh from Dish dh where dh.logicDeleteFlg = 'visible' and dh.categoryId =:categoryId")
-@NamedQuery(name = "Dish.batchRemoveByIds", query = "update Dish dh set dh.logicDeleteFlg = 'removed' where dh.id in(:dishIds)")
+@NamedQuery(name = "Dish.countByCategoryId", query = "select count(1) from Dish as dh where dh.deleteFlg = 'visible' and dh.categoryId =:categoryId")
+@NamedQuery(name = "Dish.countStatusByIds", query = "select count(1) from Dish as dh where dh.deleteFlg = 'visible' and dh.status = 1 and dh.id in(:ids)")
+@NamedQuery(name = "Dish.findByCategoryId", query = "select dh from Dish as dh where dh.deleteFlg = 'visible' and dh.categoryId =:categoryId")
+@NamedQuery(name = "Dish.batchRemoveByIds", query = "update Dish as dh set dh.deleteFlg = 'removed' where dh.id in(:ids)")
 public final class Dish implements Serializable {
 
 	private static final long serialVersionUID = 6089472680388107154L;

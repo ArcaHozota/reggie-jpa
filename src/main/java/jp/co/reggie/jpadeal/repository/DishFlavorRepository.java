@@ -22,19 +22,19 @@ import jp.co.reggie.jpadeal.entity.DishFlavor;
 public interface DishFlavorRepository extends JpaRepository<DishFlavor, Long>, JpaSpecificationExecutor<DishFlavor> {
 
 	/**
+	 * 批量刪除數據
+	 *
+	 * @param dishIds 菜品ID集合
+	 */
+	@Modifying
+	@Transactional(rollbackFor = PSQLException.class)
+	void batchRemoveByDishIds(@Param("dishIds") List<Long> dishIds);
+
+	/**
 	 * 根據菜品ID查詢口味信息
 	 *
 	 * @param dishId 菜品ID
 	 * @return 菜品口味列表
 	 */
 	List<DishFlavor> selectByDishId(@Param("dishId") Long dishId);
-
-	/**
-	 * 批量刪除數據
-	 *
-	 * @param dishIdList 菜品ID集合
-	 */
-	@Modifying
-	@Transactional(rollbackFor = PSQLException.class)
-	void batchRemoveByDishIds(@Param("dishIds") List<Long> dishIdList);
 }

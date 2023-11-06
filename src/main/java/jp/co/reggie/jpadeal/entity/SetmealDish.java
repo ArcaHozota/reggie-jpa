@@ -27,8 +27,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "setmeal_dish")
 @Proxy(lazy = false)
-@NamedQuery(name = "SetmealDish.selectBySmId", query = "select smd from SetmealDish smd where smd.logicDeleteFlg = 'visible' and smd.setmealId =:smId")
-@NamedQuery(name = "SetmealDish.batchRemoveBySmIds", query = "update SetmealDish smd set smd.logicDeleteFlg = 'removed' where smd.setmealId in(:smIds)")
+@NamedQuery(name = "SetmealDish.selectBySmId", query = "select smd from SetmealDish as smd where smd.deleteFlg = 'visible' and smd.setmealId =:smId")
+@NamedQuery(name = "SetmealDish.batchRemoveBySmIds", query = "update SetmealDish as smd set smd.deleteFlg = 'removed' where smd.setmealId in(:smIds)")
 public final class SetmealDish implements Serializable {
 
 	private static final long serialVersionUID = -641135780975738908L;

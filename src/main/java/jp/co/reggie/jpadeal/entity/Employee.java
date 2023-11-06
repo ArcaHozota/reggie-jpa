@@ -26,7 +26,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "employee")
 @Proxy(lazy = false)
-@NamedQuery(name = "Employee.selectByUserName", query = "select em from Employee em where em.username =:username")
+@NamedQuery(name = "Employee.selectByUserName", query = "select em from Employee as em where em.username =:username")
 public final class Employee implements Serializable {
 
 	private static final long serialVersionUID = -6540113185665801143L;

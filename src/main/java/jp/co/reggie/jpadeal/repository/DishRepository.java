@@ -26,7 +26,15 @@ public interface DishRepository extends JpaRepository<Dish, Long>, JpaSpecificat
 	 */
 	@Modifying
 	@Transactional(rollbackFor = PSQLException.class)
-	void batchRemoveByIds(@Param("dishIds") List<Long> dishIdList);
+	void batchRemoveByIds(@Param("ids") List<Long> ids);
+
+	/**
+	 * 根據分類ID查詢
+	 *
+	 * @param categoryId 分類ID
+	 * @return 記錄數
+	 */
+	Integer countByCategoryId(@Param("categoryId") Long categoryId);
 
 	/**
 	 * 根據菜品ID查詢狀態
@@ -35,14 +43,6 @@ public interface DishRepository extends JpaRepository<Dish, Long>, JpaSpecificat
 	 * @return 記錄數
 	 */
 	Integer countStatusByIds(@Param("ids") List<Long> ids);
-
-	/**
-	 * 根據分類ID查詢
-	 *
-	 * @param id 分類ID
-	 * @return 記錄數
-	 */
-	Integer countByCategoryId(@Param("categoryId") Long id);
 
 	/**
 	 * 根據分類ID獲取菜品集合

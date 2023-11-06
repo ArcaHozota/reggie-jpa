@@ -23,12 +23,34 @@ import jp.co.reggie.jpadeal.entity.Setmeal;
 public interface SetmealRepository extends JpaRepository<Setmeal, Long>, JpaSpecificationExecutor<Setmeal> {
 
 	/**
+	 * 根據ID集合批量刪除套餐
+	 *
+	 * @param ids 套餐ID集合
+	 */
+	@Modifying
+	@Transactional(rollbackFor = PSQLException.class)
+	void batchRemoveByIds(@Param("ids") List<Long> ids);
+
+	/**
+	 * 根據套餐ID集合批量停發售
+	 *
+	 * @param ids    套餐ID集合
+	 * @param status 套餐狀態
+	 * @param upTime 更新時間
+	 * @param upUser 修改者
+	 */
+	@Modifying
+	@Transactional(rollbackFor = PSQLException.class)
+	void batchUpdateByIds(@Param("ids") List<Long> ids, @Param("status") Integer status,
+			@Param("updatedTime") LocalDateTime upTime, @Param("updatedUser") Long upUser);
+
+	/**
 	 * 根據分類ID查詢
 	 *
-	 * @param id 分類ID
+	 * @param categoryId 分類ID
 	 * @return 記錄數
 	 */
-	Integer countByCategoryId(@Param("categoryId") Long id);
+	Integer countByCategoryId(@Param("categoryId") Long categoryId);
 
 	/**
 	 * 根據ID集合檢索套餐狀態
@@ -36,27 +58,5 @@ public interface SetmealRepository extends JpaRepository<Setmeal, Long>, JpaSpec
 	 * @param ids 套餐ID集合
 	 * @return 記錄數
 	 */
-	Integer countStatusByIds(@Param("smIdList") List<Long> ids);
-
-	/**
-	 * 根據ID集合批量刪除套餐
-	 *
-	 * @param ids 套餐ID集合
-	 */
-	@Modifying
-	@Transactional(rollbackFor = PSQLException.class)
-	void batchRemoveByIds(@Param("smIdList") List<Long> ids);
-
-	/**
-	 * 根據套餐ID集合批量停發售
-	 *
-	 * @param smIdList 套餐ID集合
-	 * @param status   套餐狀態
-	 * @param upTime   更新時間
-	 * @param upUser   修改者
-	 */
-	@Modifying
-	@Transactional(rollbackFor = PSQLException.class)
-	void batchUpdateByIds(@Param("smIdList") List<Long> smIdList, @Param("status") Integer status,
-			@Param("updatedTime") LocalDateTime upTime, @Param("updatedUser") Long upUser);
+	Integer countStatusByIds(@Param("ids") List<Long> ids);
 }

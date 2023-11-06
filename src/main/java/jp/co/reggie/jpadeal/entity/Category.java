@@ -26,8 +26,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "category")
 @Proxy(lazy = false)
-@NamedQuery(name = "Category.selectByType", query = "select ca from Category ca where ca.logicDeleteFlg = 'visible' and ca.type =:type")
-@NamedQuery(name = "Category.removeById", query = "update Category ca set ca.logicDeleteFlg = 'removed' where ca.id =:id")
+@NamedQuery(name = "Category.selectByType", query = "select ca from Category as ca where ca.deleteFlg = 'visible' and ca.type =:type")
+@NamedQuery(name = "Category.removeById", query = "update Category as ca set ca.deleteFlg = 'removed' where ca.id =:id")
 public final class Category implements Serializable {
 
 	private static final long serialVersionUID = -5583580956537498025L;
