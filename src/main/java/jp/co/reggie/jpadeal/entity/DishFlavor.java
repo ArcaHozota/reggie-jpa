@@ -6,8 +6,6 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -86,11 +84,4 @@ public final class DishFlavor implements Serializable {
 	 */
 	@Column(nullable = false)
 	private String deleteFlg;
-
-	/**
-	 * 菜品口味關聯
-	 */
-	@ManyToOne
-	@JoinColumn(name = "dishId", insertable = false, updatable = false)
-	private Dish dish;
 }

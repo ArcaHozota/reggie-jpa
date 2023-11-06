@@ -2,14 +2,11 @@ package jp.co.reggie.jpadeal.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
@@ -87,16 +84,4 @@ public final class Category implements Serializable {
 	 */
 	@Column(nullable = false)
 	private String deleteFlg;
-
-	/**
-	 * 菜品分類關聯
-	 */
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-	private List<Dish> dishes;
-
-	/**
-	 * 套餐分類關聯
-	 */
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-	private List<Setmeal> setmealList;
 }
