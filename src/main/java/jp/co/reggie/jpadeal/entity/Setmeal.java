@@ -111,8 +111,8 @@ public final class Setmeal implements Serializable {
 	/**
 	 * 邏輯刪除字段
 	 */
-	@Column(name = "is_deleted", nullable = false)
-	private String logicDeleteFlg;
+	@Column(nullable = false)
+	private String deleteFlg;
 
 	/**
 	 * 套餐分類關聯

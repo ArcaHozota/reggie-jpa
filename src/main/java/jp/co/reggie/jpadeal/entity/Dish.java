@@ -119,8 +119,8 @@ public final class Dish implements Serializable {
 	/**
 	 * 邏輯刪除字段
 	 */
-	@Column(name = "is_deleted", nullable = false)
-	private String logicDeleteFlg;
+	@Column(nullable = false)
+	private String deleteFlg;
 
 	/**
 	 * 菜品分類關聯
