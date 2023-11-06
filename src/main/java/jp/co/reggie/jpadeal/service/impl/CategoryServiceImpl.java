@@ -44,6 +44,16 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	public Pagination<Category> pagination(final Integer pageNum, final Integer pageSize) {
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize,
+				Sort.by(Sort.Order.asc("sort"), Sort.Order.desc("updatedTime")));
+		final Specification<Category> specification = Specification.where((root, query,
+				criteriaBuilder) -> criteriaBuilder.equal(root.get("logicDeleteFlg"), Constants.LOGIC_FLAG));
+		final Page<Category> categories = this.categoryRepository.findAll(specification, pageRequest);
+		return Pagination.of(categories.getContent(), categories.getTotalElements(), pageNum - 1, pageSize);
+	}
+
+	@Override
 	public void remove(final Long id) {
 		// 查詢當前分類是否已經關聯了菜品或者套餐，如果已經關聯抛出一個異常；
 		final Category category = this.categoryRepository.findById(id).orElseGet(Category::new);
@@ -61,7 +71,7 @@ public class CategoryServiceImpl implements CategoryService {
 		category.setUpdatedTime(LocalDateTime.now());
 		category.setCreatedUser(BasicContextUtils.getCurrentId());
 		category.setUpdatedUser(BasicContextUtils.getCurrentId());
-		category.setLogicDeleteFlg(Constants.LOGIC_FLAG);
+		category.setDeleteFlg(Constants.LOGIC_FLAG);
 		this.categoryRepository.save(category);
 	}
 
@@ -73,15 +83,5 @@ public class CategoryServiceImpl implements CategoryService {
 		category2.setUpdatedTime(LocalDateTime.now());
 		category2.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.categoryRepository.save(category2);
-	}
-
-	@Override
-	public Pagination<Category> pagination(final Integer pageNum, final Integer pageSize) {
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize,
-				Sort.by(Sort.Order.asc("sort"), Sort.Order.desc("updatedTime")));
-		final Specification<Category> specification = Specification.where((root, query,
-				criteriaBuilder) -> criteriaBuilder.equal(root.get("logicDeleteFlg"), Constants.LOGIC_FLAG));
-		final Page<Category> categories = this.categoryRepository.findAll(specification, pageRequest);
-		return Pagination.of(categories.getContent(), categories.getTotalElements(), pageNum - 1, pageSize);
 	}
 }
