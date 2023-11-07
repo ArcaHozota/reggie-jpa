@@ -1,6 +1,5 @@
 package jp.co.reggie.jpadeal.repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.postgresql.util.PSQLException;
@@ -30,27 +29,6 @@ public interface SetmealRepository extends JpaRepository<Setmeal, Long>, JpaSpec
 	@Modifying
 	@Transactional(rollbackFor = PSQLException.class)
 	void batchRemoveByIds(@Param("ids") List<Long> ids);
-
-	/**
-	 * 根據套餐ID集合批量停發售
-	 *
-	 * @param ids    套餐ID集合
-	 * @param status 套餐狀態
-	 * @param upTime 更新時間
-	 * @param upUser 修改者
-	 */
-	@Modifying
-	@Transactional(rollbackFor = PSQLException.class)
-	void batchUpdateByIds(@Param("ids") List<Long> ids, @Param("status") Integer status,
-			@Param("updatedTime") LocalDateTime upTime, @Param("updatedUser") Long upUser);
-
-	/**
-	 * 根據分類ID查詢
-	 *
-	 * @param categoryId 分類ID
-	 * @return 記錄數
-	 */
-	Integer countByCategoryId(@Param("categoryId") Long categoryId);
 
 	/**
 	 * 根據ID集合檢索套餐狀態

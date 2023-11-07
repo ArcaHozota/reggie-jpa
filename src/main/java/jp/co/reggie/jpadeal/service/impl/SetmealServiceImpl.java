@@ -65,9 +65,9 @@ public class SetmealServiceImpl implements SetmealService {
 	private SetmealDishRepository setmealDishRepository;
 
 	@Override
-	public void batchUpdateByIds(final String status, final List<Long> stmlList) {
-		final LocalDateTime upTime = LocalDateTime.now();
-		final Long upUserId = BasicContextUtils.getCurrentId();
+	public void batchUpdateByIds(final String status, final List<Long> stmlIds) {
+		final LocalDateTime updatedTime = LocalDateTime.now();
+		final Long updatedUser = BasicContextUtils.getCurrentId();
 		Integer newStatus;
 		if (StringUtils.isEqual("0", status)) {
 			newStatus = Constants.STATUS_VALID;
@@ -76,7 +76,12 @@ public class SetmealServiceImpl implements SetmealService {
 		} else {
 			throw new CustomException(CustomMessages.ERP022);
 		}
-		this.setmealRepository.batchUpdateByIds(stmlList, newStatus, upTime, upUserId);
+		final List<Setmeal> setmeals = this.setmealRepository.findAllById(stmlIds).stream().peek(item -> {
+			item.setStatus(newStatus);
+			item.setUpdatedTime(updatedTime);
+			item.setUpdatedUser(updatedUser);
+		}).collect(Collectors.toList());
+		this.setmealRepository.saveAllAndFlush(setmeals);
 	}
 
 	@Override
