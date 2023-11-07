@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -29,7 +28,7 @@ public final class CategoryEx implements Serializable {
 	/**
 	 * ID
 	 */
-	@Id
+	@Column(nullable = false)
 	private Long id;
 
 	/**
@@ -39,13 +38,22 @@ public final class CategoryEx implements Serializable {
 	private String name;
 
 	/**
+	 * 菜品ID
+	 */
+	private Long dishId;
+
+	/**
 	 * 菜品名稱
 	 */
 	private String dishName;
 
 	/**
+	 * 套餐ID
+	 */
+	private Long setmealId;
+
+	/**
 	 * 套餐名稱
 	 */
 	private String setmealName;
-
 }

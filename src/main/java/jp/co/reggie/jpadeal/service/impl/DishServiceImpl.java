@@ -20,14 +20,16 @@ import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.dto.DishDto;
-import jp.co.reggie.jpadeal.dto.DishFlavorDto;
+import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.entity.Dish;
 import jp.co.reggie.jpadeal.entity.DishFlavor;
+import jp.co.reggie.jpadeal.repository.CategoryRepository;
 import jp.co.reggie.jpadeal.repository.DishFlavorRepository;
 import jp.co.reggie.jpadeal.repository.DishRepository;
 import jp.co.reggie.jpadeal.service.DishService;
 import jp.co.reggie.jpadeal.utils.BasicContextUtils;
 import jp.co.reggie.jpadeal.utils.Pagination;
+import jp.co.reggie.jpadeal.utils.SecondBeanUtils;
 import jp.co.reggie.jpadeal.utils.StringUtils;
 
 /**
@@ -46,10 +48,16 @@ public class DishServiceImpl implements DishService {
 	private DishRepository dishRepository;
 
 	/**
+	 * 分類管理數據接口
+	 */
+	@Resource
+	private CategoryRepository categoryRepository;
+
+	/**
 	 * 菜品口味數據接口
 	 */
 	@Resource
-	private DishFlavorRepository dishFlavourRepository;
+	private DishFlavorRepository dishFlavorRepository;
 
 	@Override
 	public void batchUpdateByIds(final String status, final List<Long> dishIds) {
@@ -91,9 +99,10 @@ public class DishServiceImpl implements DishService {
 			// 聲明菜品及口味數據傳輸類對象；
 			final DishDto dishDto = new DishDto();
 			// 拷貝除分類名稱以外的屬性；
-			BeanUtils.copyProperties(item, dishDto);
+			SecondBeanUtils.copyNullableProperties(item, dishDto);
 			// 設置分類名稱；
-			dishDto.setCategoryName(item.getCategory().getName());
+			final Category category = this.categoryRepository.findById(categoryId).orElseGet(Category::new);
+			dishDto.setCategoryName(category.getName());
 			return dishDto;
 		}).collect(Collectors.toList());
 	}
@@ -106,18 +115,16 @@ public class DishServiceImpl implements DishService {
 		dish.setDeleteFlg(Constants.LOGIC_FLAG);
 		final ExampleMatcher exampleMatcher = ExampleMatcher.matching()
 				.withMatcher("name", GenericPropertyMatchers.contains())
-				.withMatcher("logicDeleteFlg", GenericPropertyMatchers.exact());
+				.withMatcher("deleteFlg", GenericPropertyMatchers.exact());
 		final Example<Dish> example = Example.of(dish, exampleMatcher);
 		final Page<Dish> dishes = this.dishRepository.findAll(example, pageRequest);
 		final List<DishDto> dishDtos = dishes.getContent().stream().map(item -> {
 			final DishDto dishDto = new DishDto();
-			BeanUtils.copyProperties(item, dishDto, "dishFlavors");
-			final List<DishFlavorDto> dishFlavors = dishDto.getDishFlavors();
-			for (final DishFlavor dishFlavor : item.getDishFlavors()) {
-				final DishFlavorDto dishFlavorDto = new DishFlavorDto();
-				BeanUtils.copyProperties(dishFlavor, dishFlavorDto);
-				dishFlavors.add(dishFlavorDto);
-			}
+			SecondBeanUtils.copyNullableProperties(item, dishDto);
+			final DishFlavor dishFlavor = new DishFlavor();
+			dishFlavor.setDishId(item.getId());
+			final Example<DishFlavor> example2 = Example.of(dishFlavor, ExampleMatcher.matching());
+			final List<DishFlavor> dishFlavors = this.dishFlavorRepository.findAll(example2);
 			dishDto.setDishFlavors(dishFlavors);
 			return dishDto;
 		}).collect(Collectors.toList());
@@ -131,7 +138,7 @@ public class DishServiceImpl implements DishService {
 			throw new CustomException(CustomMessages.ERP024);
 		}
 		// 刪除菜品口味數據；
-		this.dishFlavourRepository.batchRemoveByDishIds(idList);
+		this.dishFlavorRepository.batchRemoveByDishIds(idList);
 		// 刪除菜品信息；
 		this.dishRepository.batchRemoveByIds(idList);
 	}
@@ -159,7 +166,7 @@ public class DishServiceImpl implements DishService {
 			item.setDeleteFlg(Constants.LOGIC_FLAG);
 		}).collect(Collectors.toList());
 		// 保存 菜品的口味數據到口味表；
-		this.dishFlavourRepository.saveAll(dishFlavors);
+		this.dishFlavorRepository.saveAll(dishFlavors);
 	}
 
 	@Override
@@ -178,6 +185,6 @@ public class DishServiceImpl implements DishService {
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
 		// 更新菜品口味信息；
-		this.dishFlavourRepository.saveAll(flavours);
+		this.dishFlavorRepository.saveAll(flavours);
 	}
 }
