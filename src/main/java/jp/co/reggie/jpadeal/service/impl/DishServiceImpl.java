@@ -60,8 +60,8 @@ public class DishServiceImpl implements DishService {
 	private DishFlavorRepository dishFlavorRepository;
 
 	@Override
-	public void batchUpdateByIds(final String status, final List<Long> dishIds) {
-		final List<Dish> dishes = this.dishRepository.findAllById(dishIds);
+	public void batchUpdateByIds(final String status, final List<Long> ids) {
+		final List<Dish> dishes = this.dishRepository.findAllById(ids);
 		final List<Dish> newDishes = dishes.stream().peek(dish -> {
 			dish.setUpdatedTime(LocalDateTime.now());
 			dish.setUpdatedUser(BasicContextUtils.getCurrentId());
@@ -79,10 +79,10 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public DishDto getByIdWithFlavour(final Long id) {
 		// 查詢菜品的基本信息；
-		final Dish dish1 = new Dish();
-		dish1.setId(id);
-		dish1.setDeleteFlg(Constants.LOGIC_FLAG);
-		final Example<Dish> example = Example.of(dish1, ExampleMatcher.matchingAll());
+		final Dish dish = new Dish();
+		dish.setId(id);
+		dish.setDeleteFlg(Constants.LOGIC_FLAG);
+		final Example<Dish> example = Example.of(dish, ExampleMatcher.matchingAll());
 		final Dish newDish = this.dishRepository.findOne(example).orElseGet(Dish::new);
 		// 聲明一個菜品及口味數據傳輸類對象並拷貝屬性；
 		final DishDto dishDto = new DishDto();
@@ -132,15 +132,15 @@ public class DishServiceImpl implements DishService {
 	}
 
 	@Override
-	public void remove(final List<Long> idList) {
-		final Integer countStatusByIds = this.dishRepository.countStatusByIds(idList);
+	public void remove(final List<Long> ids) {
+		final Integer countStatusByIds = this.dishRepository.countStatusByIds(ids);
 		if (countStatusByIds > 0) {
 			throw new CustomException(CustomMessages.ERP024);
 		}
 		// 刪除菜品口味數據；
-		this.dishFlavorRepository.batchRemoveByDishIds(idList);
+		this.dishFlavorRepository.batchRemoveByDishIds(ids);
 		// 刪除菜品信息；
-		this.dishRepository.batchRemoveByIds(idList);
+		this.dishRepository.batchRemoveByIds(ids);
 	}
 
 	@Override
@@ -154,7 +154,7 @@ public class DishServiceImpl implements DishService {
 		dish.setCreatedUser(BasicContextUtils.getCurrentId());
 		dish.setUpdatedUser(BasicContextUtils.getCurrentId());
 		dish.setDeleteFlg(Constants.LOGIC_FLAG);
-		this.dishRepository.save(dish);
+		this.dishRepository.saveAndFlush(dish);
 		// 獲取菜品口味的集合並將菜品ID設置到口味集合中；
 		final List<DishFlavor> dishFlavors = dish.getDishFlavors().stream().peek(item -> {
 			item.setId(BasicContextUtils.getGeneratedId());
