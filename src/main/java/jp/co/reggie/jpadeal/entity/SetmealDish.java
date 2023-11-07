@@ -92,10 +92,4 @@ public final class SetmealDish implements Serializable {
 	 */
 	@Column(nullable = false)
 	private Long updatedUser;
-
-	/**
-	 * 邏輯刪除字段
-	 */
-	@Column(nullable = false)
-	private String deleteFlg;
 }
