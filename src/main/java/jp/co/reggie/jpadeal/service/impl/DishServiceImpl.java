@@ -120,11 +120,9 @@ public class DishServiceImpl implements DishService {
 		final List<DishDto> dishDtos = dishes.getContent().stream().map(item -> {
 			final DishDto dishDto = new DishDto();
 			SecondBeanUtils.copyNullableProperties(item, dishDto);
-			final DishFlavor dishFlavor = new DishFlavor();
-			dishFlavor.setDishId(item.getId());
-			final Example<DishFlavor> example2 = Example.of(dishFlavor, ExampleMatcher.matching());
-			final List<DishFlavor> dishFlavors = this.dishFlavorRepository.findAll(example2);
-			dishDto.setDishFlavors(dishFlavors);
+			final Category category = this.categoryRepository.findById(item.getCategoryId()).orElseGet(Category::new);
+			dishDto.setCategoryName(category.getName());
+			dishDto.setDishFlavors(item.getDishFlavors());
 			return dishDto;
 		}).collect(Collectors.toList());
 		return Pagination.of(dishDtos, dishes.getTotalElements(), pageNum, pageSize);
@@ -162,14 +160,13 @@ public class DishServiceImpl implements DishService {
 			item.setUpdatedTime(LocalDateTime.now());
 			item.setCreatedUser(BasicContextUtils.getCurrentId());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
-			item.setDeleteFlg(Constants.LOGIC_FLAG);
 		}).collect(Collectors.toList());
 		// 保存 菜品的口味數據到口味表；
 		this.dishFlavorRepository.saveAllAndFlush(dishFlavors);
 	}
 
 	@Override
-	public void updateWithFlavour(final DishDto dishDto) {
+	public void updateWithFlavours(final DishDto dishDto) {
 		// 聲明菜品實體類；
 		final Dish dish = new Dish();
 		SecondBeanUtils.copyNullableProperties(dishDto, dish);

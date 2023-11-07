@@ -65,5 +65,5 @@ public interface DishService {
 	 *
 	 * @param dishDto 菜品及口味數據傳輸類
 	 */
-	void updateWithFlavour(DishDto dishDto);
+	void updateWithFlavours(DishDto dishDto);
 }

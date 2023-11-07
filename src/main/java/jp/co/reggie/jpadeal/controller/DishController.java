@@ -39,16 +39,54 @@ public class DishController {
 	private DishService dishService;
 
 	/**
-	 * 新增菜品
+	 * 修改菜品在售狀態
 	 *
-	 * @param dishDto 數據傳輸類對象
-	 * @return R.success(成功新增菜品的信息)
+	 * @param status 菜品狀態
+	 * @return R.success(修改成功信息)
 	 */
-	@PostMapping
-	public Reggie<String> save(@RequestBody final DishDto dishDto) {
-		log.info("新增菜品：{}" + dishDto.toString());
-		this.dishService.saveWithFlavours(dishDto);
-		return Reggie.success(CustomMessages.SRP004);
+	@PutMapping("/status/{status}")
+	public Reggie<String> changeStatus(@PathVariable final String status, @RequestParam("ids") final Long[] ids) {
+		this.dishService.batchUpdateByIds(status, Arrays.asList(ids));
+		return Reggie.success(CustomMessages.SRP016);
+	}
+
+	/**
+	 * 刪除菜品信息
+	 *
+	 * @param ids 菜品ID集合
+	 * @return R.success(菜品刪除成功的信息)
+	 */
+	@DeleteMapping
+	public Reggie<String> delete(@RequestParam("ids") final Long[] ids) {
+		final List<Long> idList = Arrays.asList(ids);
+		log.info("即將刪除菜品：", idList);
+		this.dishService.remove(idList);
+		return Reggie.success(CustomMessages.SRP005);
+	}
+
+	/**
+	 * 根據ID顯示菜品信息
+	 *
+	 * @param id 菜品ID
+	 * @return R.success(菜品信息)
+	 */
+	@GetMapping("/{id}")
+	public Reggie<DishDto> getDishInfo(@PathVariable final Long id) {
+		// 根據ID查詢菜品信息以及對應的口味信息；
+		final DishDto dishDto = this.dishService.getByIdWithFlavour(id);
+		return Reggie.success(dishDto);
+	}
+
+	/**
+	 * 回顯菜品表單數據
+	 *
+	 * @param dish 實體類對象
+	 * @return R.success(菜品信息)
+	 */
+	@GetMapping("/list")
+	public Reggie<List<DishDto>> getList(@RequestParam("categoryId") final Long categoryId) {
+		final List<DishDto> dishDtos = this.dishService.getListByCategoryId(categoryId);
+		return Reggie.success(dishDtos);
 	}
 
 	/**
@@ -67,30 +105,16 @@ public class DishController {
 	}
 
 	/**
-	 * 根據ID顯示菜品信息
+	 * 新增菜品
 	 *
-	 * @param id 菜品ID
-	 * @return R.success(菜品信息)
+	 * @param dishDto 數據傳輸類對象
+	 * @return R.success(成功新增菜品的信息)
 	 */
-	@GetMapping("/{id}")
-	public Reggie<DishDto> getDishInfo(@PathVariable final Long id) {
-		// 根據ID查詢菜品信息以及對應的口味信息；
-		final DishDto dishDto = this.dishService.getByIdWithFlavour(id);
-		return Reggie.success(dishDto);
-	}
-
-	/**
-	 * 刪除菜品信息
-	 *
-	 * @param ids 菜品ID集合
-	 * @return R.success(菜品刪除成功的信息)
-	 */
-	@DeleteMapping
-	public Reggie<String> delete(@RequestParam("ids") final Long[] ids) {
-		final List<Long> idList = Arrays.asList(ids);
-		log.info("即將刪除菜品：", idList);
-		this.dishService.remove(idList);
-		return Reggie.success(CustomMessages.SRP005);
+	@PostMapping
+	public Reggie<String> save(@RequestBody final DishDto dishDto) {
+		log.info("新增菜品：{}" + dishDto.toString());
+		this.dishService.saveWithFlavours(dishDto);
+		return Reggie.success(CustomMessages.SRP004);
 	}
 
 	/**
@@ -102,31 +126,7 @@ public class DishController {
 	@PutMapping
 	public Reggie<String> update(@RequestBody final DishDto dishDto) {
 		log.info(dishDto.toString());
-		this.dishService.updateWithFlavour(dishDto);
+		this.dishService.updateWithFlavours(dishDto);
 		return Reggie.success(CustomMessages.SRP020);
-	}
-
-	/**
-	 * 修改菜品在售狀態
-	 *
-	 * @param status 菜品狀態
-	 * @return R.success(修改成功信息)
-	 */
-	@PutMapping("/status/{status}")
-	public Reggie<String> changeStatus(@PathVariable final String status, @RequestParam("ids") final Long[] ids) {
-		this.dishService.batchUpdateByIds(status, Arrays.asList(ids));
-		return Reggie.success(CustomMessages.SRP016);
-	}
-
-	/**
-	 * 回顯菜品表單數據
-	 *
-	 * @param dish 實體類對象
-	 * @return R.success(菜品信息)
-	 */
-	@GetMapping("/list")
-	public Reggie<List<DishDto>> getList(@RequestParam("categoryId") final Long categoryId) {
-		final List<DishDto> dishDtos = this.dishService.getListByCategoryId(categoryId);
-		return Reggie.success(dishDtos);
 	}
 }
