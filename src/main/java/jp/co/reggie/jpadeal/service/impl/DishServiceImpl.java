@@ -73,7 +73,7 @@ public class DishServiceImpl implements DishService {
 				throw new CustomException(CustomMessages.ERP017);
 			}
 		}).collect(Collectors.toList());
-		this.dishRepository.saveAll(newDishes);
+		this.dishRepository.saveAllAndFlush(newDishes);
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class DishServiceImpl implements DishService {
 		final Dish newDish = this.dishRepository.findOne(example).orElseGet(Dish::new);
 		// 聲明一個菜品及口味數據傳輸類對象並拷貝屬性；
 		final DishDto dishDto = new DishDto();
-		BeanUtils.copyProperties(newDish, dishDto);
+		SecondBeanUtils.copyNullableProperties(newDish, dishDto);
 		return dishDto;
 	}
 
@@ -128,7 +128,7 @@ public class DishServiceImpl implements DishService {
 			dishDto.setDishFlavors(dishFlavors);
 			return dishDto;
 		}).collect(Collectors.toList());
-		return Pagination.of(dishDtos, dishes.getTotalElements(), pageNum - 1, pageSize);
+		return Pagination.of(dishDtos, dishes.getTotalElements(), pageNum, pageSize);
 	}
 
 	@Override
