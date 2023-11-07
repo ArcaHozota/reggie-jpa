@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jp.co.reggie.jpadeal.entity.DishFlavor;
 import lombok.Data;
 
 /**
@@ -82,7 +83,7 @@ public final class DishDto {
 	/**
 	 * 口味集合
 	 */
-	private List<DishFlavorDto> dishFlavors;
+	private List<DishFlavor> dishFlavors;
 
 	/**
 	 * 分類名稱

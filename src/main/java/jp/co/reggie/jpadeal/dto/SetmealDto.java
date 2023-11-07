@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jp.co.reggie.jpadeal.entity.SetmealDish;
 import lombok.Data;
 
 /**
@@ -77,7 +78,7 @@ public final class SetmealDto {
 	/**
 	 * 套餐集合
 	 */
-	private List<SetmealDishDto> setmealDishes;
+	private List<SetmealDish> setmealDishes;
 
 	/**
 	 * 分類名稱
