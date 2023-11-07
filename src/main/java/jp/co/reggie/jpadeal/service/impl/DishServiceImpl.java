@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
@@ -147,7 +146,7 @@ public class DishServiceImpl implements DishService {
 	public void saveWithFlavours(final DishDto dishDto) {
 		// 保存菜品的基本信息到菜品表；
 		final Dish dish = new Dish();
-		BeanUtils.copyProperties(dishDto, dish);
+		SecondBeanUtils.copyNullableProperties(dishDto, dish);
 		dish.setId(BasicContextUtils.getGeneratedId());
 		dish.setCreatedTime(LocalDateTime.now());
 		dish.setUpdatedTime(LocalDateTime.now());
@@ -156,7 +155,7 @@ public class DishServiceImpl implements DishService {
 		dish.setDeleteFlg(Constants.LOGIC_FLAG);
 		this.dishRepository.saveAndFlush(dish);
 		// 獲取菜品口味的集合並將菜品ID設置到口味集合中；
-		final List<DishFlavor> dishFlavors = dish.getDishFlavors().stream().peek(item -> {
+		final List<DishFlavor> dishFlavors = dishDto.getDishFlavors().stream().peek(item -> {
 			item.setId(BasicContextUtils.getGeneratedId());
 			item.setDishId(dishDto.getId());
 			item.setCreatedTime(LocalDateTime.now());
@@ -166,25 +165,25 @@ public class DishServiceImpl implements DishService {
 			item.setDeleteFlg(Constants.LOGIC_FLAG);
 		}).collect(Collectors.toList());
 		// 保存 菜品的口味數據到口味表；
-		this.dishFlavorRepository.saveAll(dishFlavors);
+		this.dishFlavorRepository.saveAllAndFlush(dishFlavors);
 	}
 
 	@Override
 	public void updateWithFlavour(final DishDto dishDto) {
 		// 聲明菜品實體類；
 		final Dish dish = new Dish();
-		BeanUtils.copyProperties(dishDto, dish);
+		SecondBeanUtils.copyNullableProperties(dishDto, dish);
 		dish.setUpdatedTime(LocalDateTime.now());
 		dish.setUpdatedUser(BasicContextUtils.getCurrentId());
 		// 更新菜品信息；
-		this.dishRepository.save(dish);
+		this.dishRepository.saveAndFlush(dish);
 		// 添加當前菜品的口味數據並將菜品ID設置到口味集合中；
-		final List<DishFlavor> flavours = dish.getDishFlavors().stream().peek(item -> {
+		final List<DishFlavor> flavours = dishDto.getDishFlavors().stream().peek(item -> {
 			item.setDishId(dishDto.getId());
 			item.setUpdatedTime(LocalDateTime.now());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
 		// 更新菜品口味信息；
-		this.dishFlavorRepository.saveAll(flavours);
+		this.dishFlavorRepository.saveAllAndFlush(flavours);
 	}
 }

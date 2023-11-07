@@ -13,18 +13,12 @@ import jp.co.reggie.jpadeal.utils.Pagination;
 public interface DishService {
 
 	/**
-	 * 新增菜品，同時插入菜品所對應的口味數據
+	 * 根據菜品集合批量停發售
 	 *
-	 * @param dishDto 菜品及口味數據傳輸類
+	 * @param status 在售狀態
+	 * @param ids    菜品ID集合
 	 */
-	void saveWithFlavours(DishDto dishDto);
-
-	/**
-	 * 修改菜品信息並同時插入菜品所對應的口味數據
-	 *
-	 * @param dishDto 菜品及口味數據傳輸類
-	 */
-	void updateWithFlavour(DishDto dishDto);
+	void batchUpdateByIds(String status, List<Long> ids);
 
 	/**
 	 * 根據ID查詢菜品信息以及對應的口味信息
@@ -35,12 +29,12 @@ public interface DishService {
 	DishDto getByIdWithFlavour(Long id);
 
 	/**
-	 * 根據菜品集合批量停發售
+	 * 根據分類ID回顯菜品表單數據
 	 *
-	 * @param status  在售狀態
-	 * @param dishIds 菜品ID集合
+	 * @param categoryId 分類ID
+	 * @return List<DishDto>
 	 */
-	void batchUpdateByIds(String status, List<Long> dishIds);
+	List<DishDto> getListByCategoryId(Long categoryId);
 
 	/**
 	 * 菜品信息分頁查詢
@@ -55,15 +49,21 @@ public interface DishService {
 	/**
 	 * 根據ID批量刪除菜品
 	 *
-	 * @param idList 菜品ID集合
+	 * @param ids 菜品ID集合
 	 */
-	void remove(List<Long> idList);
+	void remove(List<Long> ids);
 
 	/**
-	 * 根據分類ID回顯菜品表單數據
+	 * 新增菜品，同時插入菜品所對應的口味數據
 	 *
-	 * @param categoryId 分類ID
-	 * @return List<DishDto>
+	 * @param dishDto 菜品及口味數據傳輸類
 	 */
-	List<DishDto> getListByCategoryId(Long categoryId);
+	void saveWithFlavours(DishDto dishDto);
+
+	/**
+	 * 修改菜品信息並同時插入菜品所對應的口味數據
+	 *
+	 * @param dishDto 菜品及口味數據傳輸類
+	 */
+	void updateWithFlavour(DishDto dishDto);
 }
