@@ -22,14 +22,6 @@ import jp.co.reggie.jpadeal.entity.SetmealDish;
 public interface SetmealDishRepository extends JpaRepository<SetmealDish, Long>, JpaSpecificationExecutor<SetmealDish> {
 
 	/**
-	 * 根據套餐ID查詢
-	 *
-	 * @param id 套餐ID
-	 * @return List<SetmealDish>
-	 */
-	List<SetmealDish> selectBySmId(@Param("smId") Long id);
-
-	/**
 	 * 根據套餐ID集合批量刪除數據
 	 *
 	 * @param ids 套餐ID集合
