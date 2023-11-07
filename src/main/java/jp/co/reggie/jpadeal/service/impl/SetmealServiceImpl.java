@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
 import org.postgresql.util.PSQLException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
@@ -23,13 +22,16 @@ import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.dto.SetmealDto;
+import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.entity.Setmeal;
 import jp.co.reggie.jpadeal.entity.SetmealDish;
+import jp.co.reggie.jpadeal.repository.CategoryRepository;
 import jp.co.reggie.jpadeal.repository.SetmealDishRepository;
 import jp.co.reggie.jpadeal.repository.SetmealRepository;
 import jp.co.reggie.jpadeal.service.SetmealService;
 import jp.co.reggie.jpadeal.utils.BasicContextUtils;
 import jp.co.reggie.jpadeal.utils.Pagination;
+import jp.co.reggie.jpadeal.utils.SecondBeanUtils;
 import jp.co.reggie.jpadeal.utils.StringUtils;
 
 /**
@@ -43,6 +45,12 @@ import jp.co.reggie.jpadeal.utils.StringUtils;
 public class SetmealServiceImpl implements SetmealService {
 
 	private static final Random RANDOM = new Random();
+
+	/**
+	 * 分類管理數據接口
+	 */
+	@Resource
+	private CategoryRepository categoryRepository;
 
 	/**
 	 * 套餐數據接口類
@@ -75,8 +83,9 @@ public class SetmealServiceImpl implements SetmealService {
 	public SetmealDto getByIdWithDishInfo(final Long id) {
 		final Setmeal setmeal = this.setmealRepository.findById(id).orElseGet(Setmeal::new);
 		final SetmealDto setmealDto = new SetmealDto();
-		BeanUtils.copyProperties(setmeal, setmealDto);
-		setmealDto.setCategoryName(setmeal.getCategory().getName());
+		SecondBeanUtils.copyNullableProperties(setmeal, setmealDto);
+		final Category category = this.categoryRepository.findById(setmeal.getCategoryId()).orElseGet(Category::new);
+		setmealDto.setCategoryName(category.getName());
 		return setmealDto;
 	}
 
@@ -88,16 +97,18 @@ public class SetmealServiceImpl implements SetmealService {
 		setmeal.setDeleteFlg(Constants.LOGIC_FLAG);
 		final ExampleMatcher exampleMatcher = ExampleMatcher.matching()
 				.withMatcher("name", GenericPropertyMatchers.contains())
-				.withMatcher("logicDeleteFlg", GenericPropertyMatchers.exact());
+				.withMatcher("deleteFlg", GenericPropertyMatchers.exact());
 		final Example<Setmeal> example = Example.of(setmeal, exampleMatcher);
 		final Page<Setmeal> setmeals = this.setmealRepository.findAll(example, pageRequest);
 		final List<SetmealDto> setmealDtos = setmeals.getContent().stream().map(item -> {
 			final SetmealDto setmealDto = new SetmealDto();
-			BeanUtils.copyProperties(item, setmealDto);
-			setmealDto.setCategoryName(item.getCategory().getName());
+			SecondBeanUtils.copyNullableProperties(item, setmealDto);
+			final Category category = this.categoryRepository.findById(setmeal.getCategoryId())
+					.orElseGet(Category::new);
+			setmealDto.setCategoryName(category.getName());
 			return setmealDto;
 		}).collect(Collectors.toList());
-		return Pagination.of(setmealDtos, setmeals.getTotalElements(), pageNum - 1, pageSize);
+		return Pagination.of(setmealDtos, setmeals.getTotalElements(), pageNum, pageSize);
 	}
 
 	@Override
@@ -118,7 +129,7 @@ public class SetmealServiceImpl implements SetmealService {
 	public void saveWithDish(final SetmealDto setmealDto) {
 		// 聲明套餐實體類並拷貝屬性；
 		final Setmeal setmeal = new Setmeal();
-		BeanUtils.copyProperties(setmealDto, setmeal);
+		SecondBeanUtils.copyNullableProperties(setmealDto, setmeal);
 		// 保存套餐的基本信息；
 		setmeal.setId(BasicContextUtils.getGeneratedId());
 		setmeal.setCreatedTime(LocalDateTime.now());
@@ -126,38 +137,38 @@ public class SetmealServiceImpl implements SetmealService {
 		setmeal.setCreatedUser(BasicContextUtils.getCurrentId());
 		setmeal.setUpdatedUser(BasicContextUtils.getCurrentId());
 		setmeal.setDeleteFlg(Constants.LOGIC_FLAG);
-		this.setmealRepository.save(setmeal);
+		this.setmealRepository.saveAndFlush(setmeal);
 		// 獲取套餐菜品關聯集合；
 		final List<SetmealDish> setmealDishes = setmeal.getSetmealDishes().stream().peek(item -> {
 			item.setId(BasicContextUtils.getGeneratedId());
 			item.setSetmealId(setmeal.getId());
+			item.setSort(RANDOM.nextInt(setmealDto.getSetmealDishes().size()));
 			item.setCreatedTime(LocalDateTime.now());
 			item.setUpdatedTime(LocalDateTime.now());
 			item.setCreatedUser(BasicContextUtils.getCurrentId());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
-			item.setDeleteFlg(Constants.LOGIC_FLAG);
 		}).collect(Collectors.toList());
 		// 保存套餐和菜品的關聯關係；
-		this.setmealDishRepository.saveAll(setmealDishes);
+		this.setmealDishRepository.saveAllAndFlush(setmealDishes);
 	}
 
 	@Override
 	public void updateWithDish(final SetmealDto setmealDto) {
 		// 聲明套餐實體類並拷貝屬性；
 		final Setmeal setmeal = new Setmeal();
-		BeanUtils.copyProperties(setmealDto, setmeal);
+		SecondBeanUtils.copyNullableProperties(setmealDto, setmeal);
 		// 保存套餐的基本信息；
 		setmeal.setUpdatedTime(LocalDateTime.now());
 		setmeal.setUpdatedUser(BasicContextUtils.getCurrentId());
-		this.setmealRepository.save(setmeal);
+		this.setmealRepository.saveAndFlush(setmeal);
 		// 獲取套餐菜品關聯集合；
-		final List<SetmealDish> setmealDishes = setmeal.getSetmealDishes().stream().peek(item -> {
+		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().peek(item -> {
 			item.setSetmealId(setmeal.getId());
-			item.setSort(RANDOM.nextInt(setmeal.getSetmealDishes().size()));
+			item.setSort(RANDOM.nextInt(setmealDto.getSetmealDishes().size()));
 			item.setUpdatedTime(LocalDateTime.now());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
 		// 保存套餐和菜品的關聯關係；
-		this.setmealDishRepository.saveAll(setmealDishes);
+		this.setmealDishRepository.saveAllAndFlush(setmealDishes);
 	}
 }
