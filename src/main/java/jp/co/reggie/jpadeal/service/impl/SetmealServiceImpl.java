@@ -25,6 +25,7 @@ import jp.co.reggie.jpadeal.dto.SetmealDto;
 import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.entity.Setmeal;
 import jp.co.reggie.jpadeal.entity.SetmealDish;
+import jp.co.reggie.jpadeal.repository.CategoryExRepository;
 import jp.co.reggie.jpadeal.repository.CategoryRepository;
 import jp.co.reggie.jpadeal.repository.SetmealDishRepository;
 import jp.co.reggie.jpadeal.repository.SetmealRepository;
@@ -53,6 +54,12 @@ public class SetmealServiceImpl implements SetmealService {
 	private CategoryRepository categoryRepository;
 
 	/**
+	 * 分類管理擴展數據接口
+	 */
+	@Resource
+	private CategoryExRepository categoryExRepository;
+
+	/**
 	 * 套餐數據接口類
 	 */
 	@Resource
@@ -78,6 +85,7 @@ public class SetmealServiceImpl implements SetmealService {
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
 		this.setmealRepository.saveAllAndFlush(setmeals);
+		this.categoryExRepository.refresh();
 	}
 
 	@Override
@@ -124,6 +132,7 @@ public class SetmealServiceImpl implements SetmealService {
 		this.setmealDishRepository.batchRemoveBySmIds(ids);
 		// 刪除套餐表中的數據；
 		this.setmealRepository.batchRemoveByIds(ids);
+		this.categoryExRepository.refresh();
 	}
 
 	@Override
@@ -151,6 +160,7 @@ public class SetmealServiceImpl implements SetmealService {
 		}).collect(Collectors.toList());
 		// 保存套餐和菜品的關聯關係；
 		this.setmealDishRepository.saveAllAndFlush(setmealDishes);
+		this.categoryExRepository.refresh();
 	}
 
 	@Override
@@ -171,5 +181,6 @@ public class SetmealServiceImpl implements SetmealService {
 		}).collect(Collectors.toList());
 		// 保存套餐和菜品的關聯關係；
 		this.setmealDishRepository.saveAllAndFlush(setmealDishes);
+		this.categoryExRepository.refresh();
 	}
 }

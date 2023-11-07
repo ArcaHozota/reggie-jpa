@@ -22,6 +22,7 @@ import jp.co.reggie.jpadeal.dto.DishDto;
 import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.entity.Dish;
 import jp.co.reggie.jpadeal.entity.DishFlavor;
+import jp.co.reggie.jpadeal.repository.CategoryExRepository;
 import jp.co.reggie.jpadeal.repository.CategoryRepository;
 import jp.co.reggie.jpadeal.repository.DishFlavorRepository;
 import jp.co.reggie.jpadeal.repository.DishRepository;
@@ -53,6 +54,12 @@ public class DishServiceImpl implements DishService {
 	private CategoryRepository categoryRepository;
 
 	/**
+	 * 分類管理擴展數據接口
+	 */
+	@Resource
+	private CategoryExRepository categoryExRepository;
+
+	/**
 	 * 菜品口味數據接口
 	 */
 	@Resource
@@ -72,6 +79,7 @@ public class DishServiceImpl implements DishService {
 			dish.setUpdatedUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
 		this.dishRepository.saveAllAndFlush(dishes);
+		this.categoryExRepository.refresh();
 	}
 
 	@Override
@@ -139,6 +147,7 @@ public class DishServiceImpl implements DishService {
 		this.dishFlavorRepository.batchRemoveByDishIds(ids);
 		// 刪除菜品信息；
 		this.dishRepository.batchRemoveByIds(ids);
+		this.categoryExRepository.refresh();
 	}
 
 	@Override
@@ -164,6 +173,7 @@ public class DishServiceImpl implements DishService {
 		}).collect(Collectors.toList());
 		// 保存 菜品的口味數據到口味表；
 		this.dishFlavorRepository.saveAllAndFlush(dishFlavors);
+		this.categoryExRepository.refresh();
 	}
 
 	@Override
@@ -183,5 +193,6 @@ public class DishServiceImpl implements DishService {
 		}).collect(Collectors.toList());
 		// 更新菜品口味信息；
 		this.dishFlavorRepository.saveAllAndFlush(flavours);
+		this.categoryExRepository.refresh();
 	}
 }
