@@ -60,10 +60,7 @@ public class DishServiceImpl implements DishService {
 
 	@Override
 	public void batchUpdateByIds(final String status, final List<Long> ids) {
-		final List<Dish> dishes = this.dishRepository.findAllById(ids);
-		final List<Dish> newDishes = dishes.stream().peek(dish -> {
-			dish.setUpdatedTime(LocalDateTime.now());
-			dish.setUpdatedUser(BasicContextUtils.getCurrentId());
+		final List<Dish> dishes = this.dishRepository.findAllById(ids).stream().peek(dish -> {
 			if (StringUtils.isEqual("0", status)) {
 				dish.setStatus(Constants.STATUS_VALID);
 			} else if (StringUtils.isEqual("1", status)) {
@@ -71,8 +68,10 @@ public class DishServiceImpl implements DishService {
 			} else {
 				throw new CustomException(CustomMessages.ERP017);
 			}
+			dish.setUpdatedTime(LocalDateTime.now());
+			dish.setUpdatedUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
-		this.dishRepository.saveAllAndFlush(newDishes);
+		this.dishRepository.saveAllAndFlush(dishes);
 	}
 
 	@Override

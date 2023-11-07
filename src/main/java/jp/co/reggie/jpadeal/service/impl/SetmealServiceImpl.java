@@ -66,20 +66,16 @@ public class SetmealServiceImpl implements SetmealService {
 
 	@Override
 	public void batchUpdateByIds(final String status, final List<Long> stmlIds) {
-		final LocalDateTime updatedTime = LocalDateTime.now();
-		final Long updatedUser = BasicContextUtils.getCurrentId();
-		Integer newStatus;
-		if (StringUtils.isEqual("0", status)) {
-			newStatus = Constants.STATUS_VALID;
-		} else if (StringUtils.isEqual("1", status)) {
-			newStatus = Constants.STATUS_FORBIDDEN;
-		} else {
-			throw new CustomException(CustomMessages.ERP022);
-		}
 		final List<Setmeal> setmeals = this.setmealRepository.findAllById(stmlIds).stream().peek(item -> {
-			item.setStatus(newStatus);
-			item.setUpdatedTime(updatedTime);
-			item.setUpdatedUser(updatedUser);
+			if (StringUtils.isEqual("0", status)) {
+				item.setStatus(Constants.STATUS_VALID);
+			} else if (StringUtils.isEqual("1", status)) {
+				item.setStatus(Constants.STATUS_FORBIDDEN);
+			} else {
+				throw new CustomException(CustomMessages.ERP022);
+			}
+			item.setUpdatedTime(LocalDateTime.now());
+			item.setUpdatedUser(BasicContextUtils.getCurrentId());
 		}).collect(Collectors.toList());
 		this.setmealRepository.saveAllAndFlush(setmeals);
 	}
