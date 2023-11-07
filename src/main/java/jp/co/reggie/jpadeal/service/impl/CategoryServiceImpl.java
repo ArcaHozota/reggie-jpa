@@ -59,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
 		final Specification<Category> specification = Specification.where(
 				(root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("deleteFlg"), Constants.LOGIC_FLAG));
 		final Page<Category> categories = this.categoryRepository.findAll(specification, pageRequest);
-		return Pagination.of(categories.getContent(), categories.getTotalElements(), pageNum - 1, pageSize);
+		return Pagination.of(categories.getContent(), categories.getTotalElements(), pageNum, pageSize);
 	}
 
 	@Override
