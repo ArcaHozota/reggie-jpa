@@ -77,14 +77,17 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public DishDto getByIdWithFlavour(final Long id) {
 		// 查詢菜品的基本信息；
-		final Dish dish = new Dish();
-		dish.setId(id);
-		dish.setDeleteFlg(Constants.LOGIC_FLAG);
-		final Example<Dish> example = Example.of(dish, ExampleMatcher.matchingAll());
-		final Dish newDish = this.dishRepository.findOne(example).orElseGet(Dish::new);
+		final Dish probe = new Dish();
+		probe.setId(id);
+		probe.setDeleteFlg(Constants.LOGIC_FLAG);
+		final Example<Dish> example = Example.of(probe, ExampleMatcher.matchingAll());
+		final Dish dish = this.dishRepository.findOne(example).orElseGet(Dish::new);
 		// 聲明一個菜品及口味數據傳輸類對象並拷貝屬性；
 		final DishDto dishDto = new DishDto();
-		SecondBeanUtils.copyNullableProperties(newDish, dishDto);
+		SecondBeanUtils.copyNullableProperties(dish, dishDto);
+		// 設置分類名稱；
+		final Category category = this.categoryRepository.findById(dish.getCategoryId()).orElseGet(Category::new);
+		dishDto.setCategoryName(category.getName());
 		return dishDto;
 	}
 
@@ -121,7 +124,6 @@ public class DishServiceImpl implements DishService {
 			SecondBeanUtils.copyNullableProperties(item, dishDto);
 			final Category category = this.categoryRepository.findById(item.getCategoryId()).orElseGet(Category::new);
 			dishDto.setCategoryName(category.getName());
-			dishDto.setDishFlavors(item.getDishFlavors());
 			return dishDto;
 		}).collect(Collectors.toList());
 		return Pagination.of(dishDtos, dishes.getTotalElements(), pageNum, pageSize);
