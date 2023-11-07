@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -92,4 +94,11 @@ public final class SetmealDish implements Serializable {
 	 */
 	@Column(nullable = false)
 	private Long updatedUser;
+
+	/**
+	 * 菜品套餐關聯
+	 */
+	@ManyToOne
+	@JoinColumn(name = "setmealId", insertable = false, updatable = false)
+	private Setmeal setmeal;
 }
