@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Proxy;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +23,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "shopping_cart")
-@Proxy(lazy = false)
 public final class ShoppingCart implements Serializable {
 
 	private static final long serialVersionUID = 1618550099529253148L;

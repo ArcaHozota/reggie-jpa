@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Proxy;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,7 +24,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "setmeal_dish")
-@Proxy(lazy = false)
 @NamedQuery(name = "SetmealDish.selectBySmId", query = "select smd from SetmealDish as smd where smd.deleteFlg = 'visible' and smd.setmealId =:smId")
 @NamedQuery(name = "SetmealDish.batchRemoveBySmIds", query = "update SetmealDish as smd set smd.deleteFlg = 'removed' where smd.setmealId in(:smIds)")
 public final class SetmealDish implements Serializable {
