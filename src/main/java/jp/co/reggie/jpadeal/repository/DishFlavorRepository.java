@@ -29,12 +29,4 @@ public interface DishFlavorRepository extends JpaRepository<DishFlavor, Long>, J
 	@Modifying
 	@Transactional(rollbackFor = PSQLException.class)
 	void batchRemoveByDishIds(@Param("dishIds") List<Long> dishIds);
-
-	/**
-	 * 根據菜品ID查詢口味信息
-	 *
-	 * @param dishId 菜品ID
-	 * @return 菜品口味列表
-	 */
-	List<DishFlavor> selectByDishId(@Param("dishId") Long dishId);
 }

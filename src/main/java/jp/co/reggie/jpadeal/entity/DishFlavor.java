@@ -23,8 +23,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "dish_flavor")
-@NamedQuery(name = "DishFlavor.selectByDishId", query = "select af from DishFlavor as af where af.deleteFlg = 'visible' and af.dishId =:dishId")
-@NamedQuery(name = "DishFlavor.batchRemoveByDishIds", query = "update DishFlavor as af set af.deleteFlg = 'removed' where af.dishId in(:dishIds)")
+@NamedQuery(name = "DishFlavor.batchRemoveByDishIds", query = "delete from DishFlavor as af where af.dishId in(:dishIds)")
 public final class DishFlavor implements Serializable {
 
 	private static final long serialVersionUID = 6752106293794210881L;
