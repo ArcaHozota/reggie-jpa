@@ -26,6 +26,6 @@ public interface CategoryExRepository extends JpaRepository<CategoryEx, Long>, J
 	 */
 	@Modifying
 	@Transactional(rollbackFor = PSQLException.class)
-	@Query(name = "refresh materialized view category_extend", nativeQuery = true)
+	@Query(value = "refresh materialized view category_extend", nativeQuery = true)
 	void refresh();
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -28,7 +29,7 @@ public final class CategoryEx implements Serializable {
 	/**
 	 * ID
 	 */
-	@Column(nullable = false)
+	@Id
 	private Long id;
 
 	/**
