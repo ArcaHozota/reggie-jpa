@@ -17,13 +17,11 @@ import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.entity.Category;
-import jp.co.reggie.jpadeal.entity.CategoryEx;
 import jp.co.reggie.jpadeal.repository.CategoryExRepository;
 import jp.co.reggie.jpadeal.repository.CategoryRepository;
 import jp.co.reggie.jpadeal.service.CategoryService;
 import jp.co.reggie.jpadeal.utils.BasicContextUtils;
 import jp.co.reggie.jpadeal.utils.Pagination;
-import jp.co.reggie.jpadeal.utils.StringUtils;
 
 /**
  * 分類管理服務實現類
@@ -65,8 +63,8 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void remove(final Long id) {
 		// 查詢當前分類是否已經關聯了菜品或者套餐，如果已經關聯抛出一個異常；
-		final CategoryEx categoryEx = this.categoryExRepository.findById(id).orElseGet(CategoryEx::new);
-		if (StringUtils.isEmpty(categoryEx.getDishName()) && StringUtils.isEmpty(categoryEx.getSetmealName())) {
+		final Integer kensu = this.categoryExRepository.countById(id);
+		if (kensu == 0) {
 			// 正常刪除分類；
 			this.categoryRepository.removeById(id);
 			this.categoryExRepository.refresh();

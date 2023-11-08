@@ -25,7 +25,7 @@ public interface CategoryExRepository extends JpaRepository<CategoryEx, Long>, J
 	 * @param id 分類ID
 	 * @return Integer
 	 */
-	Integer countBtId(Long id);
+	Integer countById(Long id);
 
 	/**
 	 * リフレッシュ
