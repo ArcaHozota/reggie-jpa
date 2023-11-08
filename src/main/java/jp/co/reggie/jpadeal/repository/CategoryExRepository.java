@@ -20,6 +20,14 @@ import jp.co.reggie.jpadeal.entity.CategoryEx;
 public interface CategoryExRepository extends JpaRepository<CategoryEx, Long>, JpaSpecificationExecutor<CategoryEx> {
 
 	/**
+	 * 分類IDによって料理と定食の数を計算する
+	 *
+	 * @param id 分類ID
+	 * @return Integer
+	 */
+	Integer countBtId(Long id);
+
+	/**
 	 * リフレッシュ
 	 *
 	 * @param id 分類ID
