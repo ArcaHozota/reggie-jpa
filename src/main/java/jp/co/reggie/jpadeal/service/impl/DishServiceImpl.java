@@ -132,6 +132,7 @@ public class DishServiceImpl implements DishService {
 			SecondBeanUtils.copyNullableProperties(item, dishDto);
 			final Category category = this.categoryRepository.findById(item.getCategoryId()).orElseGet(Category::new);
 			dishDto.setCategoryName(category.getName());
+			dishDto.setDishFlavors(item.getDishFlavors());
 			return dishDto;
 		}).collect(Collectors.toList());
 		return Pagination.of(dishDtos, dishes.getTotalElements(), pageNum, pageSize);
