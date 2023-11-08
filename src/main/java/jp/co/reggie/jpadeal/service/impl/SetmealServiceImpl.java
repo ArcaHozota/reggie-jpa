@@ -112,8 +112,7 @@ public class SetmealServiceImpl implements SetmealService {
 		final List<SetmealDto> setmealDtos = setmeals.getContent().stream().map(item -> {
 			final SetmealDto setmealDto = new SetmealDto();
 			SecondBeanUtils.copyNullableProperties(item, setmealDto);
-			final Category category = this.categoryRepository.findById(setmeal.getCategoryId())
-					.orElseGet(Category::new);
+			final Category category = this.categoryRepository.findById(item.getCategoryId()).orElseGet(Category::new);
 			setmealDto.setCategoryName(category.getName());
 			return setmealDto;
 		}).collect(Collectors.toList());
