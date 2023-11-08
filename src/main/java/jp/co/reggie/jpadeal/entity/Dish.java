@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -120,6 +121,6 @@ public final class Dish implements Serializable {
 	/**
 	 * 菜品口味關聯
 	 */
-	@OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "dish", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<DishFlavor> dishFlavors;
 }
