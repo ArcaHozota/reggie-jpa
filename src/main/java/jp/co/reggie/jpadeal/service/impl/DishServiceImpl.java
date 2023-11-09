@@ -97,10 +97,17 @@ public class DishServiceImpl implements DishService {
 		final Dish dish = this.dishRepository.findOne(example).orElseGet(Dish::new);
 		// 聲明一個菜品及口味數據傳輸類對象並拷貝屬性；
 		final DishDto dishDto = new DishDto();
+		final List<DishFlavorDto> dishFlavorDtos = new ArrayList<>();
+		dish.getDishFlavors().forEach(item -> {
+			final DishFlavorDto dishFlavorDto = new DishFlavorDto();
+			SecondBeanUtils.copyNullableProperties(item, dishFlavorDto);
+			dishFlavorDtos.add(dishFlavorDto);
+		});
 		SecondBeanUtils.copyNullableProperties(dish, dishDto);
 		// 設置分類名稱；
 		final Category category = this.categoryRepository.findById(dish.getCategoryId()).orElseGet(Category::new);
 		dishDto.setCategoryName(category.getName());
+		dishDto.setDishFlavours(dishFlavorDtos);
 		return dishDto;
 	}
 
@@ -112,11 +119,19 @@ public class DishServiceImpl implements DishService {
 		return dishes.stream().map(item -> {
 			// 聲明菜品及口味數據傳輸類對象；
 			final DishDto dishDto = new DishDto();
+			final List<DishFlavorDto> dishFlavorDtos = new ArrayList<>();
+			final List<DishFlavor> dishFlavors = item.getDishFlavors();
+			for (final DishFlavor dishFlavor : dishFlavors) {
+				final DishFlavorDto dishFlavorDto = new DishFlavorDto();
+				SecondBeanUtils.copyNullableProperties(dishFlavor, dishFlavorDto);
+				dishFlavorDtos.add(dishFlavorDto);
+			}
 			// 拷貝除分類名稱以外的屬性；
 			SecondBeanUtils.copyNullableProperties(item, dishDto);
 			// 設置分類名稱；
 			final Category category = this.categoryRepository.findById(categoryId).orElseGet(Category::new);
 			dishDto.setCategoryName(category.getName());
+			dishDto.setDishFlavours(dishFlavorDtos);
 			return dishDto;
 		}).collect(Collectors.toList());
 	}
