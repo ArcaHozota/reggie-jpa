@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jp.co.reggie.jpadeal.entity.SetmealDish;
 import lombok.Data;
 
 /**
  * 套餐數據傳輸專用類
  *
- * @author Administrator
+ * @author ArkamaHozota
+ * @since 1.00beta
  */
 @Data
 public final class SetmealDto {
@@ -78,7 +78,7 @@ public final class SetmealDto {
 	/**
 	 * 套餐集合
 	 */
-	private List<SetmealDish> setmealDishes;
+	private List<SetmealDishDto> setmealDishes;
 
 	/**
 	 * 分類名稱
