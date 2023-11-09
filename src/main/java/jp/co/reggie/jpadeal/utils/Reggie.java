@@ -1,17 +1,14 @@
 package jp.co.reggie.jpadeal.utils;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * 通用返回結果類
  *
- * @author Administrator
+ * @author ArkamaHozota
+ * @since 1.00beta
  */
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public final class Reggie<T> {
 
 	/**
@@ -25,19 +22,18 @@ public final class Reggie<T> {
 	private static final String ERROR = "ERROR";
 
 	/**
-	 * 編碼： 成功：SUCCESS，失敗：ERROR
+	 * 請求失敗
+	 *
+	 * @param msg 請求失敗的信息
+	 * @param <T> 汎型
+	 * @return 失敗的信息
 	 */
-	private String code;
-
-	/**
-	 * 錯誤信息
-	 */
-	private String msg;
-
-	/**
-	 * 數據
-	 */
-	private T data;
+	public static <T> Reggie<T> error(final String msg) {
+		final Reggie<T> reggie = new Reggie<>();
+		reggie.msg = msg;
+		reggie.code = ERROR;
+		return reggie;
+	}
 
 	/**
 	 * 處理成功
@@ -54,16 +50,17 @@ public final class Reggie<T> {
 	}
 
 	/**
-	 * 請求失敗
-	 *
-	 * @param msg 請求失敗的信息
-	 * @param <T> 汎型
-	 * @return 失敗的信息
+	 * 編碼： 成功：SUCCESS，失敗：ERROR
 	 */
-	public static <T> Reggie<T> error(final String msg) {
-		final Reggie<T> reggie = new Reggie<>();
-		reggie.msg = msg;
-		reggie.code = ERROR;
-		return reggie;
-	}
+	private String code;
+
+	/**
+	 * 錯誤信息
+	 */
+	private String msg;
+
+	/**
+	 * 數據
+	 */
+	private T data;
 }
