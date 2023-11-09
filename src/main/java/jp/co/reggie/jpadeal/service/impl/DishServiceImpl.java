@@ -107,7 +107,7 @@ public class DishServiceImpl implements DishService {
 		// 設置分類名稱；
 		final Category category = this.categoryRepository.findById(dish.getCategoryId()).orElseGet(Category::new);
 		dishDto.setCategoryName(category.getName());
-		dishDto.setDishFlavours(dishFlavorDtos);
+		dishDto.setFlavors(dishFlavorDtos);
 		return dishDto;
 	}
 
@@ -131,7 +131,7 @@ public class DishServiceImpl implements DishService {
 			// 設置分類名稱；
 			final Category category = this.categoryRepository.findById(categoryId).orElseGet(Category::new);
 			dishDto.setCategoryName(category.getName());
-			dishDto.setDishFlavours(dishFlavorDtos);
+			dishDto.setFlavors(dishFlavorDtos);
 			return dishDto;
 		}).collect(Collectors.toList());
 	}
@@ -159,7 +159,7 @@ public class DishServiceImpl implements DishService {
 			SecondBeanUtils.copyNullableProperties(item, dishDto);
 			final Category category = this.categoryRepository.findById(item.getCategoryId()).orElseGet(Category::new);
 			dishDto.setCategoryName(category.getName());
-			dishDto.setDishFlavours(dishFlavorDtos);
+			dishDto.setFlavors(dishFlavorDtos);
 			return dishDto;
 		}).collect(Collectors.toList());
 		return Pagination.of(dishDtos, dishes.getTotalElements(), pageNum, pageSize);
@@ -191,7 +191,7 @@ public class DishServiceImpl implements DishService {
 		dish.setDeleteFlg(Constants.LOGIC_FLAG);
 		this.dishRepository.saveAndFlush(dish);
 		// 獲取菜品口味的集合並將菜品ID設置到口味集合中；
-		final List<DishFlavor> dishFlavors = dishDto.getDishFlavours().stream().map(item -> {
+		final List<DishFlavor> dishFlavors = dishDto.getFlavors().stream().map(item -> {
 			final DishFlavor dishFlavor = new DishFlavor();
 			SecondBeanUtils.copyNullableProperties(item, dishFlavor);
 			dishFlavor.setId(BasicContextUtils.getGeneratedId());
@@ -217,7 +217,7 @@ public class DishServiceImpl implements DishService {
 		// 更新菜品信息；
 		this.dishRepository.saveAndFlush(dish);
 		// 添加當前菜品的口味數據並將菜品ID設置到口味集合中；
-		final List<DishFlavor> flavours = dishDto.getDishFlavours().stream().map(item -> {
+		final List<DishFlavor> flavours = dishDto.getFlavors().stream().map(item -> {
 			final DishFlavor dishFlavor = new DishFlavor();
 			SecondBeanUtils.copyNullableProperties(item, dishFlavor);
 			item.setDishId(dishDto.getId());
