@@ -148,14 +148,17 @@ public class SetmealServiceImpl implements SetmealService {
 		setmeal.setDeleteFlg(Constants.LOGIC_FLAG);
 		this.setmealRepository.saveAndFlush(setmeal);
 		// 獲取套餐菜品關聯集合；
-		final List<SetmealDish> setmealDishes = setmeal.getSetmealDishes().stream().peek(item -> {
-			item.setId(BasicContextUtils.getGeneratedId());
-			item.setSetmealId(setmeal.getId());
-			item.setSort(RANDOM.nextInt(setmealDto.getSetmealDishes().size()));
-			item.setCreatedTime(LocalDateTime.now());
-			item.setUpdatedTime(LocalDateTime.now());
-			item.setCreatedUser(BasicContextUtils.getCurrentId());
-			item.setUpdatedUser(BasicContextUtils.getCurrentId());
+		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().map(item -> {
+			final SetmealDish setmealDish = new SetmealDish();
+			SecondBeanUtils.copyNullableProperties(item, setmealDish);
+			setmealDish.setId(BasicContextUtils.getGeneratedId());
+			setmealDish.setSetmealId(setmeal.getId());
+			setmealDish.setSort(RANDOM.nextInt(setmealDto.getSetmealDishes().size()));
+			setmealDish.setCreatedTime(LocalDateTime.now());
+			setmealDish.setUpdatedTime(LocalDateTime.now());
+			setmealDish.setCreatedUser(BasicContextUtils.getCurrentId());
+			setmealDish.setUpdatedUser(BasicContextUtils.getCurrentId());
+			return setmealDish;
 		}).collect(Collectors.toList());
 		// 保存套餐和菜品的關聯關係；
 		this.setmealDishRepository.saveAllAndFlush(setmealDishes);
@@ -172,11 +175,14 @@ public class SetmealServiceImpl implements SetmealService {
 		setmeal.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.setmealRepository.saveAndFlush(setmeal);
 		// 獲取套餐菜品關聯集合；
-		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().peek(item -> {
-			item.setSetmealId(setmeal.getId());
-			item.setSort(RANDOM.nextInt(setmealDto.getSetmealDishes().size()));
-			item.setUpdatedTime(LocalDateTime.now());
-			item.setUpdatedUser(BasicContextUtils.getCurrentId());
+		final List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes().stream().map(item -> {
+			final SetmealDish setmealDish = new SetmealDish();
+			SecondBeanUtils.copyNullableProperties(item, setmealDish);
+			setmealDish.setSetmealId(setmealDto.getId());
+			setmealDish.setSort(RANDOM.nextInt(setmealDto.getSetmealDishes().size()));
+			setmealDish.setUpdatedTime(LocalDateTime.now());
+			setmealDish.setUpdatedUser(BasicContextUtils.getCurrentId());
+			return setmealDish;
 		}).collect(Collectors.toList());
 		// 保存套餐和菜品的關聯關係；
 		this.setmealDishRepository.saveAllAndFlush(setmealDishes);
