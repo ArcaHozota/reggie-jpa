@@ -14,8 +14,8 @@ import jp.co.reggie.jpadeal.entity.Dish;
 /**
  * 料理リポジトリ
  *
- * @author Administrator
- * @since 2022-11-19
+ * @author ArkamaHozota
+ * @since 1.00beta
  */
 public interface DishRepository extends JpaRepository<Dish, Long>, JpaSpecificationExecutor<Dish> {
 
@@ -27,14 +27,6 @@ public interface DishRepository extends JpaRepository<Dish, Long>, JpaSpecificat
 	@Modifying
 	@Transactional(rollbackFor = PSQLException.class)
 	void batchRemoveByIds(@Param("ids") List<Long> ids);
-
-	/**
-	 * 根據分類ID查詢
-	 *
-	 * @param categoryId 分類ID
-	 * @return 記錄數
-	 */
-	Integer countByCategoryId(@Param("categoryId") Long categoryId);
 
 	/**
 	 * 根據菜品ID查詢狀態

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -27,7 +28,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "dish")
-@NamedQuery(name = "Dish.countByCategoryId", query = "select count(1) from Dish as dh where dh.deleteFlg = 'visible' and dh.categoryId =:categoryId")
 @NamedQuery(name = "Dish.countStatusByIds", query = "select count(1) from Dish as dh where dh.deleteFlg = 'visible' and dh.status = 1 and dh.id in(:ids)")
 @NamedQuery(name = "Dish.findByCategoryId", query = "select dh from Dish as dh where dh.deleteFlg = 'visible' and dh.categoryId =:categoryId")
 @NamedQuery(name = "Dish.batchRemoveByIds", query = "update Dish as dh set dh.deleteFlg = 'removed' where dh.id in(:ids)")
@@ -120,6 +120,6 @@ public final class Dish implements Serializable {
 	/**
 	 * 菜品口味關聯
 	 */
-	@OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "dish", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<DishFlavor> dishFlavors;
 }
