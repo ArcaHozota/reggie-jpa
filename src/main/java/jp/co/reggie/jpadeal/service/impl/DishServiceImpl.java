@@ -1,6 +1,7 @@
 package jp.co.reggie.jpadeal.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,7 @@ import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.dto.DishDto;
+import jp.co.reggie.jpadeal.dto.DishFlavorDto;
 import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.entity.Dish;
 import jp.co.reggie.jpadeal.entity.DishFlavor;
@@ -132,9 +134,17 @@ public class DishServiceImpl implements DishService {
 		final Page<Dish> dishes = this.dishRepository.findAll(example, pageRequest);
 		final List<DishDto> dishDtos = dishes.getContent().stream().map(item -> {
 			final DishDto dishDto = new DishDto();
+			final List<DishFlavorDto> dishFlavorDtos = new ArrayList<>();
+			final List<DishFlavor> dishFlavors = item.getDishFlavors();
+			for (final DishFlavor dishFlavor : dishFlavors) {
+				final DishFlavorDto dishFlavorDto = new DishFlavorDto();
+				SecondBeanUtils.copyNullableProperties(dishFlavor, dishFlavorDto);
+				dishFlavorDtos.add(dishFlavorDto);
+			}
 			SecondBeanUtils.copyNullableProperties(item, dishDto);
 			final Category category = this.categoryRepository.findById(item.getCategoryId()).orElseGet(Category::new);
 			dishDto.setCategoryName(category.getName());
+			dishDto.setDishFlavours(dishFlavorDtos);
 			return dishDto;
 		}).collect(Collectors.toList());
 		return Pagination.of(dishDtos, dishes.getTotalElements(), pageNum, pageSize);
@@ -166,13 +176,16 @@ public class DishServiceImpl implements DishService {
 		dish.setDeleteFlg(Constants.LOGIC_FLAG);
 		this.dishRepository.saveAndFlush(dish);
 		// 獲取菜品口味的集合並將菜品ID設置到口味集合中；
-		final List<DishFlavor> dishFlavors = dishDto.getDishFlavors().stream().peek(item -> {
-			item.setId(BasicContextUtils.getGeneratedId());
-			item.setDishId(dishDto.getId());
-			item.setCreatedTime(LocalDateTime.now());
-			item.setUpdatedTime(LocalDateTime.now());
-			item.setCreatedUser(BasicContextUtils.getCurrentId());
-			item.setUpdatedUser(BasicContextUtils.getCurrentId());
+		final List<DishFlavor> dishFlavors = dishDto.getDishFlavours().stream().map(item -> {
+			final DishFlavor dishFlavor = new DishFlavor();
+			SecondBeanUtils.copyNullableProperties(item, dishFlavor);
+			dishFlavor.setId(BasicContextUtils.getGeneratedId());
+			dishFlavor.setDishId(dishDto.getId());
+			dishFlavor.setCreatedTime(LocalDateTime.now());
+			dishFlavor.setUpdatedTime(LocalDateTime.now());
+			dishFlavor.setCreatedUser(BasicContextUtils.getCurrentId());
+			dishFlavor.setUpdatedUser(BasicContextUtils.getCurrentId());
+			return dishFlavor;
 		}).collect(Collectors.toList());
 		// 保存 菜品的口味數據到口味表；
 		this.dishFlavorRepository.saveAllAndFlush(dishFlavors);
@@ -189,10 +202,13 @@ public class DishServiceImpl implements DishService {
 		// 更新菜品信息；
 		this.dishRepository.saveAndFlush(dish);
 		// 添加當前菜品的口味數據並將菜品ID設置到口味集合中；
-		final List<DishFlavor> flavours = dishDto.getDishFlavors().stream().peek(item -> {
+		final List<DishFlavor> flavours = dishDto.getDishFlavours().stream().map(item -> {
+			final DishFlavor dishFlavor = new DishFlavor();
+			SecondBeanUtils.copyNullableProperties(item, dishFlavor);
 			item.setDishId(dishDto.getId());
 			item.setUpdatedTime(LocalDateTime.now());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
+			return dishFlavor;
 		}).collect(Collectors.toList());
 		// 更新菜品口味信息；
 		this.dishFlavorRepository.saveAllAndFlush(flavours);
