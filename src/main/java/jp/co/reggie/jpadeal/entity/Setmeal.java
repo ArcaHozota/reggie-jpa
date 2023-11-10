@@ -10,6 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -113,4 +115,11 @@ public final class Setmeal implements Serializable {
 	 */
 	@OneToMany(mappedBy = "setmeal", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<SetmealDish> setmealDishes;
+
+	/**
+	 * 套餐分類關聯
+	 */
+	@ManyToOne
+	@JoinColumn(name = "categoryId", insertable = false, updatable = false)
+	private Category category;
 }
