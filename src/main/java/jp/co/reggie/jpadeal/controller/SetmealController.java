@@ -23,10 +23,10 @@ import jp.co.reggie.jpadeal.utils.Reggie;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * 套餐管理控制器
+ * 定食コントローラ
  *
- * @author Administrator
- * @date 2022-11-29
+ * @author ArkamaHozota
+ * @since 1.00beta
  */
 @Log4j2
 @RestController
@@ -40,17 +40,16 @@ public class SetmealController {
 	private SetmealService setmealService;
 
 	/**
-	 * 新增套餐
+	 * 更改套餐狀態
 	 *
-	 * @param setmealDto 數據傳輸類
-	 * @return R.success(套餐新增成功的信息)
+	 * @param status 狀態
+	 * @param ids    套餐ID集合
+	 * @return R.success(套餐狀態更新成功的信息)
 	 */
-	@PostMapping
-	public Reggie<String> save(@RequestBody final SetmealDto setmealDto) {
-		log.info("套餐信息：{}", setmealDto);
-		// 儲存套餐；
-		this.setmealService.saveWithDish(setmealDto);
-		return Reggie.success(CommonMessages.SRP010);
+	@PutMapping("/status/{status}")
+	public Reggie<String> changeStatus(@PathVariable final String status, @RequestParam("ids") final Long[] ids) {
+		this.setmealService.batchUpdateByIds(status, Arrays.asList(ids));
+		return Reggie.success(CommonMessages.SRP023);
 	}
 
 	/**
@@ -64,32 +63,6 @@ public class SetmealController {
 		log.info("套餐ID：{}", ids);
 		this.setmealService.removeWithDish(ids);
 		return Reggie.success(CommonMessages.SRP011);
-	}
-
-	/**
-	 * 更新套餐信息
-	 *
-	 * @param setmealDto 數據傳輸類對象
-	 * @return R.success(套餐更新成功的信息)
-	 */
-	@PutMapping
-	public Reggie<String> update(@RequestBody final SetmealDto setmealDto) {
-		log.info("套餐信息：{}", setmealDto);
-		this.setmealService.updateWithDish(setmealDto);
-		return Reggie.success(CommonMessages.SRP021);
-	}
-
-	/**
-	 * 更改套餐狀態
-	 *
-	 * @param status 狀態
-	 * @param ids    套餐ID集合
-	 * @return R.success(套餐狀態更新成功的信息)
-	 */
-	@PutMapping("/status/{status}")
-	public Reggie<String> changeStatus(@PathVariable final String status, @RequestParam("ids") final Long[] ids) {
-		this.setmealService.batchUpdateByIds(status, Arrays.asList(ids));
-		return Reggie.success(CommonMessages.SRP023);
 	}
 
 	/**
@@ -119,5 +92,32 @@ public class SetmealController {
 			@RequestParam(name = "name", required = false) final String keyword) {
 		final Pagination<SetmealDto> pageInfo = this.setmealService.pagination(pageNum, pageSize, keyword);
 		return Reggie.success(pageInfo);
+	}
+
+	/**
+	 * 新增套餐
+	 *
+	 * @param setmealDto 數據傳輸類
+	 * @return R.success(套餐新增成功的信息)
+	 */
+	@PostMapping
+	public Reggie<String> save(@RequestBody final SetmealDto setmealDto) {
+		log.info("套餐信息：{}", setmealDto);
+		// 儲存套餐；
+		this.setmealService.saveWithDish(setmealDto);
+		return Reggie.success(CommonMessages.SRP010);
+	}
+
+	/**
+	 * 更新套餐信息
+	 *
+	 * @param setmealDto 數據傳輸類對象
+	 * @return R.success(套餐更新成功的信息)
+	 */
+	@PutMapping
+	public Reggie<String> update(@RequestBody final SetmealDto setmealDto) {
+		log.info("套餐信息：{}", setmealDto);
+		this.setmealService.updateWithDish(setmealDto);
+		return Reggie.success(CommonMessages.SRP021);
 	}
 }

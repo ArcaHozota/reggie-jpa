@@ -19,10 +19,10 @@ import jp.co.reggie.jpadeal.utils.Reggie;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * 通用模塊控制器
+ * 共通コントローラ
  *
- * @author Administrator
- * @date 2022-11-22
+ * @author ArkamaHozota
+ * @since 1.00beta
  */
 @Log4j2
 @RestController
@@ -31,6 +31,34 @@ public class CommonController {
 
 	@Value("${reggie.path}")
 	private String basePath;
+
+	/**
+	 * 文件下載
+	 *
+	 * @param name     文件名
+	 * @param response 頁面響應
+	 */
+	@GetMapping("/download")
+	public void download(final String name, final HttpServletResponse response) {
+		// 輸入流，通過輸入流讀取文件内容；
+		try {
+			final FileInputStream fileInputStream = new FileInputStream(new File(this.basePath + name));
+			// 輸出流，通過輸出流將文件寫回瀏覽器並展示圖片；
+			final ServletOutputStream outputStream = response.getOutputStream();
+			response.setContentType("image/jpg");
+			final byte[] bytes = new byte[1024];
+			int length = 0;
+			while ((length = fileInputStream.read(bytes)) != -1) {
+				outputStream.write(bytes, 0, length);
+				outputStream.flush();
+			}
+			// 關閉輸入輸出流；
+			outputStream.close();
+			fileInputStream.close();
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * 文件上傳
@@ -60,33 +88,5 @@ public class CommonController {
 			e.printStackTrace();
 		}
 		return Reggie.success(fileName);
-	}
-
-	/**
-	 * 文件下載
-	 *
-	 * @param name     文件名
-	 * @param response 頁面響應
-	 */
-	@GetMapping("/download")
-	public void download(final String name, final HttpServletResponse response) {
-		// 輸入流，通過輸入流讀取文件内容；
-		try {
-			final FileInputStream fileInputStream = new FileInputStream(new File(this.basePath + name));
-			// 輸出流，通過輸出流將文件寫回瀏覽器並展示圖片；
-			final ServletOutputStream outputStream = response.getOutputStream();
-			response.setContentType("image/jpg");
-			final byte[] bytes = new byte[1024];
-			int length = 0;
-			while ((length = fileInputStream.read(bytes)) != -1) {
-				outputStream.write(bytes, 0, length);
-				outputStream.flush();
-			}
-			// 關閉輸入輸出流；
-			outputStream.close();
-			fileInputStream.close();
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

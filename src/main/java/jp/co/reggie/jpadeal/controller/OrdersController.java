@@ -15,6 +15,12 @@ import jp.co.reggie.jpadeal.service.OrdersService;
 import jp.co.reggie.jpadeal.utils.Pagination;
 import jp.co.reggie.jpadeal.utils.Reggie;
 
+/**
+ * 注文コントローラ
+ *
+ * @author ArkamaHozota
+ * @since 1.00beta
+ */
 @RestController
 @RequestMapping("/ordersDetail")
 public class OrdersController {
@@ -41,7 +47,7 @@ public class OrdersController {
 			@RequestParam(value = "number", required = false) final Long orderId,
 			@RequestParam(value = "beginTime", required = false) final String beginTime,
 			@RequestParam(value = "endTime", required = false) final String endTime) {
-		if (beginTime != null && endTime != null) {
+		if ((beginTime != null) && (endTime != null)) {
 			final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 			final LocalDateTime time01 = LocalDateTime.parse(beginTime, timeFormatter);
 			final LocalDateTime time02 = LocalDateTime.parse(endTime, timeFormatter);

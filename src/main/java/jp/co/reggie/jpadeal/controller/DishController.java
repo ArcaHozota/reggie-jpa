@@ -23,9 +23,10 @@ import jp.co.reggie.jpadeal.utils.Reggie;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * 菜品管理控制器
+ * 料理コントローラ
  *
- * @author Administrator
+ * @author ArkamaHozota
+ * @since 1.00beta
  */
 @Log4j2
 @RestController

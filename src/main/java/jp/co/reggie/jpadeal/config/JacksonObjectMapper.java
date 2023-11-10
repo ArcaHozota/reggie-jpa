@@ -1,7 +1,5 @@
 package jp.co.reggie.jpadeal.config;
 
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
-
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,7 +34,7 @@ public class JacksonObjectMapper extends ObjectMapper {
 	protected JacksonObjectMapper() {
 		super();
 		// 收到未知屬性時不報異常；
-		this.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
+		this.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		// 反序列化時，屬性不存在的兼容處理；
 		this.getDeserializationConfig().withoutFeatures(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 		// 設置序列化器和反序列化器；

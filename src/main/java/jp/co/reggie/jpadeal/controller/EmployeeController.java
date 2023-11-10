@@ -22,9 +22,10 @@ import jp.co.reggie.jpadeal.utils.Reggie;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * 員工管理控制器
+ * 社員コントローラ
  *
- * @author Administrator
+ * @author ArkamaHozota
+ * @since 1.00beta
  */
 @Log4j2
 @RestController
