@@ -2,6 +2,7 @@ package jp.co.reggie.jpadeal.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -16,12 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
+import jp.co.reggie.jpadeal.dto.CategoryDto;
 import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.repository.CategoryExRepository;
 import jp.co.reggie.jpadeal.repository.CategoryRepository;
 import jp.co.reggie.jpadeal.service.CategoryService;
 import jp.co.reggie.jpadeal.utils.BasicContextUtils;
 import jp.co.reggie.jpadeal.utils.Pagination;
+import jp.co.reggie.jpadeal.utils.SecondBeanUtils;
 
 /**
  * 分類管理服務實現類
@@ -51,13 +54,18 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Pagination<Category> pagination(final Integer pageNum, final Integer pageSize) {
+	public Pagination<CategoryDto> pagination(final Integer pageNum, final Integer pageSize) {
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize,
 				Sort.by(Sort.Order.asc("sort"), Sort.Order.desc("updatedTime")));
 		final Specification<Category> specification = Specification.where(
 				(root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("deleteFlg"), Constants.LOGIC_FLAG));
 		final Page<Category> categories = this.categoryRepository.findAll(specification, pageRequest);
-		return Pagination.of(categories.getContent(), categories.getTotalElements(), pageNum, pageSize);
+		final List<CategoryDto> categoryDtos = categories.getContent().stream().map(item -> {
+			final CategoryDto categoryDto = new CategoryDto();
+			SecondBeanUtils.copyNullableProperties(item, categoryDto);
+			return categoryDto;
+		}).collect(Collectors.toList());
+		return Pagination.of(categoryDtos, categories.getTotalElements(), pageNum, pageSize);
 	}
 
 	@Override
@@ -73,7 +81,9 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void save(final Category category) {
+	public void save(final CategoryDto categoryDto) {
+		final Category category = new Category();
+		SecondBeanUtils.copyNullableProperties(categoryDto, category);
 		category.setId(BasicContextUtils.getGeneratedId());
 		category.setCreatedTime(LocalDateTime.now());
 		category.setUpdatedTime(LocalDateTime.now());
@@ -85,13 +95,14 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void update(final Category category) {
-		final Category category2 = this.categoryRepository.findById(category.getId()).orElseGet(Category::new);
-		category2.setName(category.getName());
-		category2.setSort(category.getSort());
-		category2.setUpdatedTime(LocalDateTime.now());
-		category2.setUpdatedUser(BasicContextUtils.getCurrentId());
-		this.categoryRepository.save(category2);
+	public void update(final CategoryDto categoryDto) {
+		final Category category = this.categoryRepository.findById(categoryDto.getId()).orElseGet(Category::new);
+		SecondBeanUtils.copyNullableProperties(categoryDto, category);
+		category.setName(category.getName());
+		category.setSort(category.getSort());
+		category.setUpdatedTime(LocalDateTime.now());
+		category.setUpdatedUser(BasicContextUtils.getCurrentId());
+		this.categoryRepository.save(category);
 		this.categoryExRepository.refresh();
 	}
 }

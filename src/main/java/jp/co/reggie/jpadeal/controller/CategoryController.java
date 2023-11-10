@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.reggie.jpadeal.common.CustomMessages;
+import jp.co.reggie.jpadeal.dto.CategoryDto;
 import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.service.CategoryService;
 import jp.co.reggie.jpadeal.utils.Pagination;
@@ -37,34 +38,6 @@ public class CategoryController {
 	private CategoryService categoryService;
 
 	/**
-	 * 分頁信息顯示
-	 *
-	 * @param pageNum  頁碼
-	 * @param pageSize 頁面大小
-	 * @return R.success(分頁信息)
-	 */
-	@GetMapping("/page")
-	public Reggie<Pagination<Category>> pagination(@RequestParam("pageNum") final Integer pageNum,
-			@RequestParam("pageSize") final Integer pageSize) {
-		// 執行查詢；
-		final Pagination<Category> pageInfo = this.categoryService.pagination(pageNum, pageSize);
-		return Reggie.success(pageInfo);
-	}
-
-	/**
-	 * 新增分類
-	 *
-	 * @param category 實體類對象
-	 * @return R.success(分類新增成功的信息);
-	 */
-	@PostMapping
-	public Reggie<String> save(@RequestBody final Category category) {
-		log.info("category:{}", category);
-		this.categoryService.save(category);
-		return Reggie.success(CustomMessages.SRP001);
-	}
-
-	/**
 	 * 刪除分類
 	 *
 	 * @param id 分類ID
@@ -79,17 +52,18 @@ public class CategoryController {
 	}
 
 	/**
-	 * 更新分類
+	 * 分頁信息顯示
 	 *
-	 * @param category 實體類對象
-	 * @return R.success(分類更新成功的信息);
+	 * @param pageNum  頁碼
+	 * @param pageSize 頁面大小
+	 * @return R.success(分頁信息)
 	 */
-	@PutMapping
-	public Reggie<String> update(@RequestBody final Category category) {
-		log.info("修改分類信息：{}", category);
-		// 執行修改操作；
-		this.categoryService.update(category);
-		return Reggie.success(CustomMessages.SRP002);
+	@GetMapping("/page")
+	public Reggie<Pagination<CategoryDto>> pagination(@RequestParam("pageNum") final Integer pageNum,
+			@RequestParam("pageSize") final Integer pageSize) {
+		// 執行查詢；
+		final Pagination<CategoryDto> pageInfo = this.categoryService.pagination(pageNum, pageSize);
+		return Reggie.success(pageInfo);
 	}
 
 	/**
@@ -99,9 +73,35 @@ public class CategoryController {
 	 * @return R.success(分類結果的集合)
 	 */
 	@GetMapping("/list")
-	public Reggie<List<Category>> queryList(final Category category) {
+	public Reggie<List<Category>> queryList(final CategoryDto categoryDto) {
 		// 查詢分類結果集並返回；
-		final List<Category> list = this.categoryService.findByType(category.getType());
+		final List<Category> list = this.categoryService.findByType(categoryDto.getType());
 		return Reggie.success(list);
+	}
+
+	/**
+	 * 新增分類
+	 *
+	 * @param category 實體類對象
+	 * @return R.success(分類新增成功的信息);
+	 */
+	@PostMapping
+	public Reggie<String> save(@RequestBody final CategoryDto categoryDto) {
+		log.info("category:{}", categoryDto);
+		this.categoryService.save(categoryDto);
+		return Reggie.success(CustomMessages.SRP001);
+	}
+
+	/**
+	 * 更新分類
+	 *
+	 * @param category 實體類對象
+	 * @return R.success(分類更新成功的信息);
+	 */
+	@PutMapping
+	public Reggie<String> update(@RequestBody final CategoryDto categoryDto) {
+		log.info("修改分類信息：{}", categoryDto);
+		this.categoryService.update(categoryDto);
+		return Reggie.success(CustomMessages.SRP002);
 	}
 }
