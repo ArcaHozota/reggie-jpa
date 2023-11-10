@@ -1,10 +1,10 @@
 package jp.co.reggie.jpadeal.common;
 
 /**
- * 自定義業務異常
+ * 業務ロジック例外クラス
  *
- * @author Administrator
- * @date 2022-11-21
+ * @author ArkamaHozota
+ * @since 1.00beta
  */
 public class CustomException extends RuntimeException {
 

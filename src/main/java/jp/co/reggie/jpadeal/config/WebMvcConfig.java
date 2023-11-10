@@ -11,12 +11,26 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 import lombok.extern.log4j.Log4j2;
 
 /**
- * @author Administrator
- * @date 2022-11-08
+ * SpringMVC設定クラス
+ *
+ * @author ArkamaHozota
+ * @since 1.00beta
  */
 @Log4j2
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
+
+	/**
+	 * 設置靜態資源映射
+	 *
+	 * @param registry 注冊説明
+	 */
+	@Override
+	protected void addResourceHandlers(final ResourceHandlerRegistry registry) {
+		log.info("靜態資源映射開始...");
+		registry.addResourceHandler("/backend/**").addResourceLocations("classpath:/backend/");
+		registry.addResourceHandler("/front/**").addResourceLocations("classpath:/front/");
+	}
 
 	/**
 	 * 擴展SpringMVC框架的消息轉換器
@@ -32,17 +46,5 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		messageConverter.setObjectMapper(new JacksonObjectMapper());
 		// 將上述消息轉換器追加到SpringMVC框架的轉換器容器中；
 		converters.add(0, messageConverter);
-	}
-
-	/**
-	 * 設置靜態資源映射
-	 *
-	 * @param registry 注冊説明
-	 */
-	@Override
-	protected void addResourceHandlers(final ResourceHandlerRegistry registry) {
-		log.info("靜態資源映射開始...");
-		registry.addResourceHandler("/backend/**").addResourceLocations("classpath:/backend/");
-		registry.addResourceHandler("/front/**").addResourceLocations("classpath:/front/");
 	}
 }

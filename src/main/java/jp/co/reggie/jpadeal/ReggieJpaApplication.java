@@ -8,10 +8,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * 瑞吉外賣工程啓動項
+ * Reggie-take-outプロジェクト始動クラス
  *
- * @author Administrator
- * @since 2022-11-08
+ * @author ArkamaHozota
+ * @since 1.00beta
  */
 @Log4j2
 @SpringBootApplication

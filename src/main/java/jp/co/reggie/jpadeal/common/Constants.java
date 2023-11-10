@@ -4,9 +4,10 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 /**
- * 項目常量定義類
+ * コンスタントクラス
  *
- * @author Administrator
+ * @author ArkamaHozota
+ * @since 1.00beta
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Constants {
@@ -70,15 +71,4 @@ public final class Constants {
 	 * 禁用狀態
 	 */
 	public static final Integer STATUS_FORBIDDEN = 0;
-
-	/**
-	 * 獲取Entity類名
-	 *
-	 * @param obj
-	 * @return class_name
-	 */
-	public static String getEntityName(final Object obj) {
-		return obj.getClass().getSimpleName().toLowerCase();
-	}
-
 }

@@ -4,10 +4,10 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 /**
- * 自定義返回信息集合類
+ * プロジェクト共通メッセージクラス
  *
- * @author Administrator
- * @date 2022-11-28
+ * @author ArkamaHozota
+ * @since 1.00beta
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CustomMessages {
