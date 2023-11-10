@@ -84,7 +84,11 @@ public class SetmealServiceImpl implements SetmealService {
 
 	@Override
 	public SetmealDto getByIdWithDishInfo(final Long id) {
-		final Setmeal setmeal = this.setmealRepository.findById(id).orElseThrow(() -> {
+		final Setmeal probe = new Setmeal();
+		probe.setId(id);
+		probe.setDeleteFlg(Constants.LOGIC_FLAG);
+		final Example<Setmeal> example = Example.of(probe, ExampleMatcher.matchingAll());
+		final Setmeal setmeal = this.setmealRepository.findOne(example).orElseThrow(() -> {
 			throw new CustomException(CustomMessages.ERP019);
 		});
 		final SetmealDto setmealDto = new SetmealDto();

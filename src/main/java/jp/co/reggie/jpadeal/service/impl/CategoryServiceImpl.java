@@ -96,10 +96,8 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public void update(final CategoryDto categoryDto) {
-		final Category category = this.categoryRepository.findById(categoryDto.getId()).orElseGet(Category::new);
+		final Category category = new Category();
 		SecondBeanUtils.copyNullableProperties(categoryDto, category);
-		category.setName(category.getName());
-		category.setSort(category.getSort());
 		category.setUpdatedTime(LocalDateTime.now());
 		category.setUpdatedUser(BasicContextUtils.getCurrentId());
 		this.categoryRepository.save(category);

@@ -86,7 +86,9 @@ public class DishServiceImpl implements DishService {
 		probe.setId(id);
 		probe.setDeleteFlg(Constants.LOGIC_FLAG);
 		final Example<Dish> example = Example.of(probe, ExampleMatcher.matchingAll());
-		final Dish dish = this.dishRepository.findOne(example).orElseGet(Dish::new);
+		final Dish dish = this.dishRepository.findOne(example).orElseThrow(() -> {
+			throw new CustomException(CustomMessages.ERP019);
+		});
 		// 聲明一個菜品及口味數據傳輸類對象並拷貝屬性；
 		final DishDto dishDto = new DishDto();
 		final List<DishFlavorDto> dishFlavorDtos = new ArrayList<>();

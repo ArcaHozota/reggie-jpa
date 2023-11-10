@@ -12,6 +12,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -89,12 +91,14 @@ public final class Category implements Serializable {
 	/**
 	 * 菜品分類關聯
 	 */
+	@JsonIgnore
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
 	private List<Dish> dishes;
 
 	/**
 	 * 套餐分類關聯
 	 */
+	@JsonIgnore
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
 	private List<Setmeal> setmeals;
 }
