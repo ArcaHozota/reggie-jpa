@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CommonMessages;
 import jp.co.reggie.jpadeal.dto.EmployeeDto;
 import jp.co.reggie.jpadeal.entity.Employee;
@@ -39,6 +38,23 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 
 	/**
+	 * 根據ID查詢員工信息
+	 *
+	 * @param id 員工ID
+	 * @return R.success(查詢到的員工的信息)
+	 */
+	@GetMapping("/{id}")
+	public Reggie<Employee> getById(@PathVariable final Long id) {
+		log.info("根據ID查詢員工信息...");
+		final Employee employee = this.employeeService.getById(id);
+		// 如果沒有相對應的結果，則返回錯誤信息；
+		if (employee == null) {
+			return Reggie.error(CommonMessages.ERP019);
+		}
+		return Reggie.success(employee);
+	}
+
+	/**
 	 * 員工登錄
 	 *
 	 * @param request  請求
@@ -50,7 +66,7 @@ public class EmployeeController {
 		// 進行登錄操作；
 		final Employee aEmployee = this.employeeService.login(employeeDto);
 		// 登錄成功，將員工ID存入Session並返回登錄成功；
-		request.getSession().setAttribute(Constants.getEntityName(aEmployee), aEmployee.getId());
+		request.getSession().setAttribute("employee", aEmployee.getId());
 		BeanUtils.copyProperties(aEmployee, employeeDto);
 		employeeDto.setName(aEmployee.getKanjiName());
 		return Reggie.success(employeeDto);
@@ -67,20 +83,6 @@ public class EmployeeController {
 		// 清除Session中保存的當前登錄員工的ID；
 		request.getSession().removeAttribute("employee");
 		return Reggie.success(CommonMessages.SRP007);
-	}
-
-	/**
-	 * 保存新增員工
-	 *
-	 * @param employee 實體類對象
-	 * @return R.success(成功增加員工的信息)
-	 */
-	@PostMapping
-	public Reggie<String> save(@RequestBody final EmployeeDto employeeDto) {
-		log.info("員工信息：{}", employeeDto.toString());
-		// 保存員工信息；
-		this.employeeService.save(employeeDto);
-		return Reggie.success(CommonMessages.SRP006);
 	}
 
 	/**
@@ -101,6 +103,20 @@ public class EmployeeController {
 	}
 
 	/**
+	 * 保存新增員工
+	 *
+	 * @param employee 實體類對象
+	 * @return R.success(成功增加員工的信息)
+	 */
+	@PostMapping
+	public Reggie<String> save(@RequestBody final EmployeeDto employeeDto) {
+		log.info("員工信息：{}", employeeDto.toString());
+		// 保存員工信息；
+		this.employeeService.save(employeeDto);
+		return Reggie.success(CommonMessages.SRP006);
+	}
+
+	/**
 	 * 根據ID修改員工信息
 	 *
 	 * @param employee 實體類對象
@@ -110,22 +126,5 @@ public class EmployeeController {
 	public Reggie<String> update(@RequestBody final EmployeeDto employeeDto) {
 		this.employeeService.update(employeeDto);
 		return Reggie.success(CommonMessages.SRP008);
-	}
-
-	/**
-	 * 根據ID查詢員工信息
-	 *
-	 * @param id 員工ID
-	 * @return R.success(查詢到的員工的信息)
-	 */
-	@GetMapping("/{id}")
-	public Reggie<Employee> getById(@PathVariable final Long id) {
-		log.info("根據ID查詢員工信息...");
-		final Employee employee = this.employeeService.getById(id);
-		// 如果沒有相對應的結果，則返回錯誤信息；
-		if (employee == null) {
-			return Reggie.error(Constants.NO_CONSEQUENCE);
-		}
-		return Reggie.success(employee);
 	}
 }
