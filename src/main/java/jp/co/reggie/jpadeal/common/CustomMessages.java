@@ -131,4 +131,24 @@ public final class CustomMessages {
 	 * 套餐狀態修改成功
 	 */
 	public static final String SRP023 = "套餐狀態修改成功";
+
+	/**
+	 * 套餐狀態修改成功
+	 */
+	public static final String SRP024 = "套餐狀態修改成功";
+
+	/**
+	 * 套餐狀態修改成功
+	 */
+	public static final String SRP025 = "套餐狀態修改成功";
+
+	/**
+	 * 套餐狀態修改成功
+	 */
+	public static final String SRP026 = "套餐狀態修改成功";
+
+	/**
+	 * 未查詢到該員工數據
+	 */
+	public static final String ERP027 = "未查詢到該員工數據";
 }
