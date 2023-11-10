@@ -23,11 +23,9 @@ import jp.co.reggie.jpadeal.common.CustomException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.dto.DishDto;
 import jp.co.reggie.jpadeal.dto.DishFlavorDto;
-import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.entity.Dish;
 import jp.co.reggie.jpadeal.entity.DishFlavor;
 import jp.co.reggie.jpadeal.repository.CategoryExRepository;
-import jp.co.reggie.jpadeal.repository.CategoryRepository;
 import jp.co.reggie.jpadeal.repository.DishFlavorRepository;
 import jp.co.reggie.jpadeal.repository.DishRepository;
 import jp.co.reggie.jpadeal.service.DishService;
@@ -51,12 +49,6 @@ public class DishServiceImpl implements DishService {
 	 */
 	@Resource
 	private DishRepository dishRepository;
-
-	/**
-	 * 分類管理數據接口
-	 */
-	@Resource
-	private CategoryRepository categoryRepository;
 
 	/**
 	 * 分類管理擴展數據接口
@@ -105,8 +97,7 @@ public class DishServiceImpl implements DishService {
 		});
 		SecondBeanUtils.copyNullableProperties(dish, dishDto);
 		// 設置分類名稱；
-		final Category category = this.categoryRepository.findById(dish.getCategoryId()).orElseGet(Category::new);
-		dishDto.setCategoryName(category.getName());
+		dishDto.setCategoryName(dish.getCategory().getName());
 		dishDto.setFlavors(dishFlavorDtos);
 		return dishDto;
 	}
@@ -129,8 +120,7 @@ public class DishServiceImpl implements DishService {
 			// 拷貝除分類名稱以外的屬性；
 			SecondBeanUtils.copyNullableProperties(item, dishDto);
 			// 設置分類名稱；
-			final Category category = this.categoryRepository.findById(categoryId).orElseGet(Category::new);
-			dishDto.setCategoryName(category.getName());
+			dishDto.setCategoryName(item.getCategory().getName());
 			dishDto.setFlavors(dishFlavorDtos);
 			return dishDto;
 		}).collect(Collectors.toList());
@@ -157,8 +147,7 @@ public class DishServiceImpl implements DishService {
 				dishFlavorDtos.add(dishFlavorDto);
 			}
 			SecondBeanUtils.copyNullableProperties(item, dishDto);
-			final Category category = this.categoryRepository.findById(item.getCategoryId()).orElseGet(Category::new);
-			dishDto.setCategoryName(category.getName());
+			dishDto.setCategoryName(item.getCategory().getName());
 			dishDto.setFlavors(dishFlavorDtos);
 			return dishDto;
 		}).collect(Collectors.toList());
