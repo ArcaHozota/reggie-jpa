@@ -1,6 +1,7 @@
 package jp.co.reggie.jpadeal.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
+import jp.co.reggie.jpadeal.dto.SetmealDishDto;
 import jp.co.reggie.jpadeal.dto.SetmealDto;
 import jp.co.reggie.jpadeal.entity.Setmeal;
 import jp.co.reggie.jpadeal.entity.SetmealDish;
@@ -86,8 +88,15 @@ public class SetmealServiceImpl implements SetmealService {
 			throw new CustomException(CustomMessages.ERP019);
 		});
 		final SetmealDto setmealDto = new SetmealDto();
+		final List<SetmealDishDto> setmealDishDtos = new ArrayList<>();
+		setmeal.getSetmealDishes().forEach(item -> {
+			final SetmealDishDto setmealDishDto = new SetmealDishDto();
+			SecondBeanUtils.copyNullableProperties(item, setmealDto);
+			setmealDishDtos.add(setmealDishDto);
+		});
 		SecondBeanUtils.copyNullableProperties(setmeal, setmealDto);
 		setmealDto.setCategoryName(setmeal.getCategory().getName());
+		setmealDto.setSetmealDishes(setmealDishDtos);
 		return setmealDto;
 	}
 
@@ -104,8 +113,15 @@ public class SetmealServiceImpl implements SetmealService {
 		final Page<Setmeal> setmeals = this.setmealRepository.findAll(example, pageRequest);
 		final List<SetmealDto> setmealDtos = setmeals.getContent().stream().map(item -> {
 			final SetmealDto setmealDto = new SetmealDto();
+			final List<SetmealDishDto> setmealDishDtos = new ArrayList<>();
+			for (final SetmealDish SetmealDish : item.getSetmealDishes()) {
+				final SetmealDishDto setmealDishDto = new SetmealDishDto();
+				SecondBeanUtils.copyNullableProperties(SetmealDish, setmealDto);
+				setmealDishDtos.add(setmealDishDto);
+			}
 			SecondBeanUtils.copyNullableProperties(item, setmealDto);
 			setmealDto.setCategoryName(item.getCategory().getName());
+			setmealDto.setSetmealDishes(setmealDishDtos);
 			return setmealDto;
 		}).collect(Collectors.toList());
 		return Pagination.of(setmealDtos, setmeals.getTotalElements(), pageNum, pageSize);
