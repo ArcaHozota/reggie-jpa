@@ -22,11 +22,9 @@ import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.CustomException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.dto.SetmealDto;
-import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.entity.Setmeal;
 import jp.co.reggie.jpadeal.entity.SetmealDish;
 import jp.co.reggie.jpadeal.repository.CategoryExRepository;
-import jp.co.reggie.jpadeal.repository.CategoryRepository;
 import jp.co.reggie.jpadeal.repository.SetmealDishRepository;
 import jp.co.reggie.jpadeal.repository.SetmealRepository;
 import jp.co.reggie.jpadeal.service.SetmealService;
@@ -46,12 +44,6 @@ import jp.co.reggie.jpadeal.utils.StringUtils;
 public class SetmealServiceImpl implements SetmealService {
 
 	private static final Random RANDOM = new Random();
-
-	/**
-	 * 分類管理數據接口
-	 */
-	@Resource
-	private CategoryRepository categoryRepository;
 
 	/**
 	 * 分類管理擴展數據接口
@@ -90,11 +82,12 @@ public class SetmealServiceImpl implements SetmealService {
 
 	@Override
 	public SetmealDto getByIdWithDishInfo(final Long id) {
-		final Setmeal setmeal = this.setmealRepository.findById(id).orElseGet(Setmeal::new);
+		final Setmeal setmeal = this.setmealRepository.findById(id).orElseThrow(() -> {
+			throw new CustomException(CustomMessages.ERP019);
+		});
 		final SetmealDto setmealDto = new SetmealDto();
 		SecondBeanUtils.copyNullableProperties(setmeal, setmealDto);
-		final Category category = this.categoryRepository.findById(setmeal.getCategoryId()).orElseGet(Category::new);
-		setmealDto.setCategoryName(category.getName());
+		setmealDto.setCategoryName(setmeal.getCategory().getName());
 		return setmealDto;
 	}
 
@@ -112,8 +105,7 @@ public class SetmealServiceImpl implements SetmealService {
 		final List<SetmealDto> setmealDtos = setmeals.getContent().stream().map(item -> {
 			final SetmealDto setmealDto = new SetmealDto();
 			SecondBeanUtils.copyNullableProperties(item, setmealDto);
-			final Category category = this.categoryRepository.findById(item.getCategoryId()).orElseGet(Category::new);
-			setmealDto.setCategoryName(category.getName());
+			setmealDto.setCategoryName(item.getCategory().getName());
 			return setmealDto;
 		}).collect(Collectors.toList());
 		return Pagination.of(setmealDtos, setmeals.getTotalElements(), pageNum, pageSize);
