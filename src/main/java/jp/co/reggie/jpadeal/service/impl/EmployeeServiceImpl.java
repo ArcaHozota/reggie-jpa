@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import jp.co.reggie.jpadeal.common.Constants;
-import jp.co.reggie.jpadeal.common.CustomException;
+import jp.co.reggie.jpadeal.common.ReggieException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.dto.EmployeeDto;
 import jp.co.reggie.jpadeal.entity.Employee;
@@ -56,11 +56,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		final Employee aEmployee = this.employeeRepository.selectByUserName(employeeDto.getUsername());
 		// 如果沒有查詢到或者密碼錯誤則返回登錄失敗；
 		if ((aEmployee == null) || StringUtils.isNotEqual(password, aEmployee.getPassword())) {
-			throw new CustomException(Constants.LOGIN_FAILED);
+			throw new ReggieException(Constants.LOGIN_FAILED);
 		}
 		// 查看用戸狀態，如果已被禁用，則返回賬號已禁用；
 		if (aEmployee.getStatus() == 0) {
-			throw new CustomException(Constants.FORBIDDEN);
+			throw new ReggieException(Constants.FORBIDDEN);
 		}
 		return aEmployee;
 	}
@@ -103,7 +103,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void update(final EmployeeDto employeeDto) {
 		final Employee employee = this.employeeRepository.findById(employeeDto.getId()).orElseThrow(() -> {
-			throw new CustomException(CustomMessages.ERP027);
+			throw new ReggieException(CustomMessages.ERP027);
 		});
 		employee.setStatus(employeeDto.getStatus());
 		employee.setUpdatedTime(LocalDateTime.now());

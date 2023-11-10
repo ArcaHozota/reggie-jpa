@@ -48,11 +48,6 @@ public final class Constants {
 	public static final String DUPLICATED_KEY = "Duplicate entry";
 
 	/**
-	 * 沒有相對應的結果
-	 */
-	public static final String NO_CONSEQUENCE = "NO_SUCH_CONSEQUENCES";
-
-	/**
 	 * 邏輯刪除標志
 	 */
 	public static final String LOGIC_FLAG = "visible";

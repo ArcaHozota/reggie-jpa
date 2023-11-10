@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.reggie.jpadeal.common.Constants;
-import jp.co.reggie.jpadeal.common.CustomException;
+import jp.co.reggie.jpadeal.common.ReggieException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.dto.CategoryDto;
 import jp.co.reggie.jpadeal.entity.Category;
@@ -77,7 +77,7 @@ public class CategoryServiceImpl implements CategoryService {
 			this.categoryRepository.removeById(id);
 			this.categoryExRepository.refresh();
 		}
-		throw new CustomException(CustomMessages.ERP009);
+		throw new ReggieException(CustomMessages.ERP009);
 	}
 
 	@Override

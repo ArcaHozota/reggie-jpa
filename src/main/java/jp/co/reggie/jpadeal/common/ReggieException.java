@@ -6,11 +6,11 @@ package jp.co.reggie.jpadeal.common;
  * @author ArkamaHozota
  * @since 1.00beta
  */
-public class CustomException extends RuntimeException {
+public class ReggieException extends RuntimeException {
 
 	private static final long serialVersionUID = 1692201139310590555L;
 
-	public CustomException(final String message) {
+	public ReggieException(final String message) {
 		super(message);
 	}
 }

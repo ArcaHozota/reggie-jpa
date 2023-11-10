@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.reggie.jpadeal.common.Constants;
-import jp.co.reggie.jpadeal.common.CustomException;
+import jp.co.reggie.jpadeal.common.ReggieException;
 import jp.co.reggie.jpadeal.common.CustomMessages;
 import jp.co.reggie.jpadeal.dto.DishDto;
 import jp.co.reggie.jpadeal.dto.DishFlavorDto;
@@ -70,7 +70,7 @@ public class DishServiceImpl implements DishService {
 			} else if (StringUtils.isEqual("1", status)) {
 				dish.setStatus(Constants.STATUS_FORBIDDEN);
 			} else {
-				throw new CustomException(CustomMessages.ERP017);
+				throw new ReggieException(CustomMessages.ERP017);
 			}
 			dish.setUpdatedTime(LocalDateTime.now());
 			dish.setUpdatedUser(BasicContextUtils.getCurrentId());
@@ -87,7 +87,7 @@ public class DishServiceImpl implements DishService {
 		probe.setDeleteFlg(Constants.LOGIC_FLAG);
 		final Example<Dish> example = Example.of(probe, ExampleMatcher.matchingAll());
 		final Dish dish = this.dishRepository.findOne(example).orElseThrow(() -> {
-			throw new CustomException(CustomMessages.ERP019);
+			throw new ReggieException(CustomMessages.ERP019);
 		});
 		// 聲明一個菜品及口味數據傳輸類對象並拷貝屬性；
 		final DishDto dishDto = new DishDto();
@@ -158,7 +158,7 @@ public class DishServiceImpl implements DishService {
 	public void remove(final List<Long> ids) {
 		final Integer countStatusByIds = this.dishRepository.countStatusByIds(ids);
 		if (countStatusByIds > 0) {
-			throw new CustomException(CustomMessages.ERP024);
+			throw new ReggieException(CustomMessages.ERP024);
 		}
 		// 刪除菜品口味數據；
 		this.dishFlavorRepository.batchRemoveByDishIds(ids);

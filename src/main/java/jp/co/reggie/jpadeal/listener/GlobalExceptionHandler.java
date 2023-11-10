@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.reggie.jpadeal.common.Constants;
-import jp.co.reggie.jpadeal.common.CustomException;
+import jp.co.reggie.jpadeal.common.ReggieException;
 import jp.co.reggie.jpadeal.utils.Reggie;
 import lombok.extern.log4j.Log4j2;
 
@@ -47,8 +47,8 @@ public class GlobalExceptionHandler {
 	 * @param exception 通用業務異常
 	 * @return 錯誤信息
 	 */
-	@ExceptionHandler(CustomException.class)
-	public Reggie<String> exceptionHandler02(final CustomException exception) {
+	@ExceptionHandler(ReggieException.class)
+	public Reggie<String> exceptionHandler02(final ReggieException exception) {
 		log.error(exception.getMessage());
 		return Reggie.error(exception.getMessage());
 	}
