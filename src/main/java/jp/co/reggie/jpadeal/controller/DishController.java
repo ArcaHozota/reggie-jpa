@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.co.reggie.jpadeal.common.CustomMessages;
+import jp.co.reggie.jpadeal.common.CommonMessages;
 import jp.co.reggie.jpadeal.dto.DishDto;
 import jp.co.reggie.jpadeal.service.DishService;
 import jp.co.reggie.jpadeal.utils.Pagination;
@@ -47,7 +47,7 @@ public class DishController {
 	@PutMapping("/status/{status}")
 	public Reggie<String> changeStatus(@PathVariable final String status, @RequestParam("ids") final Long[] ids) {
 		this.dishService.batchUpdateByIds(status, Arrays.asList(ids));
-		return Reggie.success(CustomMessages.SRP016);
+		return Reggie.success(CommonMessages.SRP016);
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class DishController {
 		final List<Long> idList = Arrays.asList(ids);
 		log.info("即將刪除菜品：", idList);
 		this.dishService.remove(idList);
-		return Reggie.success(CustomMessages.SRP005);
+		return Reggie.success(CommonMessages.SRP005);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class DishController {
 	public Reggie<String> save(@RequestBody final DishDto dishDto) {
 		log.info("新增菜品：{}" + dishDto.toString());
 		this.dishService.saveWithFlavours(dishDto);
-		return Reggie.success(CustomMessages.SRP004);
+		return Reggie.success(CommonMessages.SRP004);
 	}
 
 	/**
@@ -127,6 +127,6 @@ public class DishController {
 	public Reggie<String> update(@RequestBody final DishDto dishDto) {
 		log.info(dishDto.toString());
 		this.dishService.updateWithFlavours(dishDto);
-		return Reggie.success(CustomMessages.SRP020);
+		return Reggie.success(CommonMessages.SRP020);
 	}
 }

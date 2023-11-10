@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.co.reggie.jpadeal.common.CustomMessages;
+import jp.co.reggie.jpadeal.common.CommonMessages;
 import jp.co.reggie.jpadeal.dto.CategoryDto;
 import jp.co.reggie.jpadeal.entity.Category;
 import jp.co.reggie.jpadeal.service.CategoryService;
@@ -48,7 +48,7 @@ public class CategoryController {
 		log.info("刪除ID={}的分類", id);
 		// 實施刪除；
 		this.categoryService.remove(id);
-		return Reggie.success(CustomMessages.SRP003);
+		return Reggie.success(CommonMessages.SRP003);
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class CategoryController {
 	public Reggie<String> save(@RequestBody final CategoryDto categoryDto) {
 		log.info("category:{}", categoryDto);
 		this.categoryService.save(categoryDto);
-		return Reggie.success(CustomMessages.SRP001);
+		return Reggie.success(CommonMessages.SRP001);
 	}
 
 	/**
@@ -102,6 +102,6 @@ public class CategoryController {
 	public Reggie<String> update(@RequestBody final CategoryDto categoryDto) {
 		log.info("修改分類信息：{}", categoryDto);
 		this.categoryService.update(categoryDto);
-		return Reggie.success(CustomMessages.SRP002);
+		return Reggie.success(CommonMessages.SRP002);
 	}
 }

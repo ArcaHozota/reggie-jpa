@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.reggie.jpadeal.common.Constants;
-import jp.co.reggie.jpadeal.common.CustomMessages;
+import jp.co.reggie.jpadeal.common.CommonMessages;
 import jp.co.reggie.jpadeal.dto.EmployeeDto;
 import jp.co.reggie.jpadeal.entity.Employee;
 import jp.co.reggie.jpadeal.service.EmployeeService;
@@ -66,7 +66,7 @@ public class EmployeeController {
 	public Reggie<String> logout(final HttpServletRequest request) {
 		// 清除Session中保存的當前登錄員工的ID；
 		request.getSession().removeAttribute("employee");
-		return Reggie.success(CustomMessages.SRP007);
+		return Reggie.success(CommonMessages.SRP007);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class EmployeeController {
 		log.info("員工信息：{}", employeeDto.toString());
 		// 保存員工信息；
 		this.employeeService.save(employeeDto);
-		return Reggie.success(CustomMessages.SRP006);
+		return Reggie.success(CommonMessages.SRP006);
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class EmployeeController {
 	@PutMapping
 	public Reggie<String> update(@RequestBody final EmployeeDto employeeDto) {
 		this.employeeService.update(employeeDto);
-		return Reggie.success(CustomMessages.SRP008);
+		return Reggie.success(CommonMessages.SRP008);
 	}
 
 	/**

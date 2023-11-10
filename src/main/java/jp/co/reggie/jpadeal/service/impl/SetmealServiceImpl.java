@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.ReggieException;
-import jp.co.reggie.jpadeal.common.CustomMessages;
+import jp.co.reggie.jpadeal.common.CommonMessages;
 import jp.co.reggie.jpadeal.dto.SetmealDishDto;
 import jp.co.reggie.jpadeal.dto.SetmealDto;
 import jp.co.reggie.jpadeal.entity.Setmeal;
@@ -73,7 +73,7 @@ public class SetmealServiceImpl implements SetmealService {
 			} else if (StringUtils.isEqual("1", status)) {
 				item.setStatus(Constants.STATUS_FORBIDDEN);
 			} else {
-				throw new ReggieException(CustomMessages.ERP022);
+				throw new ReggieException(CommonMessages.ERP022);
 			}
 			item.setUpdatedTime(LocalDateTime.now());
 			item.setUpdatedUser(BasicContextUtils.getCurrentId());
@@ -89,7 +89,7 @@ public class SetmealServiceImpl implements SetmealService {
 		probe.setDeleteFlg(Constants.LOGIC_FLAG);
 		final Example<Setmeal> example = Example.of(probe, ExampleMatcher.matchingAll());
 		final Setmeal setmeal = this.setmealRepository.findOne(example).orElseThrow(() -> {
-			throw new ReggieException(CustomMessages.ERP019);
+			throw new ReggieException(CommonMessages.ERP019);
 		});
 		final SetmealDto setmealDto = new SetmealDto();
 		final List<SetmealDishDto> setmealDishDtos = new ArrayList<>();
@@ -137,7 +137,7 @@ public class SetmealServiceImpl implements SetmealService {
 		final Integer count = this.setmealRepository.countStatusByIds(ids);
 		if (count > 0) {
 			// 如果無法刪除，則抛出異常；
-			throw new ReggieException(CustomMessages.ERP012);
+			throw new ReggieException(CommonMessages.ERP012);
 		}
 		// 刪除套餐口味表中的數據；
 		this.setmealDishRepository.batchRemoveBySmIds(ids);

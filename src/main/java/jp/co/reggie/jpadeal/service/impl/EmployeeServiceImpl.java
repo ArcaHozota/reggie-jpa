@@ -18,7 +18,7 @@ import org.springframework.util.DigestUtils;
 
 import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.ReggieException;
-import jp.co.reggie.jpadeal.common.CustomMessages;
+import jp.co.reggie.jpadeal.common.CommonMessages;
 import jp.co.reggie.jpadeal.dto.EmployeeDto;
 import jp.co.reggie.jpadeal.entity.Employee;
 import jp.co.reggie.jpadeal.repository.EmployeeRepository;
@@ -103,7 +103,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void update(final EmployeeDto employeeDto) {
 		final Employee employee = this.employeeRepository.findById(employeeDto.getId()).orElseThrow(() -> {
-			throw new ReggieException(CustomMessages.ERP027);
+			throw new ReggieException(CommonMessages.ERP027);
 		});
 		employee.setStatus(employeeDto.getStatus());
 		employee.setUpdatedTime(LocalDateTime.now());

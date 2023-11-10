@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
  * @since 1.00beta
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class CustomMessages {
+public final class CommonMessages {
 
 	/**
 	 * 分類信息添加成功

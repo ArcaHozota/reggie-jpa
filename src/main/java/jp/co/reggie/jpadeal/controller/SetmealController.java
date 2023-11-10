@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.co.reggie.jpadeal.common.CustomMessages;
+import jp.co.reggie.jpadeal.common.CommonMessages;
 import jp.co.reggie.jpadeal.dto.SetmealDto;
 import jp.co.reggie.jpadeal.service.SetmealService;
 import jp.co.reggie.jpadeal.utils.Pagination;
@@ -50,7 +50,7 @@ public class SetmealController {
 		log.info("套餐信息：{}", setmealDto);
 		// 儲存套餐；
 		this.setmealService.saveWithDish(setmealDto);
-		return Reggie.success(CustomMessages.SRP010);
+		return Reggie.success(CommonMessages.SRP010);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class SetmealController {
 	public Reggie<String> delete(@RequestParam("ids") final List<Long> ids) {
 		log.info("套餐ID：{}", ids);
 		this.setmealService.removeWithDish(ids);
-		return Reggie.success(CustomMessages.SRP011);
+		return Reggie.success(CommonMessages.SRP011);
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class SetmealController {
 	public Reggie<String> update(@RequestBody final SetmealDto setmealDto) {
 		log.info("套餐信息：{}", setmealDto);
 		this.setmealService.updateWithDish(setmealDto);
-		return Reggie.success(CustomMessages.SRP021);
+		return Reggie.success(CommonMessages.SRP021);
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class SetmealController {
 	@PutMapping("/status/{status}")
 	public Reggie<String> changeStatus(@PathVariable final String status, @RequestParam("ids") final Long[] ids) {
 		this.setmealService.batchUpdateByIds(status, Arrays.asList(ids));
-		return Reggie.success(CustomMessages.SRP023);
+		return Reggie.success(CommonMessages.SRP023);
 	}
 
 	/**
