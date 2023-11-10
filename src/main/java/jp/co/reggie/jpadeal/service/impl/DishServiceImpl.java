@@ -111,8 +111,7 @@ public class DishServiceImpl implements DishService {
 			// 聲明菜品及口味數據傳輸類對象；
 			final DishDto dishDto = new DishDto();
 			final List<DishFlavorDto> dishFlavorDtos = new ArrayList<>();
-			final List<DishFlavor> dishFlavors = item.getDishFlavors();
-			for (final DishFlavor dishFlavor : dishFlavors) {
+			for (final DishFlavor dishFlavor : item.getDishFlavors()) {
 				final DishFlavorDto dishFlavorDto = new DishFlavorDto();
 				SecondBeanUtils.copyNullableProperties(dishFlavor, dishFlavorDto);
 				dishFlavorDtos.add(dishFlavorDto);
@@ -140,8 +139,7 @@ public class DishServiceImpl implements DishService {
 		final List<DishDto> dishDtos = dishes.getContent().stream().map(item -> {
 			final DishDto dishDto = new DishDto();
 			final List<DishFlavorDto> dishFlavorDtos = new ArrayList<>();
-			final List<DishFlavor> dishFlavors = item.getDishFlavors();
-			for (final DishFlavor dishFlavor : dishFlavors) {
+			for (final DishFlavor dishFlavor : item.getDishFlavors()) {
 				final DishFlavorDto dishFlavorDto = new DishFlavorDto();
 				SecondBeanUtils.copyNullableProperties(dishFlavor, dishFlavorDto);
 				dishFlavorDtos.add(dishFlavorDto);
