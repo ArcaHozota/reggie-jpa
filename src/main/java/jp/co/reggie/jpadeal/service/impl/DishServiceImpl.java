@@ -18,9 +18,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import jp.co.reggie.jpadeal.common.CommonMessages;
 import jp.co.reggie.jpadeal.common.Constants;
 import jp.co.reggie.jpadeal.common.ReggieException;
-import jp.co.reggie.jpadeal.common.CommonMessages;
 import jp.co.reggie.jpadeal.dto.DishDto;
 import jp.co.reggie.jpadeal.dto.DishFlavorDto;
 import jp.co.reggie.jpadeal.entity.Dish;
@@ -209,9 +209,9 @@ public class DishServiceImpl implements DishService {
 		final List<DishFlavor> flavours = dishDto.getFlavors().stream().map(item -> {
 			final DishFlavor dishFlavor = new DishFlavor();
 			SecondBeanUtils.copyNullableProperties(item, dishFlavor);
-			item.setDishId(dishDto.getId());
-			item.setUpdatedTime(LocalDateTime.now());
-			item.setUpdatedUser(BasicContextUtils.getCurrentId());
+			dishFlavor.setDishId(dishDto.getId());
+			dishFlavor.setUpdatedTime(LocalDateTime.now());
+			dishFlavor.setUpdatedUser(BasicContextUtils.getCurrentId());
 			return dishFlavor;
 		}).collect(Collectors.toList());
 		// 更新菜品口味信息；
