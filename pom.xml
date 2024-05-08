@@ -14,7 +14,6 @@
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<struts.version>6.3.0.2</struts.version>
 	</properties>
 	<dependencies>
 		<!--
@@ -24,10 +23,10 @@
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 		<!--
-		https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-jetty -->
+		https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jetty</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<!--
 		https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
@@ -48,39 +47,6 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>1.2.83</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.struts/struts2-core -->
-		<dependency>
-			<groupId>org.apache.struts</groupId>
-			<artifactId>struts2-core</artifactId>
-			<version>${struts.version}</version>
-		</dependency>
-		<!--
-		https://mvnrepository.com/artifact/org.apache.struts/struts2-spring-plugin -->
-		<dependency>
-			<groupId>org.apache.struts</groupId>
-			<artifactId>struts2-spring-plugin</artifactId>
-			<version>${struts.version}</version>
-		</dependency>
-		<!--
-		https://mvnrepository.com/artifact/org.apache.struts/struts2-json-plugin -->
-		<dependency>
-			<groupId>org.apache.struts</groupId>
-			<artifactId>struts2-json-plugin</artifactId>
-			<version>${struts.version}</version>
-		</dependency>
-		<!--
-		https://mvnrepository.com/artifact/org.apache.struts/struts2-convention-plugin -->
-		<dependency>
-			<groupId>org.apache.struts</groupId>
-			<artifactId>struts2-convention-plugin</artifactId>
-			<version>${struts.version}</version>
-		</dependency>
-		<!--
-		https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
 		</dependency>
 		<!--
 		https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
