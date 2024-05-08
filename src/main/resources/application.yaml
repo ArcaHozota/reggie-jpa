@@ -24,4 +24,4 @@ spring:
     open-in-view: false
 # 自定義傳入文件根目錄路徑
 reggie:
-  path: D:\VSCode\JavaKaiHatsu\ReggieFoods\
+  path: classpath:/images/reggie-foods
